@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: 'dev'
+  application:
+    name: ms-acquirer-pos
+  cloud:
+    config:
+      failFast: true
+      label: 'master'
+      uri: http://ms-config.marathon.l4lb.thisdcos.directory:8080
+
+#logging:
+#  config: ${spring.cloud.config.uri}/${spring.application.name}/${spring.profiles.active}/${spring.cloud.config.label}/logback-spring.xml

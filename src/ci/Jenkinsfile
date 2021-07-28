@@ -1,0 +1,5 @@
+pipelinegradle(
+  appId: 'todopago/ms-acquirer-pos',
+  builderImage: 'gradlebuild:6.4-jdk11',
+  dockerfile: 'Dockerfile.java11'
+)

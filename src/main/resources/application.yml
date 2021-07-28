@@ -1,0 +1,72 @@
+spring:
+  cloud:
+    config:
+      allowOverride: true
+      overrideNone: true
+      overrideSystemProperties: false
+  application:
+    name: ms-acquirer-pos
+  main:
+    allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+
+rest-client:
+  timeout:
+    read: 15
+    connection: 15
+    decidir:
+      read: 15000
+      connection: 15000
+  retry:
+    max-attempts: 3
+    backoff-initial-interval: 500
+    backoff-max-interval: 500
+    backoff-multiplier: 1
+
+management:
+  health:
+    redis:
+      enabled: false
+
+commons:
+  security:
+    tenants:
+      - tp
+      - bimo
+    oauth2:
+      resource-server:
+        issuer-uri: ${ms-oauth2.issuer-url}/tenants/{tenant}
+        introspection-uri: ${ms-oauth2.url}/tenants/{tenant}/oauth2/introspect
+        client-id: acme
+        client-secret: acmesecret
+        legacy:
+          introspection-uri: ${oauth.url}/check_token
+          client-id: acme
+          client-secret: acmesecret
+      authorities:
+        trusted-application: "ROLE_TRUSTED_APPLICATION"
+  tenant:
+    factory:
+      enabled: true
+      allow-unknown-tenants: false
+    holder:
+      enabled: true
+    data:
+      known-tenants:
+        - id: "bimo"
+        - id: "tp"
+  rest:
+    tenant-support:
+      enabled: true
+    http:
+      body-format:
+        enabled: true
+        date-time-format: "yyyy-MM-dd'T'HH:mm:ss"
+        naming-strategy: "snake_case"
+      request:
+        multi-read:
+          enabled: true
+          url-patterns:
+            - "*"
