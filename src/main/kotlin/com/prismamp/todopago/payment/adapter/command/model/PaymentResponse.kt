@@ -7,7 +7,7 @@ data class PaymentResponse(
 ){
     companion object {
         fun from(payment: Payment) = PaymentResponse(
-            id = payment.id
+            id = "id"
         )
     }
 }

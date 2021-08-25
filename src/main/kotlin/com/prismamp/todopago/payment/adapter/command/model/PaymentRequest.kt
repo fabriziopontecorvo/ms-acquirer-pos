@@ -1,8 +1,6 @@
 package com.prismamp.todopago.payment.adapter.command.model
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
-import com.fasterxml.jackson.databind.annotation.JsonNaming
-import com.prismamp.todopago.payment.domain.model.PaymentRequest as DomainPaymentRequest
+import com.prismamp.todopago.payment.domain.model.Payment
 import java.util.*
 import javax.validation.constraints.*
 
@@ -60,7 +58,7 @@ data class PaymentRequest(
     val posType: String?,
 ) {
 
-    fun toDomain() = DomainPaymentRequest(
+    fun toDomain() = Payment(
         qrId = qrId,
         accountId = accountId,
         amount = amount,
@@ -68,7 +66,7 @@ data class PaymentRequest(
         paymentMethodKey = paymentMethodKey,
         securityCode = securityCode,
         establishmentInformation =
-        DomainPaymentRequest
+        Payment
             .EstablishmentInformation(
                 establishmentId = establishmentInformation.establishmentId,
                 terminalNumber = establishmentInformation.terminalNumber,

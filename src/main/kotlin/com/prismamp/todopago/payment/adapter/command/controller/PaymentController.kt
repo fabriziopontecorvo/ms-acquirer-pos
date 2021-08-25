@@ -28,7 +28,7 @@ class PaymentController(
     @OAuth2Authorization
     @OAuth2TokenBodyValidationAccountId
     @PostMapping("/public/v1/payments")
-    fun executePayment(@Valid @RequestBody request: PaymentRequest) =
+    suspend fun executePayment(@Valid @RequestBody request: PaymentRequest) =
         log.benchmark("POST execute payment") {
             log { info("executePayment: request: {}", request) }
             makePaymentInputPort

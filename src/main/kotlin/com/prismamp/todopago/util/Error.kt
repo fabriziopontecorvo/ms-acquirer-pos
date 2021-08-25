@@ -9,3 +9,5 @@ class ServiceCommunication(
     val transmitter: String,
     val receiver: String
 ) : Error
+class LockedQr(val uniqueLockKey:String): Error
+class QrUSed(qrId: String) : Error
