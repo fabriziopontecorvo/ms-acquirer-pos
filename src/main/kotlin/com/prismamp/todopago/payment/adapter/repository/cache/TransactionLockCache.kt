@@ -3,9 +3,8 @@ package com.prismamp.todopago.payment.adapter.repository.cache
 import arrow.core.Either
 import arrow.core.computations.option
 import com.prismamp.todopago.payment.adapter.repository.model.Payment
-import com.prismamp.todopago.util.Error
+import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.LockedQr
-import com.prismamp.todopago.util.QrUSed
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
@@ -17,7 +16,7 @@ class TransactionLockCache(
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     private val redisTemplate: RedisTemplate<String, Payment>
 ) {
-    @Value("\${redis.operation.lock.ttl:30}")
+    @Value("\${redis.operation.lock.ttl}")
     var ttl: Long = 30
 
     companion object {
@@ -25,7 +24,7 @@ class TransactionLockCache(
     }
 
     @Synchronized
-    suspend fun lock(payment: PaymentDomain): Either<Error, PaymentDomain> =
+    suspend fun lock(payment: PaymentDomain): Either<ApplicationError, PaymentDomain> =
         option {
             redisTemplate
                 .opsForValue()

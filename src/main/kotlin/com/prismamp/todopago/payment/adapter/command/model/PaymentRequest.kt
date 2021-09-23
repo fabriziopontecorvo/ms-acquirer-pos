@@ -1,5 +1,6 @@
 package com.prismamp.todopago.payment.adapter.command.model
 
+import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.Payment
 import java.util.*
 import javax.validation.constraints.*
@@ -15,10 +16,10 @@ data class PaymentRequest(
     val amount: Double,
 
     @field:Min(1, message = "El campo installments tiene que ser mayor o igual que 1")
-    @field:Max(99, message = "El campo installments tiene ser menor o igual a 99")
+    @field:Max(99, message = "El campo installments tiene que ser menor o igual a 99")
     val installments: Int,
 
-    @field:NotBlank(message = "El campo paymentMethodId no puede estar vacío")
+    @field:NotBlank(message = "El campo paymentMethodKey no puede estar vacío")
     val paymentMethodKey: String,
 
     @field:Pattern(regexp = "\\d+", message = "El campo security_code debe contener solo decimales")
@@ -81,7 +82,7 @@ data class PaymentRequest(
         benefitCardCode = benefitCardCode,
         benefitCardDescription = benefitCardDescription,
         shoppingSessionId = shoppingSessionId,
-        posType = posType
+        posType = PosType.from(posType)
     )
 
     data class EstablishmentInformation(

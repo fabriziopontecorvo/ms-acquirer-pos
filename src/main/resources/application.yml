@@ -10,6 +10,12 @@ spring:
     allow-bean-definition-overriding: true
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+  redis:
+    sentinel:
+      master: 'redis-master'
+      nodes: 'localhost:26379'
 
 
 rest-client:
@@ -25,10 +31,11 @@ rest-client:
     backoff-max-interval: 500
     backoff-multiplier: 1
 
-management:
-  health:
-    redis:
-      enabled: false
+
+redis:
+  operation:
+    lock:
+      ttl: 30
 
 commons:
   security:
@@ -70,3 +77,30 @@ commons:
           enabled: true
           url-patterns:
             - "*"
+  storage:
+    repositories:
+      - name: "Transactions"
+        connections:
+          - tenant: "TP"
+            url: ${datasource.transactions.url}
+            username: ${datasource.transactions.username}
+            password: ${datasource.transactions.password}
+            driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          - tenant: "BIMO"
+            url: ${datasource.transactions.url}
+            username: ${datasource.transactions.username}
+            password: ${datasource.transactions.password}
+            driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    default-repository: "Transactions"
+    bean-generation:
+      default-repository:
+        data-source: true
+        template-strategy: named_parameter
+      per-connection:
+        data-source: true
+        template-strategy: named_parameter
+
+management:
+  health:
+    redis:
+      enabled: false

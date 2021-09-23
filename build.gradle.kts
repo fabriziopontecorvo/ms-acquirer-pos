@@ -94,6 +94,7 @@ val commonsCacheVersion = "2.1.0-RELEASE"
 val commonsRestVersion = "1.10.0-RELEASE"
 val commonsTenantVersion = "1.4.0-RELEASE"
 val commonsQueuesVersion = "0.1.4-RELEASE"
+val commonsStorageVersion= "1.3.1-RELEASE"
 val arrowVersion = "0.13.2"
 
 dependencies {
@@ -101,6 +102,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
 	implementation("org.springframework.retry:spring-retry")
@@ -114,8 +116,6 @@ dependencies {
 
 	implementation("net.logstash.logback:logstash-logback-encoder:${property("logstashLogbackEncoderVersion")}")
 
-	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.8")
-
 	implementation("javax.xml.bind:jaxb-api:2.2.12")
 	implementation("javax.activation:activation:1.1")
 
@@ -124,9 +124,10 @@ dependencies {
 	implementation("com.prismamp.todopago:commons-cache:$commonsCacheVersion")
 	implementation("com.prismamp.todopago:commons-security:$commonsSecurityVersion")
 	implementation("com.prismamp.todopago:commons-queues:$commonsQueuesVersion")
+	implementation("com.prismamp.todopago:commons-storage:$commonsStorageVersion")
+
 
 	implementation ("io.arrow-kt:arrow-fx-coroutines:$arrowVersion")
-
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

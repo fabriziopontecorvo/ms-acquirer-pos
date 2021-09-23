@@ -1,5 +1,6 @@
 package com.prismamp.todopago.payment.adapter.repository.model
 
+import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.Payment as PaymentDomain
 import java.util.*
 
@@ -20,7 +21,7 @@ data class Payment(
     val benefitCardCode: String? = null,
     val benefitCardDescription: String? = null,
     val shoppingSessionId: String? = null,
-    val posType: String? = null,
+    val posType: PosType? = null,
 ) {
     companion object {
         fun from(payment: PaymentDomain) =

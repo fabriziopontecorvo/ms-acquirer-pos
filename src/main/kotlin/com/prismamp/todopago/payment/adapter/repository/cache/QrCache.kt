@@ -1,12 +1,8 @@
 package com.prismamp.todopago.payment.adapter.repository.cache
 
-import arrow.core.Either
+import arrow.core.Option
 import arrow.core.computations.option
-import arrow.core.rightIfNotNull
-import arrow.core.rightIfNull
 import com.prismamp.todopago.payment.domain.model.Payment
-import com.prismamp.todopago.util.QrUSed
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
 import java.text.SimpleDateFormat
@@ -16,25 +12,21 @@ typealias Parameter = String
 
 @Repository
 class QrCache(
-    private val redisTemplate: RedisTemplate<String, String>
+    private val redisTemplate: RedisTemplate<String, Payment>
 ) {
-    @Value("\${redis.operation.lock.ttl:30}")
-    var ttl: Long = 1L
 
     companion object {
         private const val KEY_PREFIX = "used-qr"
         private const val KEY_PARAM_SEPARATOR = ":"
     }
 
-    suspend fun checkAvailability(payment: Payment): Either<QrUSed, Payment> =
+    suspend fun fetchPayment(payment: Payment): Option<Payment> =
         option {
             redisTemplate
                 .opsForValue()
                 .get(payment.buildKey())
                 .bind()
         }
-            .rightIfNull { QrUSed(payment.qrId) }
-            .map { payment }
 
     private fun Payment.buildKey() =
         KEY_PREFIX

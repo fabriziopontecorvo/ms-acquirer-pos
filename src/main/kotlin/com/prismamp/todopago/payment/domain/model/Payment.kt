@@ -1,5 +1,6 @@
 package com.prismamp.todopago.payment.domain.model
 
+import com.prismamp.todopago.enum.PosType
 import java.util.*
 
 data class Payment(
@@ -19,7 +20,7 @@ data class Payment(
     val benefitCardCode: String? = null,
     val benefitCardDescription: String? = null,
     val shoppingSessionId: String? = null,
-    val posType: String? = null,
+    val posType: PosType? = null,
 ){
     data class EstablishmentInformation(
         val establishmentId: String = "",
