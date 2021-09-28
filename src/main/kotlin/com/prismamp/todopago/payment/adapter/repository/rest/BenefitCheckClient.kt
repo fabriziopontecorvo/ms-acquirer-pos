@@ -33,32 +33,30 @@ class BenefitCheckClient(
     suspend fun check(benefitNumber: BenefitNumber?, request: CheckBenefitRequest): Either<ApplicationError, Benefit?> =
         log.benchmark("check: checking benefit status") {
             either {
-                benefitNumber?.run {
-                    doGet(benefitNumber, request)
-                        .bimap(
-                            leftOperation = { handleFailure(it, benefitNumber) },
-                            rightOperation = { benefitNumber.toDomain() }
-                        ).bind()
-                        .log { info("check: response {}", it) }
-                }
+                benefitNumber
+                    ?.run {
+                        doGet(benefitNumber, request)
+                            .bimap(
+                                leftOperation = { handleFailure(it, benefitNumber) },
+                                rightOperation = { benefitNumber.toDomain() }
+                            )
+                            .bind()
+                            .log { info("check: response {}", it) }
+                    }
             }
         }
 
-    private fun handleFailure(
-        it: HttpStatusCodeException,
-        benefitNumber: BenefitNumber
-    ) = when (it) {
-        is HttpClientErrorException -> CheckBenefitError(benefitNumber)
-        else -> ServiceCommunication(APP_NAME, MS_ACQUIRER_BENEFIT)
-    }
+    private fun doGet(benefitNumber: String, request: CheckBenefitRequest) =
+        restClient.get(
+            url = url.plus("/private/recommendations/$benefitNumber/status/").plus(request.queryParamsToString()),
+            clazz = Unit::class.java
+        )
 
-    private fun doGet(
-        benefitNumber: String,
-        request: CheckBenefitRequest
-    ) = restClient.get(
-        url = url.plus("/private/recommendations/$benefitNumber/status/").plus(request.queryParamsToString()),
-        clazz = Unit::class.java
-    )
+    private fun handleFailure(status: HttpStatusCodeException, benefitNumber: BenefitNumber) =
+        when (status) {
+            is HttpClientErrorException -> CheckBenefitError(benefitNumber)
+            else -> ServiceCommunication(APP_NAME, MS_ACQUIRER_BENEFIT)
+        }
 
     private fun BenefitNumber.toDomain() = Benefit(BenefitStatus.OK, this)
 }

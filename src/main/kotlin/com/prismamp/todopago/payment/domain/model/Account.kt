@@ -3,14 +3,14 @@ package com.prismamp.todopago.payment.domain.model
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class Account(
-    val id: Long,
-    val status: String,
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val identification: String,
-    val identificationType: String,
-    val gender: String
+    val id: Long = -1,
+    val status: String = "",
+    val firstName: String = "",
+    val lastName: String = "",
+    val email: String = "",
+    val identification: String = "",
+    val identificationType: String = "",
+    val gender: String = ""
 ) {
     companion object {
         const val STATUS_ENABLED = "CTA_HABILITADA"

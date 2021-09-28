@@ -15,9 +15,7 @@ import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Repository
 import org.springframework.web.client.HttpStatusCodeException
 
 @Component
@@ -38,26 +36,22 @@ class PaymentMethodsClient(
                     .bimap(
                         leftOperation = { handleFailure(it, accountId) },
                         rightOperation = { handleSuccess(it).toDomain() }
-                    ).bind()
+                    )
+                    .bind()
                     .log { info("getPaymentMethod: response", it) }
             }
         }
 
-    private fun handleFailure(
-        it: HttpStatusCodeException,
-        accountId: String
-    ) = when (it.statusCode) {
-        HttpStatus.NOT_FOUND -> InvalidAccount(accountId)
-        else -> ServiceCommunication(Constants.APP_NAME, Constants.MS_PAYMENT_METHODS)
-    }
-
-    private fun doGet(
-        accountId: String,
-        paymentMethod: String
-    ): Either<HttpStatusCodeException, ResponseEntity<PaymentMethodResponse>> =
+    private fun doGet(accountId: String, paymentMethod: String) =
         restClient.get(
             url = "$url/private/wallet/$accountId/operation-payment-methods/$paymentMethod",
             clazz = PaymentMethodResponse::class.java
         )
+
+    private fun handleFailure(status: HttpStatusCodeException, accountId: String) =
+        when (status.statusCode) {
+            HttpStatus.NOT_FOUND -> InvalidAccount(accountId)
+            else -> ServiceCommunication(Constants.APP_NAME, Constants.MS_PAYMENT_METHODS)
+        }
 
 }

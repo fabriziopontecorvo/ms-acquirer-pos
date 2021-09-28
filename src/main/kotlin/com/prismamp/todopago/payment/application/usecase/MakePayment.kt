@@ -10,7 +10,6 @@ import com.prismamp.todopago.payment.domain.model.*
 import com.prismamp.todopago.payment.domain.service.ValidatePaymentService
 import com.prismamp.todopago.util.*
 import com.prismamp.todopago.util.logs.CompanionLogger
-import org.springframework.beans.factory.annotation.Qualifier
 
 typealias ValidatablePayment = Tuple4<Payment, Account, PaymentMethod, Benefit?>
 
@@ -64,20 +63,29 @@ class MakePayment(
     private suspend fun Either<ApplicationError, ValidatablePayment>.validate() =
         flatMap {
             either {
-                validatedPaymentService.validateAccount(it.second).bind()
-                validatedPaymentService.validatePaymentMethodInstallments(it.first, it.third).bind()
-                validatedPaymentService.validatePaymentMethodCvv(it.first, it.third).bind()
-                validatedPaymentService.validateBenefit(it.fourth)?.bind()
-                GatewayRequest.from(it)
+                with(validatedPaymentService) {
+                    validateAccount(it.second).bind()
+                    validatePaymentMethodInstallments(it.first, it.third).bind()
+                    validatePaymentMethodCvv(it.first, it.third).bind()
+                    validateBenefit(it.fourth)?.bind()
+                    GatewayRequest.from(it)
+                }
             }
         }
 
     private suspend fun Either<ApplicationError, GatewayRequest>.execute() =
-        flatMap { it.executePayment() }
+        flatMap { request ->
+            request.executePayment()
+                .map { it.toPersistablePayment(request) }
+        }
 
-    private suspend fun Either<ApplicationError, Payment>.persist() =
+    private fun GatewayResponse.toPersistablePayment(request: GatewayRequest) =
+        PersistablePayment.from(request, this)
+
+    private suspend fun Either<ApplicationError, PersistablePayment>.persist() =
         flatMap { it.persist() }
 
     private suspend fun Either<ApplicationError, Payment>.release() =
         flatMap { it.release() }
+
 }
