@@ -10,9 +10,9 @@ import com.prismamp.todopago.payment.application.port.out.CheckAvailabilityOutpu
 import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.QrUSed
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
 
-@Repository
+@Component
 class AvailabilityTransactionAdapter(
     private val qrCache: QrCache,
     private val qrDao: QrDao

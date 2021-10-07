@@ -23,7 +23,6 @@ class TransactionLockCache(
         const val KEY_PREFIX = "lock-operation"
     }
 
-    @Synchronized
     suspend fun lock(payment: PaymentDomain): Either<ApplicationError, PaymentDomain> =
         option {
             redisTemplate

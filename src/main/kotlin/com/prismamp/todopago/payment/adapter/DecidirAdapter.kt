@@ -5,11 +5,10 @@ import com.prismamp.todopago.payment.adapter.repository.rest.DecidirClient
 import com.prismamp.todopago.payment.application.port.out.PaymentOutputPort
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
-import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.util.ApplicationError
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
 
-@Repository
+@Component
 class DecidirAdapter(
     private val decidirClient: DecidirClient
 ) : PaymentOutputPort {

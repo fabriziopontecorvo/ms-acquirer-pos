@@ -4,9 +4,10 @@ import arrow.core.Either
 import com.prismamp.todopago.payment.domain.model.Account
 import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.util.ApplicationError
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
 
-@Repository
+
+@Component
 interface AccountOutputPort {
-     suspend fun Payment.getAccount(): Either<ApplicationError, Account>
+    suspend fun Payment.getAccount(): Either<ApplicationError, Account>
 }

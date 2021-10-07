@@ -1,27 +1,27 @@
 package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.prismamp.todopago.enum.PosType
-import com.prismamp.todopago.payment.domain.model.Payment as PaymentDomain
 import java.util.*
+import com.prismamp.todopago.payment.domain.model.Payment as PaymentDomain
 
 data class Payment(
-    val qrId: String = "",
-    val accountId: Long = 0,
-    val amount: Double = 0.0,
-    val installments: Int = 0,
-    val paymentMethodKey: String = "",
-    val securityCode: String? = null,
-    val establishmentInformation: EstablishmentInformation = EstablishmentInformation(),
-    val traceNumber: String = "",
-    val ticketNumber: String = "",
-    val transactionDatetime: Date = Date(),
-    val benefitNumber: String? = null,
-    val originalAmount: Double? = null,
-    val discountedAmount: Double? = null,
-    val benefitCardCode: String? = null,
-    val benefitCardDescription: String? = null,
-    val shoppingSessionId: String? = null,
-    val posType: PosType? = null,
+    val qrId: String,
+    val accountId: Long,
+    val amount: Double,
+    val installments: Int,
+    val paymentMethodKey: String,
+    val securityCode: String?,
+    val establishmentInformation: EstablishmentInformation,
+    val traceNumber: String,
+    val ticketNumber: String,
+    val transactionDatetime: Date,
+    val benefitNumber: String?,
+    val originalAmount: Double?,
+    val discountedAmount: Double?,
+    val benefitCardCode: String?,
+    val benefitCardDescription: String?,
+    val shoppingSessionId: String?,
+    val posType: PosType?,
 ) {
     companion object {
         fun from(payment: PaymentDomain) =
@@ -56,9 +56,9 @@ data class Payment(
     }
 
     data class EstablishmentInformation(
-        val establishmentId: String = "",
-        val terminalNumber: String = "",
-        val sellerName: String = "",
+        val establishmentId: String,
+        val terminalNumber: String,
+        val sellerName: String,
     )
 
     fun toDomain() = PaymentDomain(

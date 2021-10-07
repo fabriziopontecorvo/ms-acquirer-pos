@@ -1,41 +1,78 @@
 package com.prismamp.todopago.payment.domain.model
 
 import com.prismamp.todopago.enum.OperationStatus
+import com.prismamp.todopago.enum.OperationStatus.*
 import com.prismamp.todopago.enum.OperationType
+import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PosType
-import com.prismamp.todopago.enum.PosType.INVALID
 import java.util.*
 
 data class PersistablePayment(
-    val transactionId: Long = -1,
-    val account: Account = Account(),
-    val qrId: String = "",
-    val amount: Double = 0.0,
-    val installments: Int = 0,
-    val currency: String = "",
-    val operationType: OperationType = OperationType.INVALID,
-    val operationStatus: OperationStatus = OperationStatus.INVALID,
-    val transactionDatetime: Date = Date(),
-    val errorCode: Int? = null,
-    val errorMessage: String? = null,
-    val paymentMethod: PaymentMethod = PaymentMethod(),
-    val posTerminalId: String = "",
-    val posTraceNumber: String = "",
-    val posTicketNumber: String = "",
-    val establishmentId: String = "",
-    val sellerName: String = "",
-    val recommendationCode: String? = null,
-    val originalAmount: Double? = null,
-    val discountedAmount: Double? = null,
-    val benefitCardCode: String? = null,
-    val benefitCardDescription: String? = null,
-    val posType: PosType = INVALID
+    val transactionId: Long,
+    val account: Account,
+    val qrId: String,
+    val amount: Double,
+    val installments: Int,
+    val currency: String,
+    val operationType: OperationType,
+    val operationStatus: OperationStatus,
+    val transactionDatetime: Date,
+    val errorCode: Int?,
+    val errorMessage: String?,
+    val paymentMethod: PaymentMethod,
+    val posTerminalId: String,
+    val posTraceNumber: String,
+    val posTicketNumber: String,
+    val establishmentId: String,
+    val sellerName: String,
+    val recommendationCode: String?,
+    val originalAmount: Double?,
+    val discountedAmount: Double?,
+    val benefitCardCode: String?,
+    val benefitCardDescription: String?,
+    val posType: PosType
 ) {
     companion object {
         fun from(
-            gatewayRequest:  GatewayRequest,
-            gatewayResponse: GatewayResponse,
+            request: GatewayRequest,
+            response: GatewayResponse,
+            payment: Payment,
+            account: Account,
+            paymentMethod: PaymentMethod,
         ) =
-            PersistablePayment()
+            PersistablePayment(
+                transactionId = response.id,
+                account = account,
+                qrId = request.qrId,
+                amount = request.amount,
+                installments = request.installments,
+                currency = request.currency,
+                operationType = OperationType.LAPOS_PAYMENT,
+                operationStatus = when (response.statusRequest) {
+                    PaymentStatusRequest.PENDING -> PENDING
+                    PaymentStatusRequest.FAILURE -> REJECTED
+                    PaymentStatusRequest.SUCCESS -> APPROVED
+                    PaymentStatusRequest.INVALID -> INVALID
+                },
+                transactionDatetime = response.transactionDatetime,
+                errorCode = with(response.statusDetails.response.reason) {
+                    this.id.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
+                },
+                errorMessage = with(response.statusDetails.response.reason) {
+                    this.description.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
+                },
+                paymentMethod = paymentMethod,
+                posTerminalId = request.terminalData.terminalNumber,
+                posTraceNumber = request.terminalData.terminalNumber,
+                posTicketNumber = request.terminalData.ticketNumber,
+                establishmentId = request.establishmentId,
+                sellerName = payment.establishmentInformation.sellerName,
+                recommendationCode = payment.benefitNumber,
+                originalAmount = payment.originalAmount,
+                discountedAmount = payment.discountedAmount,
+                benefitCardCode = payment.benefitCardCode,
+                benefitCardDescription = payment.benefitCardDescription,
+                posType = PosType.from(request.posType)
+            )
     }
 }

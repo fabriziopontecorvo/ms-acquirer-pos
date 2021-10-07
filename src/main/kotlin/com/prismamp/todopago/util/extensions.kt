@@ -47,4 +47,8 @@ private fun ApplicationError.exceptionManager(): Nothing =
             "CHECK_BENEFIT_ERROR",
             "Ocurrio un error al checkear el beneficio $benefitNumber"
         )
+        IdProviderFailure -> throw UnprocessableEntityException(
+            "ID_PROVIDER_FAILURE",
+            "No se pudo obtener un id para la persistencia"
+        )
     }

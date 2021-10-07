@@ -1,17 +1,21 @@
 package com.prismamp.todopago.payment.application.usecase
 
 
-import arrow.core.*
+import arrow.core.Either
+import arrow.core.Tuple4
 import arrow.core.computations.either
+import arrow.core.flatMap
+import arrow.core.zip
 import com.prismamp.todopago.configuration.annotation.UseCase
 import com.prismamp.todopago.payment.application.port.`in`.MakePaymentInputPort
 import com.prismamp.todopago.payment.application.port.out.*
 import com.prismamp.todopago.payment.domain.model.*
 import com.prismamp.todopago.payment.domain.service.ValidatePaymentService
-import com.prismamp.todopago.util.*
+import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.logs.CompanionLogger
 
 typealias ValidatablePayment = Tuple4<Payment, Account, PaymentMethod, Benefit?>
+typealias ExecutablePayment = Tuple4<Payment, Account, PaymentMethod, GatewayRequest>
 
 @UseCase
 class MakePayment(
@@ -68,24 +72,31 @@ class MakePayment(
                     validatePaymentMethodInstallments(it.first, it.third).bind()
                     validatePaymentMethodCvv(it.first, it.third).bind()
                     validateBenefit(it.fourth)?.bind()
-                    GatewayRequest.from(it)
+                    ExecutablePayment(it.first, it.second, it.third, GatewayRequest.from(it))
                 }
             }
         }
 
-    private suspend fun Either<ApplicationError, GatewayRequest>.execute() =
-        flatMap { request ->
-            request.executePayment()
-                .map { it.toPersistablePayment(request) }
+    private suspend fun Either<ApplicationError, ExecutablePayment>.execute() =
+        flatMap {
+            it.fourth.executePayment()
+                .toPersistablePayment(it.first, it.second, it.third, it.fourth)
         }
-
-    private fun GatewayResponse.toPersistablePayment(request: GatewayRequest) =
-        PersistablePayment.from(request, this)
 
     private suspend fun Either<ApplicationError, PersistablePayment>.persist() =
         flatMap { it.persist() }
 
-    private suspend fun Either<ApplicationError, Payment>.release() =
+    /**
+     * Marcar Qr como no disponible,
+     */
+    private suspend fun Either<ApplicationError, Any>.release() =
         flatMap { it.release() }
 
+    private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
+        payment: Payment,
+        account: Account,
+        paymentMethod: PaymentMethod,
+        request: GatewayRequest,
+    ): Either<ApplicationError, PersistablePayment> =
+        map { PersistablePayment.from(request, it, payment, account, paymentMethod) }
 }

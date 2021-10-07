@@ -7,12 +7,12 @@ import com.prismamp.todopago.enum.Channel
 data class CheckBenefitRequest(
     val installments: Int,
     val operationType: Channel,
-    val amount: Double? = null,
-    val originalAmount: Double? = null,
-    val discountedAmount: Double? = null,
-    val benefitCardDescription: String? = null,
-    val benefitCardCode: String? = null,
-    val shoppingSessionId: String? = null
+    val amount: Double?,
+    val originalAmount: Double?,
+    val discountedAmount: Double?,
+    val benefitCardDescription: String?,
+    val benefitCardCode: String?,
+    val shoppingSessionId: String?,
 
 ) {
 

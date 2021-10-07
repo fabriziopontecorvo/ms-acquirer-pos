@@ -5,5 +5,5 @@ import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.util.ApplicationError
 
 interface ReleaseOutputPort {
-    fun Payment.release(): Either<ApplicationError, Payment>
+    fun <T> T.release(): Either<ApplicationError, Payment>
 }

@@ -5,9 +5,9 @@ import com.prismamp.todopago.payment.adapter.repository.cache.TransactionLockCac
 import com.prismamp.todopago.payment.application.port.out.TransactionLockOutputPort
 import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.util.ApplicationError
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
 
-@Repository
+@Component
 class TransactionLockAdapter(
     private val transactionLockCache: TransactionLockCache,
 ) : TransactionLockOutputPort {

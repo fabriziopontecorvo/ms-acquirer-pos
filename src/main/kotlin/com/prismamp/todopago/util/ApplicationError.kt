@@ -14,3 +14,4 @@ class InvalidBenefit(val benefitId: String): ApplicationError
 object SecurityCodeRequired: ApplicationError
 class InvalidPaymentMethod(val paymentMethod: String): ApplicationError
 class CheckBenefitError(val benefitNumber: String): ApplicationError
+object IdProviderFailure: ApplicationError

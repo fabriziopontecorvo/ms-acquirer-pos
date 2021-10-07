@@ -1,7 +1,9 @@
 package com.prismamp.todopago.payment.adapter.repository.rest
 
-import arrow.core.*
+import arrow.core.Either
 import arrow.core.computations.either
+import arrow.core.left
+import arrow.core.right
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy

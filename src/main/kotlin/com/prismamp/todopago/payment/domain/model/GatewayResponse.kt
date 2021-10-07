@@ -2,7 +2,6 @@ package com.prismamp.todopago.payment.domain.model
 
 import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PaymentStatusRequest.INVALID
-import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import java.util.*
 
 data class GatewayResponse(
@@ -32,5 +31,10 @@ data class GatewayResponse(
         val id: Int = 0,
         val description: String = "",
         val additionalDescription: String = ""
-    )
+    ){
+        companion object{
+            fun isInvalid(reason: DecidirResponseReason) =
+                reason == DecidirResponseReason()
+        }
+    }
 }

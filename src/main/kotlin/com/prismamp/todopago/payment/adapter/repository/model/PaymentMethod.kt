@@ -1,9 +1,10 @@
-package com.prismamp.todopago.payment.domain.model
+package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.prismamp.todopago.enum.PaymentMethodType
 import com.prismamp.todopago.paymentMethod.Bank
 import com.prismamp.todopago.paymentMethod.Brand
+import com.prismamp.todopago.payment.domain.model.PaymentMethod as DomainPaymentMethod
 
 data class PaymentMethod(
     val id: Long = -1,
@@ -23,6 +24,32 @@ data class PaymentMethod(
     val operation: PaymentMethodOperation = PaymentMethodOperation()
 
 ) {
+
+    companion object {
+        fun from(paymentMethod: DomainPaymentMethod) =
+            with(paymentMethod) {
+                PaymentMethod(
+                    id = id,
+                    key = key,
+                    alias = alias,
+                    paymentMethodId = paymentMethodId,
+                    type = type,
+                    cardNumber = cardNumber,
+                    cardExpirationMonth = cardExpirationMonth,
+                    cardExpirationYear = cardExpirationYear,
+                    bank = bank,
+                    brand = brand,
+                    decidirId = decidirId,
+                    requiresCvv = requiresCvv,
+                    description = description,
+                    enabled = enabled,
+                    operation = PaymentMethodOperation(
+                        installments = operation.installments,
+                        name = operation.name
+                    )
+                )
+            }
+    }
 
     @JsonIgnore
     fun isValid() = cardNumber.isNotEmpty() && type != PaymentMethodType.INVALID
