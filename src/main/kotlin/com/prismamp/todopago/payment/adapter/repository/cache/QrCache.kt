@@ -47,7 +47,6 @@ class QrCache(
                 )
         }
 
-
     private fun Payment.buildKey() =
         KEY_PREFIX
             .addParam(establishmentInformation.terminalNumber)
@@ -63,6 +62,8 @@ class QrCache(
     private fun Parameter.addParam(param: Parameter) = this.plus(KEY_PARAM_SEPARATOR).plus(param)
 
     private fun Date.time() = SimpleDateFormat("yyyyMMdd-hhmmss").format(this)
+
+
 
 
 }

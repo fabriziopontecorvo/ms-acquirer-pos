@@ -48,7 +48,7 @@ class MakePayment(
             .validate()
             .execute()
             .persist()
-            .release()
+            .release(payment)
             .log { info("execute: {}", it) }
 
     private suspend fun Either<ApplicationError, Payment>.checkAvailability() =
@@ -86,11 +86,8 @@ class MakePayment(
     private suspend fun Either<ApplicationError, PersistablePayment>.persist() =
         flatMap { it.persist() }
 
-    /**
-     * Marcar Qr como no disponible,
-     */
-    private suspend fun Either<ApplicationError, Any>.release() =
-        flatMap { it.release() }
+    private suspend fun Either<ApplicationError, PersistablePayment>.release(payment: Payment) =
+        also { payment.release() }
 
     private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
         payment: Payment,

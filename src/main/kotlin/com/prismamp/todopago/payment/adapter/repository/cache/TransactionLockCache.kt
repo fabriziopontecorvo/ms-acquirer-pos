@@ -5,6 +5,7 @@ import arrow.core.computations.option
 import com.prismamp.todopago.payment.adapter.repository.model.Payment
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.LockedQr
+import com.prismamp.todopago.util.ReleaseQr
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
@@ -33,5 +34,10 @@ class TransactionLockCache(
         }
             .toEither { LockedQr(payment.qrId) }
             .map { payment }
+
+    suspend fun release(payment: PaymentDomain) =
+        option {
+            redisTemplate.opsForValue().operations.delete(KEY_PREFIX.plus(payment.qrId).plus(payment)).bind()
+        }
 
 }
