@@ -2,7 +2,9 @@ package com.prismamp.todopago.payment.domain.service
 
 import arrow.core.Either
 import arrow.core.Either.Companion.conditionally
+import arrow.core.Tuple4
 import com.prismamp.todopago.configuration.annotation.DomainService
+import com.prismamp.todopago.payment.application.usecase.ValidatablePayment
 import com.prismamp.todopago.payment.domain.model.Account
 import com.prismamp.todopago.payment.domain.model.Benefit
 import com.prismamp.todopago.payment.domain.model.Payment
@@ -51,5 +53,4 @@ class ValidatePaymentService {
                     ifTrue = { it }
                 )
             }
-
 }

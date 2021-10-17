@@ -26,6 +26,7 @@ class MakePayment(
     paymentMethodsOutputPort: PaymentMethodsOutputPort,
     benefitOutputPort: BenefitOutputPort,
     paymentOutputPort: PaymentOutputPort,
+    limitOutputPort: LimitOutputPort,
     persistenceOutputPort: PersistenceOutputPort,
     releaseOutputPort: ReleaseOutputPort
 ) : MakePaymentInputPort,
@@ -35,6 +36,7 @@ class MakePayment(
     PaymentMethodsOutputPort by paymentMethodsOutputPort,
     BenefitOutputPort by benefitOutputPort,
     PaymentOutputPort by paymentOutputPort,
+    LimitOutputPort by limitOutputPort,
     PersistenceOutputPort by persistenceOutputPort,
     ReleaseOutputPort by releaseOutputPort {
 
@@ -72,6 +74,7 @@ class MakePayment(
                     validatePaymentMethodInstallments(it.first, it.third).bind()
                     validatePaymentMethodCvv(it.first, it.third).bind()
                     validateBenefit(it.fourth)?.bind()
+                    it.validateLimit().bind()
                     ExecutablePayment(it.first, it.second, it.third, GatewayRequest.from(it))
                 }
             }

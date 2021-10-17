@@ -54,4 +54,9 @@ private fun ApplicationError.exceptionManager(): Nothing =
             "ID_PROVIDER_FAILURE",
             "No se pudo obtener un id para la persistencia"
         )
+        is LimitValidationError -> throw UnprocessableEntityException(
+            "LIMIT_EXCEEDED",
+            "El pago no puede realizarse porque se ha superado el limite de alerta/rechazo: $limitReport"
+        )
+
     }

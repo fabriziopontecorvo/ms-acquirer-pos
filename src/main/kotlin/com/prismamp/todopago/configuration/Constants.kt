@@ -17,6 +17,8 @@ class Constants {
         const val TENANT_HEADER = "X-TenantId"
         const val DECIDIR = "decidir"
         const val KAFKA_TENANT_HEADER = "TENANT"
+        const val TP_TENANT: String = "tp"
+        const val BIMO_TENANT: String = "bimo"
     }
 
 }

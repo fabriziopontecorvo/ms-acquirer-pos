@@ -36,6 +36,21 @@ class ProducerConfiguration {
             )
         )
 
+
+    @Bean("tenantAwareSerializedNotSatisfiedLimitEventProducer")
+    fun tenantAwareSerializedNotSatisfiedLimitEvent(
+        tenantAwareKafkaMessageGenerator: TenantAwareKafkaMessageGenerator,
+        kafkaMessageSerializer: KafkaMessageSerializer,
+        kafkaTemplate: KafkaTemplate<String?, String>
+    ): KafkaProducer<String, NotSatisfiedLimitEvent> =
+        TenantAwareKafkaProducerDecorator(
+            tenantAwareKafkaMessageGenerator,
+            SerializedMessageKafkaProducerDecorator(
+                kafkaMessageSerializer,
+                KafkaMessageProducer(kafkaTemplate, DefaultProducerRecordFactory())
+            )
+        )
+
     @Bean
     fun tenantAwareByTopicKafkaMessageGenerator(
         tenantReceiver: QueueTenantReceiver

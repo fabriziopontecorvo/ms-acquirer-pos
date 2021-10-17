@@ -1,5 +1,7 @@
 package com.prismamp.todopago.util
 
+import com.prismamp.todopago.payment.adapter.repository.model.LimitReport
+
 sealed interface ApplicationError
 
 class BadRequest(val body: String) : ApplicationError
@@ -15,3 +17,4 @@ object SecurityCodeRequired: ApplicationError
 class InvalidPaymentMethod(val paymentMethod: String): ApplicationError
 class CheckBenefitError(val benefitNumber: String): ApplicationError
 object IdProviderFailure: ApplicationError
+class LimitValidationError(val limitReport: String): ApplicationError
