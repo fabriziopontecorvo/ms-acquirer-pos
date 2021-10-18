@@ -6,12 +6,26 @@ spring:
       overrideSystemProperties: false
   application:
     name: ms-acquirer-pos
+  cache:
+    redis:
+      time-to-live: 300000
+    type: redis
+    cache-names: "ms-acquirer-pos"
   main:
     allow-bean-definition-overriding: true
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   kafka:
     bootstrap-servers: 'localhost:9092'
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
   redis:
     sentinel:
       master: 'redis-master'
@@ -23,6 +37,10 @@ kafka:
       executed:
         pos:
           name: "operation.executed"
+    limit:
+      not-satisfied:
+        name: 'limit.not.satisfied'
+
 
 rest-client:
   timeout:
@@ -128,7 +146,19 @@ commons:
       per-connection:
         data-source: true
         template-strategy: named_parameter
-
+  cache:
+    redis:
+      tenant:
+        tp:
+          database: 0
+          sentinel:
+            master: 'redis-master'
+            nodes: 'localhost:26379'
+        bimo:
+          database: 1
+          sentinel:
+            master: 'redis-master'
+            nodes: 'localhost:26379'
 management:
   health:
     redis:

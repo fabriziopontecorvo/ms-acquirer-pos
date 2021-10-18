@@ -11,6 +11,9 @@ import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.logs.benchmark
 
 import io.swagger.annotations.Api
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -28,13 +31,15 @@ class PaymentController(
     @OAuth2Authorization
     @OAuth2TokenBodyValidationAccountId
     @PostMapping("/public/v1/payments")
-    suspend fun executePayment(@Valid @RequestBody request: PaymentRequest) =
+    fun executePayment(@Valid @RequestBody request: PaymentRequest) =
         log.benchmark("POST execute payment") {
             log { info("executePayment: request: {}", request) }
-            makePaymentInputPort
-                .execute(request.toDomain())
-                .map { PaymentResponse.from(it) }
-                .evaluate()
+            runBlocking {
+                makePaymentInputPort
+                    .execute(request.toDomain())
+                    .map { PaymentResponse.from(it) }
+                    .evaluate()
+            }
         }
 
 }

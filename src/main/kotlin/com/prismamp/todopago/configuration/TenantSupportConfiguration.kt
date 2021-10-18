@@ -41,7 +41,6 @@ class TenantSupportConfiguration {
     fun tenantIdReceiver(currentTenantIdProvider: CurrentTenantIdProvider) =
         TenantIdReceiver { currentTenantIdProvider.get() ?: error(errorTenant) }
 
-
     @Bean
     fun queuesKnownTenantsProvider(tenantRepository: TenantRepository): QueueKnownTenantsProvider =
         QueueKnownTenantsProvider { tenantRepository.findAll().map { it.id } }

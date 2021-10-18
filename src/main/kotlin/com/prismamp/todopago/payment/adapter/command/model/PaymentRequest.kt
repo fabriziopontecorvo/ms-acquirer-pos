@@ -20,13 +20,19 @@ data class PaymentRequest(
     val installments: Int,
 
     @field:NotBlank(message = "El campo paymentMethodKey no puede estar vacío")
-    val paymentMethodKey: String,
+    val paymentMethodId: String,
 
     @field:Pattern(regexp = "\\d+", message = "El campo security_code debe contener solo decimales")
     @field:Size(min = 1, max = 4, message = "El campo security_code tiene que tener entre 1 y 4 decimales")
     val securityCode: String?,
 
-    val establishmentInformation: EstablishmentInformation,
+    @field:Size(min = 1, max = 67, message = "El campo establishment_id tiene que tener entre 1 y 67 caracteres")
+    val establishmentId: String,
+
+    @field:Size(min = 1, max = 8, message = "El campo terminal_number tiene que tener entre 1 y 8 caracteres")
+    val terminalNumber: String,
+
+    val sellerName: String,
 
     @field:Size(min = 1, max = 10, message = "El campo trace_number tiene que tener entre 1 y 10 caracteres")
     val traceNumber: String,
@@ -64,14 +70,14 @@ data class PaymentRequest(
         accountId = accountId,
         amount = amount,
         installments = installments,
-        paymentMethodKey = paymentMethodKey,
+        paymentMethodKey = paymentMethodId,
         securityCode = securityCode,
         establishmentInformation =
         Payment
             .EstablishmentInformation(
-                establishmentId = establishmentInformation.establishmentId,
-                terminalNumber = establishmentInformation.terminalNumber,
-                sellerName = establishmentInformation.sellerName
+                establishmentId = establishmentId,
+                terminalNumber = terminalNumber,
+                sellerName = sellerName
             ),
         traceNumber = traceNumber,
         ticketNumber = ticketNumber,
@@ -83,16 +89,6 @@ data class PaymentRequest(
         benefitCardDescription = benefitCardDescription,
         shoppingSessionId = shoppingSessionId,
         posType = PosType.from(posType)
-    )
-
-    data class EstablishmentInformation(
-        @field:Size(min = 1, max = 67, message = "El campo establishment_id tiene que tener entre 1 y 67 caracteres")
-        val establishmentId: String,
-
-        @field:Size(min = 1, max = 8, message = "El campo terminal_number tiene que tener entre 1 y 8 caracteres")
-        val terminalNumber: String,
-
-        val sellerName: String,
     )
 
 }
