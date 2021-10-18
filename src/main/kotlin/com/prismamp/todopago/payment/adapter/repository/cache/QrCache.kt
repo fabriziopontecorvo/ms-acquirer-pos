@@ -25,8 +25,8 @@ class QrCache(
         private const val KEY_PARAM_SEPARATOR = ":"
     }
 
-    @Value("\${redis.operation.used-qr.key.ttl}")
-    private var ttlForKey: Long = 1L
+    @Value("\${redis.operation.used-qr.ttl}")
+    private var ttl: Long = 1L
 
     suspend fun fetchPayment(payment: Payment): Option<Payment> =
         option {
@@ -42,7 +42,7 @@ class QrCache(
                 .set(
                     operationToValidate.buildKey(),
                     operationType.value,
-                    ttlForKey,
+                    ttl,
                     TimeUnit.SECONDS
                 )
         }

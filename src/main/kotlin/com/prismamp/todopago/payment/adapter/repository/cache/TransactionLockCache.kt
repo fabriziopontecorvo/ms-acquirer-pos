@@ -5,7 +5,6 @@ import arrow.core.computations.option
 import com.prismamp.todopago.payment.adapter.repository.model.Payment
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.LockedQr
-import com.prismamp.todopago.util.ReleaseQr
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository

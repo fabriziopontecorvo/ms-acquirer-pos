@@ -27,16 +27,13 @@ class LimitsClient(
     @Value("\${micro-services.limit.url}")
     var url: String = ""
 
-    @Value("\${micro-services.limit.path}") // "/limit/buyer/${accountId}/validation"
-    var path: String = ""
-
     suspend fun validation(
         request: LimitValidationRequest,
         accountId: Long
     ): Either<ApplicationError, LimitValidationResponse> =
         log.benchmark("Limit validation") {
             either {
-                doPost<LimitValidationResponse>(request, path)
+                doPost<LimitValidationResponse>(request, "/limit/buyer/${accountId}/validation")
                     .bimap(
                         leftOperation = { handleFailure() },
                         rightOperation = { handleSuccess(it) }

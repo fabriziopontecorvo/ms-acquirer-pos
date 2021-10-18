@@ -13,6 +13,7 @@ import com.prismamp.todopago.commons.queues.producer.KafkaProducer
 import com.prismamp.todopago.commons.queues.producer.SerializedMessageKafkaProducerDecorator
 import com.prismamp.todopago.commons.queues.producer.TenantAwareKafkaProducerDecorator
 import com.prismamp.todopago.commons.queues.producerRecord.DefaultProducerRecordFactory
+import com.prismamp.todopago.payment.adapter.repository.model.NotSatisfiedLimitEvent
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist
 import org.springframework.context.annotation.Bean
 import org.springframework.kafka.core.KafkaTemplate

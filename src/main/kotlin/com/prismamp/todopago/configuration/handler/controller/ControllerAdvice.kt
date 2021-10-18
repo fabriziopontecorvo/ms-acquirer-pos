@@ -27,20 +27,20 @@ class ControllerAdvice {
         private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
     }
 
-    @ExceptionHandler(MissingServletRequestParameterException::class)
-    fun missingServletRequestParamErrorHandler(e: MissingServletRequestParameterException): ResponseEntity<ErrorResponse> =
-        with(e) {
-            log.warn("handling http exception: status = {}, body = {}", 400, message)
-            ErrorResponse(
-                ErrorItemResponse(
-                    "400",
-                    "BAD_REQUEST",
-                    message
-                )
-            )
-        }.let {
-            status(BAD_REQUEST).body(it)
-        }
+//    @ExceptionHandler(MissingServletRequestParameterException::class)
+//    fun missingServletRequestParamErrorHandler(e: MissingServletRequestParameterException): ResponseEntity<ErrorResponse> =
+//        with(e) {
+//            log.warn("handling http exception: status = {}, body = {}", 400, message)
+//            ErrorResponse(
+//                ErrorItemResponse(
+//                    "400",
+//                    "BAD_REQUEST",
+//                    message
+//                )
+//            )
+//        }.let {
+//            status(BAD_REQUEST).body(it)
+//        }
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleHttpMessageNotReadableException(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponse> =

@@ -17,6 +17,12 @@ spring:
       master: 'redis-master'
       nodes: 'localhost:26379'
 
+kafka:
+  topic:
+    operation:
+      executed:
+        pos:
+          name: "operation.executed"
 
 rest-client:
   timeout:
@@ -36,6 +42,29 @@ redis:
   operation:
     lock:
       ttl: 30
+    used-qr:
+      ttl: 300
+
+micro-services:
+  account:
+    url: ${ms-accounts.url}
+  acquirer-benefits:
+    url: ${acquirer-benefits.url}
+  limit:
+    url: ${limits.url}
+  payment-method:
+    url: ${payment-methods.url}
+  adquirente-persistence:
+    url: ${adquirente-persistence.url}
+  decidir:
+    apikey:
+      tp: '0404ba2d30f14a9498a99045a0c0451f'
+
+decidir:
+  lapos:
+    url: https://developers.decidir.com/api
+    path:
+      payment: /transactor/payments/qr
 
 commons:
   security:
@@ -104,3 +133,4 @@ management:
   health:
     redis:
       enabled: false
+

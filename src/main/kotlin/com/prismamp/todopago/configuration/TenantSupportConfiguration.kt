@@ -5,6 +5,7 @@ import com.prismamp.todopago.commons.queues.QueueKnownTenantsProvider
 import com.prismamp.todopago.commons.queues.QueueTenantReceiver
 import com.prismamp.todopago.commons.rest.RequestLifecycleTenantEmitter
 import com.prismamp.todopago.commons.rest.RequestTenantReceiver
+import com.prismamp.todopago.commons.storage.RoutingTenantReceiver
 import com.prismamp.todopago.commons.tenant.CurrentTenantIdProvider
 import com.prismamp.todopago.commons.tenant.CurrentTenantIdReceiver
 import com.prismamp.todopago.commons.tenant.TenantHolder
@@ -48,5 +49,9 @@ class TenantSupportConfiguration {
     @Bean
     fun queuesTenantReceiver(currentTenantIdProvider: CurrentTenantIdProvider): QueueTenantReceiver =
         QueueTenantReceiver { currentTenantIdProvider.get() ?: error(errorTenant) }
+
+    @Bean
+    fun routingTenantReceiver(currentTenantIdProvider: CurrentTenantIdProvider): RoutingTenantReceiver =
+        RoutingTenantReceiver { currentTenantIdProvider.get() ?: error(errorTenant) }
 
 }
