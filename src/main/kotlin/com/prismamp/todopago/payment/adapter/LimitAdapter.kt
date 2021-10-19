@@ -68,7 +68,7 @@ class LimitAdapter(
             dailyTransactions = dailyTransactions ?: 0,
             thirtyDaysTransactions = thirtyDaysTransactions ?: 0,
             status = status
-        )
+        ).log { info("Limit Result: {}", it.status) }
 
     private fun getLimitReport(warnings: List<LimitReport>, rejections: List<LimitReport>): LimitReport? =
         rejections
@@ -94,7 +94,7 @@ class LimitAdapter(
                         dailyTransactions,
                         thirtyDaysTransactions
                     )
-                )
+                ).log { info("handleLimitNotSatisfiedEvent: Se ejecuto evento de limito no satistecho") }
             }
         }
 
@@ -130,7 +130,7 @@ class LimitAdapter(
 
     private fun LimitValidationResult.handleRejections(): Either<ApplicationError, Unit> =
         conditionally(
-            test = status == REJECTED.description,
+            test = status != REJECTED.description,
             ifFalse = { LimitValidationError(limitReport?.overpastField ?: "'empty field'") },
             ifTrue = { }
         )

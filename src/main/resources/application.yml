@@ -111,6 +111,19 @@ commons:
       known-tenants:
         - id: "bimo"
         - id: "tp"
+    config:
+      all:
+        feature:
+          limit-validation:
+            enabled: true
+      bimo:
+        feature:
+          limit-validation:
+            enabled: true
+      tp:
+        feature:
+          limit-validation:
+            enabled: true
   rest:
     tenant-support:
       enabled: true
@@ -164,3 +177,20 @@ management:
     redis:
       enabled: false
 
+datasource:
+  sql-server:
+    messages:
+      query-timeout: 30
+      jdbcUrl: ${datasource.ms.messages.url}
+      username: ${datasource.ms.messages.username}
+      password: ${datasource.ms.messages.password}
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      type: com.zaxxer.hikari.HikariDataSource
+      validationQuery: SELECT 1
+      hikari:
+        connection-timeout: 30000
+
+messages:
+  converter:
+    default:
+      channel: 25

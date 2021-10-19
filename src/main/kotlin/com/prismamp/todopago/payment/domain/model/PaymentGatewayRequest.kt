@@ -25,14 +25,14 @@ data class GatewayRequest(
                     posType = first.posType?.value,
                     establishmentId = first.establishmentInformation.establishmentId,
                     transactionDatetime = first.transactionDatetime,
-                    paymentMethodId = third.paymentMethodId,
+                    paymentMethodId = third.decidirId,
                     cardData = DecidirRequestCard(
                         cardNumber = third.cardNumber,
                         cardExpirationYear = third.cardExpirationYear,
                         cardExpirationMonth = third.cardExpirationMonth,
                         securityCode = first.securityCode,
                         bankData = DecidirRequestBank(
-                            id = third.bank.id,
+                            id = third.bank.code.toLong(),
                             description = third.bank.name
                         )
                     ),

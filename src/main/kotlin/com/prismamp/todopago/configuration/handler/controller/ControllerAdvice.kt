@@ -11,6 +11,7 @@ import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.status
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -27,20 +28,20 @@ class ControllerAdvice {
         private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
     }
 
-//    @ExceptionHandler(MissingServletRequestParameterException::class)
-//    fun missingServletRequestParamErrorHandler(e: MissingServletRequestParameterException): ResponseEntity<ErrorResponse> =
-//        with(e) {
-//            log.warn("handling http exception: status = {}, body = {}", 400, message)
-//            ErrorResponse(
-//                ErrorItemResponse(
-//                    "400",
-//                    "BAD_REQUEST",
-//                    message
-//                )
-//            )
-//        }.let {
-//            status(BAD_REQUEST).body(it)
-//        }
+    @ExceptionHandler(MissingServletRequestParameterException::class)
+    fun missingServletRequestParamErrorHandler(e: MissingServletRequestParameterException): ResponseEntity<ErrorResponse> =
+        with(e) {
+            log.warn("handling http exception: status = {}, body = {}", 400, message)
+            ErrorResponse(
+                ErrorItemResponse(
+                    "400",
+                    "BAD_REQUEST",
+                    message
+                )
+            )
+        }.let {
+            status(BAD_REQUEST).body(it)
+        }
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleHttpMessageNotReadableException(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponse> =
@@ -108,6 +109,22 @@ class ControllerAdvice {
             )
         }.let {
             status(BAD_REQUEST).body(it)
+        }
+
+    @ExceptionHandler(Exception::class)
+    fun handleUnknownErrors(e: Exception): ResponseEntity<ErrorResponse> =
+        also {
+            log.warn("handling unknown exception: {}", e.localizedMessage, e)
+        }.let {
+            ErrorResponse(
+                ErrorItemResponse(
+                    "500",
+                    "INTERNAL_SERVER_ERROR",
+                    "An unexpected internal server error occurred."
+                )
+            )
+        }.let {
+            status(INTERNAL_SERVER_ERROR).body(it)
         }
 
     private fun camelToSnakeCase(source: CharSequence): String {

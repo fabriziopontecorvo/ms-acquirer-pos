@@ -22,7 +22,6 @@ class AvailabilityTransactionAdapter(
         qrCache
             .fetchPayment(this)
             .validate(this, QrUSed(qrId))
-            .ifIsAvailableMapToDomain(this, QrUSed(qrId))
             .log { info("checkAvailability: resultado {}", it) }
 
     private suspend fun <K> Option<K>.validate(
@@ -37,6 +36,7 @@ class AvailabilityTransactionAdapter(
     private suspend fun Payment.checkDatabase() =
         qrDao
             .findQrOperationBy(buildFilters())
+            .ifIsAvailableMapToDomain(this, QrUSed(qrId))
 
     private fun <T, K, S> Either<K, S>.ifIsAvailableMapToDomain(domain: T, applicationError: ApplicationError) =
         takeIf { isLeft() }

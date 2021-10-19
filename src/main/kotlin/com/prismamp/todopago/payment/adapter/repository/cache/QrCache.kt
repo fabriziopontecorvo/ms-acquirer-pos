@@ -16,7 +16,7 @@ typealias Parameter = String
 
 @Repository
 class QrCache(
-    private val redisTemplatePayment: RedisTemplate<String, Payment>,
+    //private val redisTemplatePayment: RedisTemplate<String, Payment>,
     private val redisTemplate: RedisTemplate<String, String>,
 ) {
 
@@ -28,20 +28,20 @@ class QrCache(
     @Value("\${redis.operation.used-qr.ttl}")
     private var ttl: Long = 1L
 
-    suspend fun fetchPayment(payment: Payment): Option<Payment> =
+    suspend fun fetchPayment(payment: Payment): Option<String> =
         option {
-            redisTemplatePayment
+            redisTemplate
                 .opsForValue()
                 .get(payment.buildKey())
                 .bind()
         }
 
-    suspend fun markQrAsUnavailable(operationToValidate: OperationToValidate, operationType: OperationType) =
+    suspend fun markQrAsUnavailable(operationToValidate: OperationToValidate, value: String) =
         option {
             redisTemplate.opsForValue()
                 .set(
                     operationToValidate.buildKey(),
-                    operationType.value,
+                    value,
                     ttl,
                     TimeUnit.SECONDS
                 )

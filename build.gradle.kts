@@ -126,6 +126,8 @@ dependencies {
 	implementation("com.prismamp.todopago:commons-queues:$commonsQueuesVersion")
 	implementation("com.prismamp.todopago:commons-storage:$commonsStorageVersion")
 
+	implementation("com.prismamp.todopago:commons-messages:1.0.0-SNAPSHOT")
+
 
 	implementation ("io.arrow-kt:arrow-fx-coroutines:$arrowVersion")
 

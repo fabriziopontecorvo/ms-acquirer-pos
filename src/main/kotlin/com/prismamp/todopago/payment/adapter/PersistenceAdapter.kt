@@ -25,7 +25,9 @@ class PersistenceAdapter(
     private val qrCache: QrCache
 ) : PersistenceOutputPort {
 
-    companion object : CompanionLogger()
+    companion object : CompanionLogger() {
+        const val UNAVAILABLE = "UNAVAILABLE"
+    }
 
     override suspend fun PersistablePayment.persist(): Either<ApplicationError, PersistablePayment> =
         idProviderClient
@@ -34,8 +36,8 @@ class PersistenceAdapter(
             .map { QueuedOperation.from(this, it) }
             .map {
                 persistenceProducer.operationExecutedEvent(OperationToPersist(it, SAVE))
-                qrCache.markQrAsUnavailable(operationToValidate(it), it.operationType)
-                this
+                qrCache.markQrAsUnavailable(operationToValidate(it), UNAVAILABLE)
+                this.copy(id = it.id)
             }
 
     private fun operationToValidate(queuedOperation: QueuedOperation) =

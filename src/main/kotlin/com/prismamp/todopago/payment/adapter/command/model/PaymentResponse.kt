@@ -25,14 +25,14 @@ data class PaymentResponse(
         fun from(payment: PersistablePayment) =
             with(payment) {
                 PaymentResponse(
-                    id = transactionId,
+                    id = id,
                     accountId = account.id,
                     qrId = qrId,
                     amount = amount,
                     installments = installments,
                     currency = currency,
                     operationType = operationType.value,
-                    operationStatus = operationStatus.value,
+                    operationStatus = operationStatus.translatedValue,
                     transactionDatetime = transactionDatetime,
                     error = takeIf { errorCode != null && errorMessage != null }
                         ?.let { ErrorStatus(errorCode, errorMessage) },

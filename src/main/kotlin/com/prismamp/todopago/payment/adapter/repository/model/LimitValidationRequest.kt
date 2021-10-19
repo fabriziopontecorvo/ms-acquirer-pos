@@ -1,10 +1,13 @@
 package com.prismamp.todopago.payment.adapter.repository.model
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.prismamp.todopago.enum.Channel
 import com.prismamp.todopago.payment.application.usecase.ValidatablePayment
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
+@JsonNaming(PropertyNamingStrategy::class)
 data class LimitValidationRequest(
     val amount: String,
     val buyerPaymentMethodId: Long,

@@ -48,7 +48,6 @@ class QrDao(
                         rightOperation = { }
                     )
                     .bind()
-
             }
         }
 
