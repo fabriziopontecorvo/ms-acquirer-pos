@@ -1,6 +1,10 @@
 package com.prismamp.todopago.payment.adapter.repository.model
 
-import com.prismamp.todopago.payment.domain.model.PaymentMethod
+import com.prismamp.todopago.enum.PaymentMethodType
+import com.prismamp.todopago.payment.domain.model.PaymentMethodOperation
+import com.prismamp.todopago.payment.domain.model.PaymentMethod as DomainPaymentMethod
+import com.prismamp.todopago.paymentMethod.Bank
+import com.prismamp.todopago.paymentMethod.Brand
 
 
 data class PaymentMethodResponse(
@@ -37,8 +41,34 @@ data class PaymentMethodResponse(
         val operationName: String
     )
 
-    fun toDomain() = PaymentMethod(
-
+    fun toDomain() = DomainPaymentMethod(
+        id = id,
+        key = key,
+        alias = alias,
+        paymentMethodId = paymentMethodId,
+        type = PaymentMethodType.from(type),
+        decidirId = decidirId,
+        cardNumber = cardNumber,
+        cardExpirationMonth = validThru.split("/")[0],
+        cardExpirationYear = validThru.split("/")[1],
+        requiresCvv = requiresCvv,
+        bank = Bank(
+            id = bank.id,
+            code = bank.code,
+            name = bank.name,
+            logo = bank.logo
+        ),
+        brand = Brand(
+            id = brand.id,
+            name = brand.name,
+            logo = brand.logo
+        ),
+        description = paymentMethodDescription,
+        enabled = enabled,
+        operation = PaymentMethodOperation(
+            installments = operation.installments,
+            name = operation.operationName
+        )
     )
 }
 

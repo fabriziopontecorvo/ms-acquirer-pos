@@ -152,13 +152,13 @@ commons:
         tp:
           database: 0
           sentinel:
-            master: 'redis-master'
-            nodes: 'localhost:26379'
+            master: redis-master
+            nodes: localhost:26379,localhost:26380,localhost:26381
         bimo:
           database: 1
           sentinel:
-            master: 'redis-master'
-            nodes: 'localhost:26379'
+            master: redis-master
+            nodes: localhost:26379,localhost:26380,localhost:26381
 management:
   health:
     redis:

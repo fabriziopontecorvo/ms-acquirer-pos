@@ -5,8 +5,8 @@ spring:
     name: ms-acquirer-pos
   cloud:
     config:
-      failFast: true
-      label: 'master'
+      failFast: false
+      label: 'fpontecorvo'
       uri: http://ms-config.marathon.l4lb.thisdcos.directory:8080
 
 #logging:

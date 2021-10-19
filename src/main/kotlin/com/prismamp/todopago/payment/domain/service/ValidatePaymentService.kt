@@ -38,7 +38,7 @@ class ValidatePaymentService {
         paymentMethod
             .let {
                 conditionally(
-                    test = it.requiresCvv && payment.securityCode != null,
+                    test = it.takeIf { it.requiresCvv }?.let { payment.securityCode != null } ?: true ,
                     ifFalse = { SecurityCodeRequired },
                     ifTrue = { it }
                 )

@@ -6,10 +6,7 @@ import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.http.RestClient
 import com.prismamp.todopago.payment.adapter.repository.model.PaymentMethodResponse
 import com.prismamp.todopago.payment.domain.model.PaymentMethod
-import com.prismamp.todopago.util.ApplicationError
-import com.prismamp.todopago.util.InvalidAccount
-import com.prismamp.todopago.util.ServiceCommunication
-import com.prismamp.todopago.util.handleSuccess
+import com.prismamp.todopago.util.*
 import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
@@ -48,9 +45,9 @@ class PaymentMethodsClient(
             clazz = PaymentMethodResponse::class.java
         )
 
-    private fun handleFailure(status: HttpStatusCodeException, accountId: String) =
+    private fun handleFailure(status: HttpStatusCodeException, paymentMethod: String) =
         when (status.statusCode) {
-            HttpStatus.NOT_FOUND -> InvalidAccount(accountId)
+            HttpStatus.NOT_FOUND -> InvalidPaymentMethod(paymentMethod)
             else -> ServiceCommunication(Constants.APP_NAME, Constants.MS_PAYMENT_METHODS)
         }
 

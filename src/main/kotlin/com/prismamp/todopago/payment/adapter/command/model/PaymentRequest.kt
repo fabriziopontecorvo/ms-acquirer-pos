@@ -88,7 +88,7 @@ data class PaymentRequest(
         benefitCardCode = benefitCardCode,
         benefitCardDescription = benefitCardDescription,
         shoppingSessionId = shoppingSessionId,
-        posType = PosType.from(posType)
+        posType = PosType.from(posType, traceNumber, ticketNumber)
     )
 
 }
