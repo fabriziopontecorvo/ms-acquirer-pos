@@ -2,9 +2,9 @@ package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.prismamp.todopago.enum.PosType
 import java.util.*
-import com.prismamp.todopago.payment.domain.model.Payment as PaymentDomain
+import com.prismamp.todopago.payment.domain.model.Operation as OperationDomain
 
-data class Payment(
+data class Operation(
     val qrId: String,
     val accountId: Long,
     val amount: Double,
@@ -24,9 +24,9 @@ data class Payment(
     val posType: PosType?,
 ) {
     companion object {
-        fun from(payment: PaymentDomain) =
+        fun from(payment: OperationDomain) =
             with(payment) {
-                Payment(
+                Operation(
                     qrId = payment.qrId,
                     accountId = accountId,
                     amount = amount,
@@ -61,7 +61,7 @@ data class Payment(
         val sellerName: String,
     )
 
-    fun toDomain() = PaymentDomain(
+    fun toDomain() = OperationDomain(
         qrId = qrId,
         accountId = accountId,
         amount = amount,
@@ -69,7 +69,7 @@ data class Payment(
         paymentMethodKey = paymentMethodKey,
         securityCode = securityCode,
         establishmentInformation =
-        PaymentDomain
+        OperationDomain
             .EstablishmentInformation(
                 establishmentId = establishmentInformation.establishmentId,
                 terminalNumber = establishmentInformation.terminalNumber,

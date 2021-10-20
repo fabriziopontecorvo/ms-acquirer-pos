@@ -1,11 +1,11 @@
 package com.prismamp.todopago.payment.adapter.command.model
 
 import com.prismamp.todopago.enum.PosType
-import com.prismamp.todopago.payment.domain.model.Payment
+import com.prismamp.todopago.payment.domain.model.Operation
 import java.util.*
 import javax.validation.constraints.*
 
-data class PaymentRequest(
+data class OperationRequest(
     @field:NotBlank
     @field:Size(min = 1, max = 10, message = "El campo qr_id tiene que tener entre 1 y 10 digitos")
     val qrId: String,
@@ -65,7 +65,7 @@ data class PaymentRequest(
     val posType: String?,
 ) {
 
-    fun toDomain() = Payment(
+    fun toDomain() = Operation(
         qrId = qrId,
         accountId = accountId,
         amount = amount,
@@ -73,7 +73,7 @@ data class PaymentRequest(
         paymentMethodKey = paymentMethodId,
         securityCode = securityCode,
         establishmentInformation =
-        Payment
+        Operation
             .EstablishmentInformation(
                 establishmentId = establishmentId,
                 terminalNumber = terminalNumber,

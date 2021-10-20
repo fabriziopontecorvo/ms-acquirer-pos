@@ -2,9 +2,8 @@ package com.prismamp.todopago.payment.adapter.repository.cache
 
 import arrow.core.Option
 import arrow.core.computations.option
-import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidate
-import com.prismamp.todopago.payment.domain.model.Payment
+import com.prismamp.todopago.payment.domain.model.Operation
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
@@ -28,11 +27,11 @@ class QrCache(
     @Value("\${redis.operation.used-qr.ttl}")
     private var ttl: Long = 1L
 
-    suspend fun fetchPayment(payment: Payment): Option<String> =
+    suspend fun fetchPayment(operation: Operation): Option<String> =
         option {
             redisTemplate
                 .opsForValue()
-                .get(payment.buildKey())
+                .get(operation.buildKey())
                 .bind()
         }
 
@@ -47,7 +46,7 @@ class QrCache(
                 )
         }
 
-    private fun Payment.buildKey() =
+    private fun Operation.buildKey() =
         KEY_PREFIX
             .addParam(establishmentInformation.terminalNumber)
             .addParam(transactionDatetime.time())

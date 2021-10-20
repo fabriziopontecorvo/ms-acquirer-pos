@@ -48,15 +48,13 @@ class RestClient(
 
     private fun <T> executeCall(restCall: RestOperations.() -> T): Either<Throwable, T> =
         catch(
-            fe = { t -> t.log { warn("exeption thrown", t) }},
+            fe = { t -> t.log { error("Exeption Thrown: {}", it.message) }},
             f = {
                 log.benchmark(REST_CALL_MSG) {
                     retryTemplate.execute<T, Throwable> {
                         log.benchmark(REST_CALL_RETRY) {
                             restCall(template)
-                                .log {
-                                    info("executeCall: Response: {}", it.toString())
-                                }
+                                .log { info("executeCall: Response: {}", it.toString()) }
                         }
                     }
                 }

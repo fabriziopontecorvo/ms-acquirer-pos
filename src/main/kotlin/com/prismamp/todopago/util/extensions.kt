@@ -19,11 +19,11 @@ fun <T> Either<Either<ApplicationError, T>, T>.leftFlatten(): Either<Application
 
 fun <T> Either<ApplicationError, T>.evaluate() =
     fold(
-        ifLeft = { applicationError -> applicationError.exceptionManager() },
+        ifLeft = { applicationError -> throw applicationError.exceptionManager() },
         ifRight = { value -> value }
     )
 
-fun <T>  ResponseEntity<T>.handleSuccess() = body!!
+fun <T> ResponseEntity<T>.handleSuccess() = body!!
 
 fun Throwable.handleFailure(receiver: String, customHandler: ((HttpStatusCodeException) -> ApplicationError)? = null) =
     when (this) {
@@ -39,46 +39,46 @@ private fun handleHttpFailure(exception: HttpStatusCodeException, receiver: Stri
         else -> ServiceCommunication(APP_NAME, receiver)
     }
 
-private fun ApplicationError.exceptionManager(): Nothing =
+private fun ApplicationError.exceptionManager(): HttpException =
     when (this) {
-        is BadRequest -> throw BadRequestException(body)
-        is NotFound -> throw NotFoundException(body)
-        is UnprocessableEntity -> throw UnprocessableEntityException(body)
-        is ServiceCommunication -> throw ServiceCommunicationException(transmitter, receiver)
-        is LockedQr -> throw LockedQrException(uniqueLockKey)
-        is QrUSed -> throw UnprocessableEntityException(
+        is BadRequest -> BadRequestException(body)
+        is NotFound -> NotFoundException(body)
+        is UnprocessableEntity -> UnprocessableEntityException(body)
+        is ServiceCommunication -> ServiceCommunicationException(transmitter, receiver)
+        is LockedQr -> LockedQrException(uniqueLockKey)
+        is QrUSed -> UnprocessableEntityException(
             "QR_USED",
             "Ya se realizó una operación con qrId = $qrId"
         )
-        is InvalidAccount -> throw  UnprocessableEntityException(
+        is InvalidAccount -> UnprocessableEntityException(
             "INVALID_ACCOUNT",
             "La cuenta con id: $accountId no es valida para esta operacion"
         )
-        is NotMatchableInstallments -> throw UnprocessableEntityException(
+        is NotMatchableInstallments -> UnprocessableEntityException(
             "NOT_MATCHABLE_INSTALLMENTS",
             "La cantidad de cuotas requeridas no coinciden con las habilitadas para el medio de pago"
         )
-        is InvalidBenefit -> throw  UnprocessableEntityException(
+        is InvalidBenefit -> UnprocessableEntityException(
             "INVALID_BENEFIT",
             "No se encontraron beneficios para el recomendation_code $benefitId"
         )
-        is SecurityCodeRequired -> throw ConflictException(
+        is SecurityCodeRequired -> ConflictException(
             "SECURITY_CODE_REQUIRED",
             "El código CVV es requerido para esta operacion"
         )
-        is InvalidPaymentMethod -> throw UnprocessableEntityException(
+        is InvalidPaymentMethod -> UnprocessableEntityException(
             "INVALID_PAYMENT_METHOD",
             "El medio de pago $paymentMethod es invalido para esta operacion"
         )
-        is CheckBenefitError -> throw UnprocessableEntityException(
+        is CheckBenefitError -> UnprocessableEntityException(
             "CHECK_BENEFIT_ERROR",
             "Ocurrio un error al checkear el beneficio $benefitNumber"
         )
-        IdProviderFailure -> throw UnprocessableEntityException(
+        IdProviderFailure -> UnprocessableEntityException(
             "ID_PROVIDER_FAILURE",
             "No se pudo obtener un id para la persistencia"
         )
-        is LimitValidationError -> throw UnprocessableEntityException(
+        is LimitValidationError -> UnprocessableEntityException(
             "LIMIT_EXCEEDED",
             "El pago no puede realizarse porque se ha superado el limite de alerta/rechazo: $limitReport"
         )

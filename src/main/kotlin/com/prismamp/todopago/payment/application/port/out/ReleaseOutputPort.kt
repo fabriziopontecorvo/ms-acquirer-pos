@@ -1,11 +1,9 @@
 package com.prismamp.todopago.payment.application.port.out
 
-import arrow.core.Either
-import com.prismamp.todopago.payment.domain.model.Payment
-import com.prismamp.todopago.util.ApplicationError
+import com.prismamp.todopago.payment.domain.model.Operation
 import org.springframework.stereotype.Component
 
 @Component
 interface ReleaseOutputPort {
-    suspend fun Payment.release()
+    suspend fun Operation.release()
 }

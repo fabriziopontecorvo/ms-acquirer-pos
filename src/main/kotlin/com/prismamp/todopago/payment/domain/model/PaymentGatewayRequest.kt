@@ -1,6 +1,6 @@
 package com.prismamp.todopago.payment.domain.model
 
-import com.prismamp.todopago.payment.application.usecase.ValidatablePayment
+import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import java.util.*
 
 data class GatewayRequest(
@@ -18,8 +18,8 @@ data class GatewayRequest(
 ) {
 
     companion object {
-        fun from(validatablePayment: ValidatablePayment) =
-            with(validatablePayment) {
+        fun from(validatableOperation: ValidatableOperation) =
+            with(validatableOperation) {
                 GatewayRequest(
                     qrId = first.qrId,
                     posType = first.posType?.value,

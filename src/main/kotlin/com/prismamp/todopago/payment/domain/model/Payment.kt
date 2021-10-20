@@ -1,30 +1,71 @@
 package com.prismamp.todopago.payment.domain.model
 
+import com.prismamp.todopago.enum.OperationStatus
+import com.prismamp.todopago.enum.OperationStatus.*
+import com.prismamp.todopago.enum.OperationType
+import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PosType
 import java.util.*
 
 data class Payment(
+    val id: Long,
+    val transactionId: Long,
+    val account: Account,
     val qrId: String,
-    val accountId: Long,
     val amount: Double,
     val installments: Int,
-    val paymentMethodKey: String,
-    val securityCode: String?,
-    val establishmentInformation: EstablishmentInformation,
-    val traceNumber: String,
-    val ticketNumber: String,
+    val currency: String,
+    val operationType: OperationType,
+    val operationStatus: OperationStatus,
     val transactionDatetime: Date,
-    val benefitNumber: String?,
+    val errorCode: Int?,
+    val errorMessage: String?,
+    val paymentMethod: PaymentMethod,
+    val posTerminalId: String,
+    val posTraceNumber: String,
+    val posTicketNumber: String,
+    val establishmentId: String,
+    val sellerName: String,
+    val recommendationCode: String?,
     val originalAmount: Double?,
     val discountedAmount: Double?,
     val benefitCardCode: String?,
     val benefitCardDescription: String?,
-    val shoppingSessionId: String?,
-    val posType: PosType?
-){
-    data class EstablishmentInformation(
-        val establishmentId: String,
-        val terminalNumber: String,
-        val sellerName: String,
-    )
+    val posType: PosType
+) {
+    companion object {
+        fun from(
+            id: Long,
+            persistablePayment: PersistablePayment,
+        ) =
+            with(persistablePayment){
+                Payment(
+                    id = id,
+                    transactionId = transactionId,
+                    account = account,
+                    qrId = qrId,
+                    amount = amount,
+                    installments = installments,
+                    currency = currency,
+                    operationType = operationType,
+                    operationStatus = operationStatus,
+                    transactionDatetime = transactionDatetime,
+                    errorCode = errorCode,
+                    errorMessage = errorMessage,
+                    paymentMethod = paymentMethod,
+                    posTerminalId = posTerminalId,
+                    posTraceNumber = posTraceNumber,
+                    posTicketNumber = posTicketNumber,
+                    establishmentId = establishmentId,
+                    sellerName = sellerName,
+                    recommendationCode = recommendationCode,
+                    originalAmount = originalAmount,
+                    discountedAmount = discountedAmount,
+                    benefitCardCode = benefitCardCode,
+                    benefitCardDescription = benefitCardDescription,
+                    posType = posType
+                )
+            }
+
+    }
 }

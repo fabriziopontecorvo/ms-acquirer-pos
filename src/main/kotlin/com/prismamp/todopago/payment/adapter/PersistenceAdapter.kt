@@ -12,6 +12,7 @@ import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidat
 import com.prismamp.todopago.payment.adapter.repository.model.QueuedOperation
 import com.prismamp.todopago.payment.adapter.repository.rest.IdProviderClient
 import com.prismamp.todopago.payment.application.port.out.PersistenceOutputPort
+import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.payment.domain.model.PersistablePayment
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.IdProviderFailure
@@ -29,15 +30,15 @@ class PersistenceAdapter(
         const val UNAVAILABLE = "UNAVAILABLE"
     }
 
-    override suspend fun PersistablePayment.persist(): Either<ApplicationError, PersistablePayment> =
+    override suspend fun PersistablePayment.persist(): Either<ApplicationError, Payment> =
         idProviderClient
-            .getId(LAPOS_PAYMENT)
+            .getId(operationType)
             .flatMap { it.rightIfNotNull { IdProviderFailure } }
             .map { QueuedOperation.from(this, it) }
             .map {
                 persistenceProducer.operationExecutedEvent(OperationToPersist(it, SAVE))
                 qrCache.markQrAsUnavailable(operationToValidate(it), UNAVAILABLE)
-                this.copy(id = it.id)
+                Payment.from(it.id, this)
             }
 
     private fun operationToValidate(queuedOperation: QueuedOperation) =

@@ -111,22 +111,6 @@ class ControllerAdvice {
             status(BAD_REQUEST).body(it)
         }
 
-    @ExceptionHandler(Exception::class)
-    fun handleUnknownErrors(e: Exception): ResponseEntity<ErrorResponse> =
-        also {
-            log.warn("handling unknown exception: {}", e.localizedMessage, e)
-        }.let {
-            ErrorResponse(
-                ErrorItemResponse(
-                    "500",
-                    "INTERNAL_SERVER_ERROR",
-                    "An unexpected internal server error occurred."
-                )
-            )
-        }.let {
-            status(INTERNAL_SERVER_ERROR).body(it)
-        }
-
     private fun camelToSnakeCase(source: CharSequence): String {
         return camelRegex.replace(source) {
             "_${it.value}"

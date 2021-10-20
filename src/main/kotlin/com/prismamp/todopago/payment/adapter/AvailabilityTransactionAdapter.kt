@@ -4,7 +4,7 @@ import arrow.core.*
 import com.prismamp.todopago.payment.adapter.repository.cache.QrCache
 import com.prismamp.todopago.payment.adapter.repository.dao.QrDao
 import com.prismamp.todopago.payment.application.port.out.CheckAvailabilityOutputPort
-import com.prismamp.todopago.payment.domain.model.Payment
+import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.QrUSed
 import com.prismamp.todopago.util.logs.CompanionLogger
@@ -18,14 +18,14 @@ class AvailabilityTransactionAdapter(
 
     companion object: CompanionLogger()
 
-    override suspend fun Payment.checkAvailability(): Either<ApplicationError, Payment> =
+    override suspend fun Operation.checkAvailability(): Either<ApplicationError, Operation> =
         qrCache
             .fetchPayment(this)
             .validate(this, QrUSed(qrId))
             .log { info("checkAvailability: resultado {}", it) }
 
     private suspend fun <K> Option<K>.validate(
-        domain: Payment,
+        domain: Operation,
         applicationError: ApplicationError
     ) =
         takeIf { isDefined() }
@@ -33,7 +33,7 @@ class AvailabilityTransactionAdapter(
                 Either.Left(applicationError)
             } ?: domain.checkDatabase()
 
-    private suspend fun Payment.checkDatabase() =
+    private suspend fun Operation.checkDatabase() =
         qrDao
             .findQrOperationBy(buildFilters())
             .ifIsAvailableMapToDomain(this, QrUSed(qrId))
@@ -44,7 +44,7 @@ class AvailabilityTransactionAdapter(
                domain.toOption().toEither { applicationError }
             } ?: Either.Left(applicationError)
 
-    private fun Payment.buildFilters() = mapOf(
+    private fun Operation.buildFilters() = mapOf(
         "qr_id" to qrId,
         "amount" to amount,
         "pos_terminal_number" to establishmentInformation.terminalNumber,

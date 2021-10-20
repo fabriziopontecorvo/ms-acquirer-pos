@@ -8,7 +8,6 @@ import com.prismamp.todopago.enum.PosType
 import java.util.*
 
 data class PersistablePayment(
-    val id: Long,
     val transactionId: Long,
     val account: Account,
     val qrId: String,
@@ -37,12 +36,11 @@ data class PersistablePayment(
         fun from(
             request: GatewayRequest,
             response: GatewayResponse,
-            payment: Payment,
+            operation: Operation,
             account: Account,
             paymentMethod: PaymentMethod,
         ) =
             PersistablePayment(
-                id = -1,
                 transactionId = response.id,
                 account = account,
                 qrId = request.qrId,
@@ -68,12 +66,12 @@ data class PersistablePayment(
                 posTraceNumber = request.terminalData.terminalNumber,
                 posTicketNumber = request.terminalData.ticketNumber,
                 establishmentId = request.establishmentId,
-                sellerName = payment.establishmentInformation.sellerName,
-                recommendationCode = payment.benefitNumber,
-                originalAmount = payment.originalAmount,
-                discountedAmount = payment.discountedAmount,
-                benefitCardCode = payment.benefitCardCode,
-                benefitCardDescription = payment.benefitCardDescription,
+                sellerName = operation.establishmentInformation.sellerName,
+                recommendationCode = operation.benefitNumber,
+                originalAmount = operation.originalAmount,
+                discountedAmount = operation.discountedAmount,
+                benefitCardCode = operation.benefitCardCode,
+                benefitCardDescription = operation.benefitCardDescription,
                 posType = PosType.from(request.posType)
             )
     }

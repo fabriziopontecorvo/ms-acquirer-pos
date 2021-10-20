@@ -3,7 +3,7 @@ package com.prismamp.todopago.payment.adapter.repository.model
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.prismamp.todopago.enum.Channel
-import com.prismamp.todopago.payment.application.usecase.ValidatablePayment
+import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -18,13 +18,13 @@ data class LimitValidationRequest(
 ) {
     companion object {
 
-        fun from(validatablePayment: ValidatablePayment) = LimitValidationRequest(
+        fun from(validatableOperation: ValidatableOperation) = LimitValidationRequest(
             amount = DecimalFormat("0.00", DecimalFormatSymbols.getInstance().apply { decimalSeparator = '.' })
-                .format(validatablePayment.first.amount),
-            buyerPaymentMethodId = validatablePayment.third.id,
-            genre = validatablePayment.second.gender,
-            identificationNumber = validatablePayment.second.identification,
-            identificationTypeId = validatablePayment.second.identificationType.toLong(),
+                .format(validatableOperation.first.amount),
+            buyerPaymentMethodId = validatableOperation.third.id,
+            genre = validatableOperation.second.gender,
+            identificationNumber = validatableOperation.second.identification,
+            identificationTypeId = validatableOperation.second.identificationType.toLong(),
             channel = Channel.QRADQ.id
         )
 

@@ -6,7 +6,7 @@ import com.prismamp.todopago.payment.adapter.repository.model.CheckBenefitReques
 import com.prismamp.todopago.payment.adapter.repository.rest.BenefitCheckClient
 import com.prismamp.todopago.payment.application.port.out.BenefitOutputPort
 import com.prismamp.todopago.payment.domain.model.Benefit
-import com.prismamp.todopago.payment.domain.model.Payment
+import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.util.ApplicationError
 import org.springframework.stereotype.Component
 
@@ -15,10 +15,10 @@ class BenefitAdapter(
     private val benefitCheckClient: BenefitCheckClient
 ) : BenefitOutputPort {
 
-    override suspend fun Payment.checkBenefit(): Either<ApplicationError, Benefit?> =
+    override suspend fun Operation.checkBenefit(): Either<ApplicationError, Benefit?> =
         benefitCheckClient.check(benefitNumber, buildRequest())
 
-    private fun Payment.buildRequest() = CheckBenefitRequest(
+    private fun Operation.buildRequest() = CheckBenefitRequest(
         installments = installments,
         amount = amount,
         originalAmount = originalAmount,

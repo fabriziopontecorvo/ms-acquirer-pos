@@ -14,8 +14,8 @@ import com.prismamp.todopago.payment.domain.service.ValidatePaymentService
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.logs.CompanionLogger
 
-typealias ValidatablePayment = Tuple4<Payment, Account, PaymentMethod, Benefit?>
-typealias ExecutablePayment = Tuple4<Payment, Account, PaymentMethod, GatewayRequest>
+typealias ValidatableOperation = Tuple4<Operation, Account, PaymentMethod, Benefit?>
+typealias ExecutableOperation = Tuple4<Operation, Account, PaymentMethod, GatewayRequest>
 
 @UseCase
 class MakePayment(
@@ -42,31 +42,31 @@ class MakePayment(
 
     companion object : CompanionLogger()
 
-    override suspend fun execute(payment: Payment) =
-        payment
+    override suspend fun execute(operation: Operation) =
+        operation
             .lock()
             .checkAvailability()
             .beforeValidation()
             .validate()
             .execute()
             .persist()
-            .release(payment)
+            .release(operation)
             .log { info("execute: {}", it) }
 
-    private suspend fun Either<ApplicationError, Payment>.checkAvailability() =
+    private suspend fun Either<ApplicationError, Operation>.checkAvailability() =
         flatMap { it.checkAvailability() }
 
-    private suspend fun Either<ApplicationError, Payment>.beforeValidation() =
+    private suspend fun Either<ApplicationError, Operation>.beforeValidation() =
         flatMap {
             zip(
                 c = it.getAccount(),
                 d = it.getPaymentMethods(),
                 e = it.checkBenefit(),
-                map = { b, c, d, e -> ValidatablePayment(b, c, d, e) }
+                map = { b, c, d, e -> ValidatableOperation(b, c, d, e) }
             )
         }
 
-    private suspend fun Either<ApplicationError, ValidatablePayment>.validate() =
+    private suspend fun Either<ApplicationError, ValidatableOperation>.validate() =
         flatMap {
             either {
                 with(validatedPaymentService) {
@@ -75,12 +75,12 @@ class MakePayment(
                     validatePaymentMethodCvv(it.first, it.third).bind()
                     validateBenefit(it.fourth)?.bind()
                     it.validateLimit().bind()
-                    ExecutablePayment(it.first, it.second, it.third, GatewayRequest.from(it))
+                    ExecutableOperation(it.first, it.second, it.third, GatewayRequest.from(it))
                 }
             }
         }
 
-    private suspend fun Either<ApplicationError, ExecutablePayment>.execute() =
+    private suspend fun Either<ApplicationError, ExecutableOperation>.execute() =
         flatMap {
             it.fourth.executePayment()
                 .toPersistablePayment(it.first, it.second, it.third, it.fourth)
@@ -89,14 +89,14 @@ class MakePayment(
     private suspend fun Either<ApplicationError, PersistablePayment>.persist() =
         flatMap { it.persist() }
 
-    private suspend fun Either<ApplicationError, PersistablePayment>.release(payment: Payment) =
-        also { payment.release() }
+    private suspend fun Either<ApplicationError, Payment>.release(operation: Operation) =
+        also { operation.release() }
 
     private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
-        payment: Payment,
+        operation: Operation,
         account: Account,
         paymentMethod: PaymentMethod,
         request: GatewayRequest,
     ): Either<ApplicationError, PersistablePayment> =
-        map { PersistablePayment.from(request, it, payment, account, paymentMethod) }
+        map { PersistablePayment.from(request, it, operation, account, paymentMethod) }
 }

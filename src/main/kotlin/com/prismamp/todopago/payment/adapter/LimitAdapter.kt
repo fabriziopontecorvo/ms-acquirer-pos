@@ -2,32 +2,26 @@ package com.prismamp.todopago.payment.adapter
 
 import arrow.core.Either
 import arrow.core.Either.Companion.conditionally
-import arrow.core.computations.either
 import arrow.core.flatMap
-import arrow.core.handleErrorWith
 import com.prismamp.todopago.commons.tenant.TenantHolder
 import com.prismamp.todopago.commons.tenant.TenantSettings
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.BIMO_TENANT
 import com.prismamp.todopago.configuration.Constants.Companion.TP_TENANT
-import com.prismamp.todopago.enum.LimitActionType
 import com.prismamp.todopago.enum.LimitActionType.REJECTED
 import com.prismamp.todopago.enum.LimitActionType.WARNING
 import com.prismamp.todopago.enum.LimitNotificationTemplate
 import com.prismamp.todopago.enum.LimitNotificationTemplate.*
-import com.prismamp.todopago.enum.LimitType
 import com.prismamp.todopago.enum.LimitType.RISK_LIMIT
 import com.prismamp.todopago.enum.LimitType.TP_LIMIT
 import com.prismamp.todopago.payment.adapter.repository.kafka.LimitsEventProducer
 import com.prismamp.todopago.payment.adapter.repository.model.*
 import com.prismamp.todopago.payment.adapter.repository.rest.LimitsClient
 import com.prismamp.todopago.payment.application.port.out.LimitOutputPort
-import com.prismamp.todopago.payment.application.usecase.ValidatablePayment
+import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.LimitValidationError
 import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.tenant.FeatureToggleComponent
-import kotlinx.coroutines.CoroutineScope
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
@@ -43,7 +37,7 @@ class LimitAdapter(
         private const val FEATURE_LIMIT_ACCUMULATION_ENABLED = "limit-validation"
     }
 
-    override suspend fun ValidatablePayment.validateLimit(): Either<ApplicationError, Unit> =
+    override suspend fun ValidatableOperation.validateLimit(): Either<ApplicationError, Unit> =
         let { payment ->
             executeFeatureOrDefault(
                 feature = FEATURE_LIMIT_ACCUMULATION_ENABLED,
@@ -78,17 +72,17 @@ class LimitAdapter(
                 .takeIf { it.isNotEmpty() }
                 ?.let { warnings[0] }
 
-    private fun LimitValidationResult.handleLimitNotSatisfiedEvent(validatablePayment: ValidatablePayment) =
+    private fun LimitValidationResult.handleLimitNotSatisfiedEvent(validatableOperation: ValidatableOperation) =
         also {
             if (shouldNotify()) {
                 limitsEventProducer.produce(
                     NotSatisfiedLimitEvent(
                         getLimitNotificationId(limitReport?.limitType, status),
-                        validatablePayment.first.amount,
-                        validatablePayment.second.identification,
-                        validatablePayment.second.id,
-                        validatablePayment.third.bank.id,
-                        validatablePayment.first.establishmentInformation.sellerName,
+                        validatableOperation.first.amount,
+                        validatableOperation.second.identification,
+                        validatableOperation.second.id,
+                        validatableOperation.third.bank.id,
+                        validatableOperation.first.establishmentInformation.sellerName,
                         dailyAmount,
                         thirtyDaysAmount,
                         dailyTransactions,

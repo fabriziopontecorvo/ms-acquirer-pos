@@ -2,12 +2,10 @@ package com.prismamp.todopago.payment.domain.service
 
 import arrow.core.Either
 import arrow.core.Either.Companion.conditionally
-import arrow.core.Tuple4
 import com.prismamp.todopago.configuration.annotation.DomainService
-import com.prismamp.todopago.payment.application.usecase.ValidatablePayment
 import com.prismamp.todopago.payment.domain.model.Account
 import com.prismamp.todopago.payment.domain.model.Benefit
-import com.prismamp.todopago.payment.domain.model.Payment
+import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.util.*
 
@@ -24,21 +22,21 @@ class ValidatePaymentService {
                 )
             }
 
-    fun validatePaymentMethodInstallments(payment: Payment, paymentMethod: PaymentMethod): Either<ApplicationError, PaymentMethod> =
+    fun validatePaymentMethodInstallments(operation: Operation, paymentMethod: PaymentMethod): Either<ApplicationError, PaymentMethod> =
         paymentMethod
             .let {
                 conditionally(
-                    test = it.isValid() && it.operation.installments == payment.installments,
+                    test = it.isValid() && it.operation.installments == operation.installments,
                     ifFalse = { NotMatchableInstallments },
                     ifTrue = { it }
                 )
             }
 
-    fun validatePaymentMethodCvv(payment: Payment, paymentMethod: PaymentMethod): Either<ApplicationError, PaymentMethod> =
+    fun validatePaymentMethodCvv(operation: Operation, paymentMethod: PaymentMethod): Either<ApplicationError, PaymentMethod> =
         paymentMethod
             .let {
                 conditionally(
-                    test = it.takeIf { it.requiresCvv }?.let { payment.securityCode != null } ?: true ,
+                    test = it.takeIf { it.requiresCvv }?.let { operation.securityCode != null } ?: true ,
                     ifFalse = { SecurityCodeRequired },
                     ifTrue = { it }
                 )
