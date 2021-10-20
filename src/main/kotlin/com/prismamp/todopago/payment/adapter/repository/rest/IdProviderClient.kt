@@ -8,11 +8,13 @@ import com.prismamp.todopago.configuration.http.RestClient
 import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.ServiceCommunication
+import com.prismamp.todopago.util.handleFailure
 import com.prismamp.todopago.util.handleSuccess
 import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -29,12 +31,9 @@ class IdProviderClient(
         log.benchmark("Get id of payment") {
             either {
                 doGet(operationType)
-                    .bimap(
-                        leftOperation = { handleFailure() },
-                        rightOperation = { handleSuccess(it) }
-                    )
-                    .bind()
+                    .handleCallback()
                     .log { info("getBy: response {}", it) }
+                    .bind()
             }
         }
 
@@ -45,7 +44,10 @@ class IdProviderClient(
             clazz = String::class.java
         )
 
-    private fun handleFailure() =
-        ServiceCommunication(APP_NAME, MS_ADQUIRENTE_PERSISTENCE)
+    private fun Either<Throwable, ResponseEntity<String>>.handleCallback() =
+        bimap(
+            leftOperation = { it.handleFailure(MS_ADQUIRENTE_PERSISTENCE) },
+            rightOperation = { it.handleSuccess() }
+        )
 
 }

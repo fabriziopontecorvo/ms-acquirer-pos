@@ -1,4 +1,5 @@
 package com.prismamp.todopago.util.logs
+
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -7,10 +8,8 @@ abstract class CompanionLogger {
     @Suppress("JAVA_CLASS_ON_COMPANION")
     val log: Logger by lazy { LoggerFactory.getLogger(javaClass.enclosingClass) }
 
-    inline fun <T> T.log(block: Logger.(T) -> Unit): T {
-        block(log, this)
-        return this
-    }
+    inline fun <T> T.log(block: Logger.(T) -> Unit): T =
+        also { block(log, this) }
 
     infix fun Logger.trace(message: String) = log.trace(message)
     infix fun Logger.debug(message: String) = log.debug(message)

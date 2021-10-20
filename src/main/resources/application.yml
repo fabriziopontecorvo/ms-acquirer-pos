@@ -125,6 +125,8 @@ commons:
           limit-validation:
             enabled: true
   rest:
+    errors:
+      handle-all: true
     tenant-support:
       enabled: true
     http:

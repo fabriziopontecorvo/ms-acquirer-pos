@@ -1,19 +1,43 @@
 package com.prismamp.todopago.util
 
 import arrow.core.Either
+import arrow.core.right
 import com.prismamp.todopago.commons.rest.exception.*
+import com.prismamp.todopago.configuration.Constants
+import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.payment.adapter.command.model.exception.LockedQrException
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.client.HttpStatusCodeException
 
-fun <T> handleSuccess(responseEntity: ResponseEntity<T>) =
-    responseEntity
-        .body!!
+
+fun <T> Either<Either<ApplicationError, T>, T>.leftFlatten(): Either<ApplicationError, T> =
+    when (this) {
+        is Either.Right -> value.right()
+        is Either.Left -> value
+    }
 
 fun <T> Either<ApplicationError, T>.evaluate() =
     fold(
         ifLeft = { applicationError -> applicationError.exceptionManager() },
         ifRight = { value -> value }
     )
+
+fun <T>  ResponseEntity<T>.handleSuccess() = body!!
+
+fun Throwable.handleFailure(receiver: String, customHandler: ((HttpStatusCodeException) -> ApplicationError)? = null) =
+    when (this) {
+        is HttpStatusCodeException -> customHandler?.let { it(this) } ?: handleHttpFailure(this, receiver)
+        else -> ServiceCommunication(APP_NAME, receiver)
+    }
+
+private fun handleHttpFailure(exception: HttpStatusCodeException, receiver: String): ApplicationError =
+    when (exception.statusCode) {
+        HttpStatus.BAD_REQUEST -> BadRequest(exception.responseBodyAsString)
+        HttpStatus.NOT_FOUND -> NotFound(exception.responseBodyAsString)
+        HttpStatus.UNPROCESSABLE_ENTITY -> UnprocessableEntity(exception.responseBodyAsString)
+        else -> ServiceCommunication(APP_NAME, receiver)
+    }
 
 private fun ApplicationError.exceptionManager(): Nothing =
     when (this) {
@@ -60,3 +84,4 @@ private fun ApplicationError.exceptionManager(): Nothing =
         )
 
     }
+

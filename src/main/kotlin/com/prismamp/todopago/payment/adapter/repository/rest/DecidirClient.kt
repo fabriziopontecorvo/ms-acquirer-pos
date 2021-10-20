@@ -14,18 +14,17 @@ import com.prismamp.todopago.enum.PaymentStatusRequest.*
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
-import com.prismamp.todopago.util.ApplicationError
-import com.prismamp.todopago.util.ServiceCommunication
-import com.prismamp.todopago.util.UnprocessableEntity
-import com.prismamp.todopago.util.handleSuccess
+import com.prismamp.todopago.util.*
 import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.logs.benchmark
 import com.prismamp.todopago.util.tenant.TenantAwareDecidirComponent
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus.*
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.HttpStatusCodeException
+import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 
 @Repository
@@ -48,35 +47,40 @@ class DecidirClient(
     suspend fun executePayment(request: GatewayRequest): Either<ApplicationError, GatewayResponse> =
         log.benchmark("executePayment") {
             either {
-                doPost<DecidirResponse>(request, paymentPath)
-                    .bimap(
-                        leftOperation = { handleFailure(it) },
-                        rightOperation = { handleSuccess(it).toDomain(SUCCESS) }
-                    )
+                doPost(request, paymentPath)
+                    .handleCallback()
                     .leftFlatten()
-                    .bind()
                     .log { info("executePayment: result {}", it) }
+                    .bind()
             }
         }
 
-    private inline fun <reified T> doPost(request: Any, path: String) =
+    private fun doPost(request: Any, path: String) =
         restClient.post(
             url = url + path,
             entity = tenantAwareDecidirComponent.buildEntity(request),
-            clazz = T::class.java,
+            clazz = DecidirResponse::class.java,
         )
 
-    private fun handleFailure(status: HttpStatusCodeException): Either<ApplicationError, GatewayResponse> =
+    private fun Either<Throwable, ResponseEntity<DecidirResponse>>.handleCallback() =
+        bimap(
+            leftOperation = { handleFailure(it) },
+            rightOperation = { it.handleSuccess().toDomain(SUCCESS) }
+        )
+
+    private fun handleFailure(it: Throwable) =
+        when (it) {
+            is HttpStatusCodeException -> handleHttpFailure(it)
+            is SocketTimeoutException -> pendingDecidirResponse()
+            else -> ServiceCommunication(APP_NAME, DECIDIR).left()
+        }
+
+    private fun handleHttpFailure(status: HttpStatusCodeException): Either<ApplicationError, GatewayResponse> =
         when (status.statusCode) {
-            REQUEST_TIMEOUT, GATEWAY_TIMEOUT ->
-                DecidirResponse()
-                    .toDomain(statusRequest = PENDING).right()
-            PAYMENT_REQUIRED ->
-                mapResponse<DecidirResponse>(status.responseBodyAsString)
-                    .toDomain(statusRequest = FAILURE).right()
+            REQUEST_TIMEOUT, GATEWAY_TIMEOUT -> pendingDecidirResponse()
+            PAYMENT_REQUIRED -> failureDecidirResponse(status)
             BAD_REQUEST, UNPROCESSABLE_ENTITY, NOT_FOUND -> UnprocessableEntity(status.responseBodyAsString).left()
             else -> ServiceCommunication(APP_NAME, DECIDIR).left()
-
         }
 
     private inline fun <reified T> mapResponse(json: String): T =
@@ -84,14 +88,15 @@ class DecidirClient(
             configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             propertyNamingStrategy = PropertyNamingStrategy.SNAKE_CASE
             dateFormat = DECIDIR_DATE_FORMAT
-
             this
         }.readValue(json, T::class.java)
 
+    private fun pendingDecidirResponse() =
+        DecidirResponse().toDomain(statusRequest = PENDING).right()
 
-    private fun <T> Either<Either<ApplicationError, T>, T>.leftFlatten(): Either<ApplicationError, T> =
-        when(this){
-            is Either.Right -> value.right()
-            is Either.Left -> value
-        }
+    private fun failureDecidirResponse(status: HttpStatusCodeException) =
+        mapResponse<DecidirResponse>(status.responseBodyAsString)
+            .toDomain(statusRequest = FAILURE).right()
+
+
 }

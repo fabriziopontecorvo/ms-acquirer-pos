@@ -43,7 +43,7 @@ repositories {
 extra["springCloudVersion"] = "Hoxton.SR11"
 extra["logstashLogbackEncoderVersion"] = "6.4"
 extra["swaggerVersion"] = "3.0.0"
-extra["spekVersion"] = "2.0.9"
+extra["spekVersion"] = "2.0.17"
 extra["mockkVersion"] = "1.10.0"
 
 springBoot {

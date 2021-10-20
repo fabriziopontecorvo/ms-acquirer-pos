@@ -1,6 +1,7 @@
 package com.prismamp.todopago.configuration.http
 
 import arrow.core.Either
+import arrow.core.Either.Companion.catch
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.prismamp.todopago.util.logs.CompanionLogger
@@ -45,21 +46,21 @@ class RestClient(
             template.exchange(url, HttpMethod.GET, entity, clazz)
         }
 
-    private fun <T> executeCall(restCall: RestOperations.() -> T): Either<HttpStatusCodeException, T> =
-        try {
-            Right(log.benchmark(REST_CALL_MSG) {
-                retryTemplate.execute<T, Throwable> {
-                    log.benchmark(REST_CALL_RETRY) {
-                        restCall(template)
-                            .log {
-                                info("executeCall: Response: {}", it.toString())
-                            }
+    private fun <T> executeCall(restCall: RestOperations.() -> T): Either<Throwable, T> =
+        catch(
+            fe = { t -> t.log { warn("exeption thrown", t) }},
+            f = {
+                log.benchmark(REST_CALL_MSG) {
+                    retryTemplate.execute<T, Throwable> {
+                        log.benchmark(REST_CALL_RETRY) {
+                            restCall(template)
+                                .log {
+                                    info("executeCall: Response: {}", it.toString())
+                                }
+                        }
                     }
                 }
             }
-            )
-        } catch (e: HttpStatusCodeException) {
-            log.warn("exception thrown: $e")
-            Left(e)
-        }
+        )
+
 }

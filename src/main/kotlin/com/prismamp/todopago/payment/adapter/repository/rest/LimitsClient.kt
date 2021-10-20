@@ -2,6 +2,7 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 
 import arrow.core.Either
 import arrow.core.computations.either
+import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_LIMIT
 import com.prismamp.todopago.configuration.http.RestClient
@@ -9,12 +10,14 @@ import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationReq
 import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationResponse
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.ServiceCommunication
+import com.prismamp.todopago.util.handleFailure
 import com.prismamp.todopago.util.handleSuccess
 import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -33,24 +36,25 @@ class LimitsClient(
     ): Either<ApplicationError, LimitValidationResponse> =
         log.benchmark("Limit validation") {
             either {
-                doPost<LimitValidationResponse>(request, "/limit/buyer/${accountId}/validation")
-                    .bimap(
-                        leftOperation = { handleFailure() },
-                        rightOperation = { handleSuccess(it) }
-                    )
-                    .bind()
+                doPost(request, "/limit/buyer/${accountId}/validation")
+                    .handleCallback()
                     .log { info("validation: response {}", it) }
+                    .bind()
             }
         }
 
-    private inline fun <reified T> doPost(request: Any, path: String) =
+    private fun doPost(request: Any, path: String) =
         restClient.post(
             url = url + path,
             entity = HttpEntity(request),
-            clazz = T::class.java,
+            clazz = LimitValidationResponse::class.java,
         )
 
-    private fun handleFailure() =
-        ServiceCommunication(APP_NAME, MS_LIMIT)
+    private fun Either<Throwable, ResponseEntity<LimitValidationResponse>>.handleCallback() =
+        bimap(
+            leftOperation = { it.handleFailure(MS_LIMIT) },
+            rightOperation = { it.handleSuccess() }
+        )
+
 
 }

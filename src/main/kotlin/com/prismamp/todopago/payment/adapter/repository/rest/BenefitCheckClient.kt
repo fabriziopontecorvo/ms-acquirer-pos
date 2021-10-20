@@ -2,6 +2,7 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 
 import arrow.core.Either
 import arrow.core.computations.either
+import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_ACQUIRER_BENEFIT
 import com.prismamp.todopago.configuration.http.RestClient
@@ -12,9 +13,11 @@ import com.prismamp.todopago.payment.domain.model.BenefitStatus
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.CheckBenefitError
 import com.prismamp.todopago.util.ServiceCommunication
+import com.prismamp.todopago.util.handleFailure
 import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.HttpStatusCodeException
@@ -36,12 +39,9 @@ class BenefitCheckClient(
                 benefitNumber
                     ?.run {
                         doGet(benefitNumber, request)
-                            .bimap(
-                                leftOperation = { handleFailure(it, benefitNumber) },
-                                rightOperation = { benefitNumber.toDomain() }
-                            )
-                            .bind()
+                            .handleCallback(benefitNumber)
                             .log { info("check: response {}", it) }
+                            .bind()
                     }
             }
         }
@@ -52,7 +52,17 @@ class BenefitCheckClient(
             clazz = Unit::class.java
         )
 
-    private fun handleFailure(status: HttpStatusCodeException, benefitNumber: BenefitNumber) =
+    private fun Either<Throwable, ResponseEntity<Unit>>.handleCallback(benefitNumber: BenefitNumber) =
+        bimap(
+            leftOperation = {
+                it.handleFailure(MS_ACQUIRER_BENEFIT) { error ->
+                    handleHttpFailure(error, benefitNumber)
+                }
+            },
+            rightOperation = { benefitNumber.toDomain() }
+        )
+
+    private fun handleHttpFailure(status: HttpStatusCodeException, benefitNumber: BenefitNumber) =
         when (status) {
             is HttpClientErrorException -> CheckBenefitError(benefitNumber)
             else -> ServiceCommunication(APP_NAME, MS_ACQUIRER_BENEFIT)

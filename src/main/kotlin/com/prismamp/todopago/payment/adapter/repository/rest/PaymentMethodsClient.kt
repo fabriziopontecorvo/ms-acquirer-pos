@@ -3,7 +3,10 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 import arrow.core.Either
 import arrow.core.computations.either
 import com.prismamp.todopago.configuration.Constants
+import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
+import com.prismamp.todopago.configuration.Constants.Companion.MS_PAYMENT_METHODS
 import com.prismamp.todopago.configuration.http.RestClient
+import com.prismamp.todopago.payment.adapter.repository.model.AccountResponse
 import com.prismamp.todopago.payment.adapter.repository.model.PaymentMethodResponse
 import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.util.*
@@ -12,6 +15,7 @@ import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpStatusCodeException
 
@@ -30,12 +34,9 @@ class PaymentMethodsClient(
         log.benchmark("getPaymentMethod: search wallet") {
             either {
                 doGet(accountId, paymentMethod)
-                    .bimap(
-                        leftOperation = { handleFailure(it, accountId) },
-                        rightOperation = { handleSuccess(it).toDomain() }
-                    )
-                    .bind()
+                    .handleCallback(accountId)
                     .log { info("getPaymentMethod: response", it) }
+                    .bind()
             }
         }
 
@@ -45,10 +46,20 @@ class PaymentMethodsClient(
             clazz = PaymentMethodResponse::class.java
         )
 
-    private fun handleFailure(status: HttpStatusCodeException, paymentMethod: String) =
+    private fun Either<Throwable, ResponseEntity<PaymentMethodResponse>>.handleCallback(accountId: String) =
+        bimap(
+            leftOperation = {
+                it.handleFailure(MS_PAYMENT_METHODS) { error ->
+                    handleHttpFailure(error, accountId)
+                }
+            },
+            rightOperation = { it.handleSuccess().toDomain() }
+        )
+
+    private fun handleHttpFailure(status: HttpStatusCodeException, paymentMethod: String) =
         when (status.statusCode) {
             HttpStatus.NOT_FOUND -> InvalidPaymentMethod(paymentMethod)
-            else -> ServiceCommunication(Constants.APP_NAME, Constants.MS_PAYMENT_METHODS)
+            else -> ServiceCommunication(APP_NAME, MS_PAYMENT_METHODS)
         }
 
 }
