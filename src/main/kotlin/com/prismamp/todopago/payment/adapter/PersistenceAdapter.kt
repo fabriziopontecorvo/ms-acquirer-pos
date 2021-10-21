@@ -12,7 +12,7 @@ import com.prismamp.todopago.payment.adapter.repository.model.QueuedOperation
 import com.prismamp.todopago.payment.adapter.repository.rest.IdProviderClient
 import com.prismamp.todopago.payment.application.port.out.PersistenceOutputPort
 import com.prismamp.todopago.payment.domain.model.Payment
-import com.prismamp.todopago.payment.domain.model.PersistablePayment
+import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.IdProviderFailure
 import com.prismamp.todopago.util.logs.CompanionLogger
@@ -29,7 +29,7 @@ class PersistenceAdapter(
         const val UNAVAILABLE = "UNAVAILABLE"
     }
 
-    override suspend fun PersistablePayment.persist(): Either<ApplicationError, Payment> =
+    override suspend fun PersistableOperation.persist(): Either<ApplicationError, Payment> =
         idProviderClient
             .getId(operationType)
             .flatMap { it.rightIfNotNull { IdProviderFailure } }

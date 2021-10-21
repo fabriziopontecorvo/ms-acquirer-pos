@@ -34,9 +34,9 @@ data class Payment(
     companion object {
         fun from(
             id: Long,
-            persistablePayment: PersistablePayment,
+            persistableOperation: PersistableOperation,
         ) =
-            with(persistablePayment){
+            with(persistableOperation){
                 Payment(
                     id = id,
                     transactionId = transactionId,

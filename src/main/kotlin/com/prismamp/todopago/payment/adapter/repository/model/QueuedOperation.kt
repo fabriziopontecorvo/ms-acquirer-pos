@@ -4,7 +4,7 @@ import com.prismamp.todopago.enum.Channel
 import com.prismamp.todopago.enum.OperationStatus
 import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.enum.PosType
-import com.prismamp.todopago.payment.domain.model.PersistablePayment
+import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import java.util.*
 
 data class QueuedOperation(
@@ -35,8 +35,8 @@ data class QueuedOperation(
 ) : WithKey {
 
     companion object {
-        fun from(persistablePayment: PersistablePayment, id: String) =
-            with(persistablePayment) {
+        fun from(persistableOperation: PersistableOperation, id: String) =
+            with(persistableOperation) {
                 QueuedOperation(
                     id = id.toLong(),
                     decidirTransactionId = transactionId,

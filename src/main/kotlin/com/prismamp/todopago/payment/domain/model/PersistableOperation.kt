@@ -7,7 +7,7 @@ import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PosType
 import java.util.*
 
-data class PersistablePayment(
+data class PersistableOperation(
     val transactionId: Long,
     val account: Account,
     val qrId: String,
@@ -40,7 +40,7 @@ data class PersistablePayment(
             account: Account,
             paymentMethod: PaymentMethod,
         ) =
-            PersistablePayment(
+            PersistableOperation(
                 transactionId = response.id,
                 account = account,
                 qrId = request.qrId,

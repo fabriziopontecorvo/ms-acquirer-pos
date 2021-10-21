@@ -50,7 +50,7 @@ class MakePayment(
             .validate()
             .execute()
             .persist()
-            .release(operation)
+            . also { operation.release() }
             .log { info("execute: {}", it) }
 
     private suspend fun Either<ApplicationError, Operation>.checkAvailability() =
@@ -86,17 +86,14 @@ class MakePayment(
                 .toPersistablePayment(it.first, it.second, it.third, it.fourth)
         }
 
-    private suspend fun Either<ApplicationError, PersistablePayment>.persist() =
-        flatMap { it.persist() }
-
-    private suspend fun Either<ApplicationError, Payment>.release(operation: Operation) =
-        also { operation.release() }
-
     private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
         operation: Operation,
         account: Account,
         paymentMethod: PaymentMethod,
         request: GatewayRequest,
-    ): Either<ApplicationError, PersistablePayment> =
-        map { PersistablePayment.from(request, it, operation, account, paymentMethod) }
+    ) =
+        map { PersistableOperation.from(request, it, operation, account, paymentMethod) }
+
+    private suspend fun Either<ApplicationError, PersistableOperation>.persist() =
+        flatMap { it.persist() }
 }
