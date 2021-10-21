@@ -1,12 +1,8 @@
 package com.prismamp.todopago.payment.adapter.repository.dao
 
 import arrow.core.Either
-import arrow.core.Option
 import arrow.core.Validated.Companion.catch
 import arrow.core.computations.either
-import arrow.core.computations.option
-import arrow.core.maybe
-import arrow.core.toOption
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.NotFound
 import com.prismamp.todopago.util.logs.CompanionLogger

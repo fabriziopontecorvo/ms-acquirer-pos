@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.adapter
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.rightIfNotNull
-import com.prismamp.todopago.enum.OperationType.LAPOS_PAYMENT
 import com.prismamp.todopago.enum.PersistenceOperationType.SAVE
 import com.prismamp.todopago.payment.adapter.repository.cache.QrCache
 import com.prismamp.todopago.payment.adapter.repository.kafka.PersistenceProducer

@@ -1,7 +1,5 @@
 package com.prismamp.todopago.util
 
-import com.prismamp.todopago.payment.adapter.repository.model.LimitReport
-
 sealed interface ApplicationError
 
 data class BadRequest(val body: String) : ApplicationError

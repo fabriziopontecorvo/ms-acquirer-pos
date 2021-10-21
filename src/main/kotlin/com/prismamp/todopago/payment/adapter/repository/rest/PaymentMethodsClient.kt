@@ -2,11 +2,9 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 
 import arrow.core.Either
 import arrow.core.computations.either
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_PAYMENT_METHODS
 import com.prismamp.todopago.configuration.http.RestClient
-import com.prismamp.todopago.payment.adapter.repository.model.AccountResponse
 import com.prismamp.todopago.payment.adapter.repository.model.PaymentMethodResponse
 import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.util.*

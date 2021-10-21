@@ -2,14 +2,11 @@ package com.prismamp.todopago.configuration.http
 
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
-import arrow.core.Either.Left
-import arrow.core.Either.Right
 import com.prismamp.todopago.util.logs.CompanionLogger
 import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.retry.support.RetryTemplate
-import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestOperations
 import org.springframework.web.client.RestTemplate
 

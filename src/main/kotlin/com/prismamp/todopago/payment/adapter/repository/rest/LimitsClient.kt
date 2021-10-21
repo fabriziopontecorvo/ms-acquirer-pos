@@ -2,14 +2,11 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 
 import arrow.core.Either
 import arrow.core.computations.either
-import com.prismamp.todopago.configuration.Constants
-import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_LIMIT
 import com.prismamp.todopago.configuration.http.RestClient
 import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationRequest
 import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationResponse
 import com.prismamp.todopago.util.ApplicationError
-import com.prismamp.todopago.util.ServiceCommunication
 import com.prismamp.todopago.util.handleFailure
 import com.prismamp.todopago.util.handleSuccess
 import com.prismamp.todopago.util.logs.CompanionLogger

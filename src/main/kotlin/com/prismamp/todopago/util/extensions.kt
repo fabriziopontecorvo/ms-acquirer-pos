@@ -3,7 +3,6 @@ package com.prismamp.todopago.util
 import arrow.core.Either
 import arrow.core.right
 import com.prismamp.todopago.commons.rest.exception.*
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.payment.adapter.command.model.exception.LockedQrException
 import org.springframework.http.HttpStatus

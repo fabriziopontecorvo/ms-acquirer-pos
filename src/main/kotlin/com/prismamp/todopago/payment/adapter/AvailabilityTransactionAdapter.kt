@@ -1,6 +1,8 @@
 package com.prismamp.todopago.payment.adapter
 
-import arrow.core.*
+import arrow.core.Either
+import arrow.core.Option
+import arrow.core.toOption
 import com.prismamp.todopago.payment.adapter.repository.cache.QrCache
 import com.prismamp.todopago.payment.adapter.repository.dao.QrDao
 import com.prismamp.todopago.payment.application.port.out.CheckAvailabilityOutputPort
