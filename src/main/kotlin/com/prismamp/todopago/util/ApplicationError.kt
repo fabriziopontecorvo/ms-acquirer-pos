@@ -1,5 +1,7 @@
 package com.prismamp.todopago.util
 
+import com.prismamp.todopago.payment.adapter.repository.model.DecidirErrorResponse
+
 sealed interface ApplicationError
 
 data class BadRequest(val body: String) : ApplicationError
@@ -13,6 +15,7 @@ data class InvalidBenefit(val benefitId: String) : ApplicationError
 data class InvalidPaymentMethod(val paymentMethod: String) : ApplicationError
 data class CheckBenefitError(val benefitNumber: String) : ApplicationError
 data class LimitValidationError(val limitReport: String) : ApplicationError
+data class DecidirError(val decidirError: DecidirErrorResponse): ApplicationError
 object BenefitFieldsBadRequest : ApplicationError
 object IdProviderFailure : ApplicationError
 object SecurityCodeRequired : ApplicationError

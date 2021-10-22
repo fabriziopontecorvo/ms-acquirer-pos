@@ -86,5 +86,9 @@ private fun ApplicationError.exceptionManager(): HttpException =
             "BENEFIT_FIELDS_EXCEPTION",
             "benefit_id and shopping_session_id are complementarity"
         )
+        is DecidirError -> UnprocessableEntityException(
+            "GATEWAY_ERROR",
+            decidirError.toString()
+        )
     }
 

@@ -80,7 +80,7 @@ micro-services:
 
 decidir:
   lapos:
-    url: http://localhost:8080 # https://developers.decidir.com/api
+    url:  https://developers.decidir.com/api #http://localhost:8080
     path:
       payment: /transactor/payments/qr
 

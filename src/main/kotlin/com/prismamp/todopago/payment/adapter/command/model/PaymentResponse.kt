@@ -40,7 +40,7 @@ data class PaymentResponse(
                     paymentMethod = with(paymentMethod) {
                         PaymentMethodResponse(
                             id = id,
-                            type = type.value,
+                            type = type.translatedDisplayValue,
                             maskedCardNumber = PaymentMethodResponse.maskCardNumber(cardNumber),
                             validThru = cardExpirationMonth.plus("/").plus(cardExpirationYear),
                             alias = alias,

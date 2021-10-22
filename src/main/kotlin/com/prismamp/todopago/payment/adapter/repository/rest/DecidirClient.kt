@@ -11,6 +11,7 @@ import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.DECIDIR
 import com.prismamp.todopago.configuration.http.RestClient
 import com.prismamp.todopago.enum.PaymentStatusRequest.*
+import com.prismamp.todopago.payment.adapter.repository.model.DecidirErrorResponse
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
@@ -80,7 +81,7 @@ class DecidirClient(
         when (status.statusCode) {
             REQUEST_TIMEOUT, GATEWAY_TIMEOUT -> pendingDecidirResponse()
             PAYMENT_REQUIRED -> failureDecidirResponse(status)
-            BAD_REQUEST, UNPROCESSABLE_ENTITY, NOT_FOUND -> UnprocessableEntity(status.responseBodyAsString).left()
+            BAD_REQUEST, UNPROCESSABLE_ENTITY, NOT_FOUND -> unprocessableDecidirResponse(status)
             else -> ServiceCommunication(APP_NAME, DECIDIR).left()
         }
 
@@ -99,5 +100,7 @@ class DecidirClient(
         mapResponse<DecidirResponse>(status.responseBodyAsString)
             .toDomain(statusRequest = FAILURE).right()
 
+    private fun unprocessableDecidirResponse(status: HttpStatusCodeException) =
+        DecidirError(mapResponse<DecidirErrorResponse>(status.responseBodyAsString)).left()
 
 }
