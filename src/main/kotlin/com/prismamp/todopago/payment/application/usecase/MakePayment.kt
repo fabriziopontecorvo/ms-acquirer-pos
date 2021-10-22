@@ -45,13 +45,22 @@ class MakePayment(
     override suspend fun execute(operation: Operation) =
         operation
             .lock()
+            .checkRequest()
             .checkAvailability()
             .beforeValidation()
             .validate()
             .execute()
             .persist()
-            . also { operation.release() }
+            .also { operation.release() }
             .log { info("execute: {}", it) }
+
+    private suspend fun Either<ApplicationError, Operation>.checkRequest() =
+        flatMap {
+            either {
+                validatedPaymentService.validateBenefitFields(it.benefitNumber, it.shoppingSessionId).bind()
+                it
+            }
+        }
 
     private suspend fun Either<ApplicationError, Operation>.checkAvailability() =
         flatMap { it.checkAvailability() }
@@ -82,9 +91,13 @@ class MakePayment(
 
     private suspend fun Either<ApplicationError, ExecutableOperation>.execute() =
         flatMap {
-            it.fourth.executePayment()
+            it.fourth
+                .executePayment()
                 .toPersistablePayment(it.first, it.second, it.third, it.fourth)
         }
+
+    private suspend fun Either<ApplicationError, PersistableOperation>.persist() =
+        flatMap { it.persist() }
 
     private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
         operation: Operation,
@@ -93,7 +106,4 @@ class MakePayment(
         request: GatewayRequest,
     ) =
         map { PersistableOperation.from(request, it, operation, account, paymentMethod) }
-
-    private suspend fun Either<ApplicationError, PersistableOperation>.persist() =
-        flatMap { it.persist() }
 }

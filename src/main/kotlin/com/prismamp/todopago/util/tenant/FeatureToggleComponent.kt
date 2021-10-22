@@ -16,7 +16,11 @@ abstract class FeatureToggleComponent(
 
     override fun getTenantSettings() = tenantSettings
 
-    override suspend fun <T> executeFeatureOrDefault(feature: String, default: T, block: suspend CoroutineScope.() -> T): T =
+    override suspend fun <T> executeFeatureOrDefault(
+        feature: String,
+        default: T,
+        block: suspend CoroutineScope.() -> T
+    ): T =
         feature
             .takeIf { tenantSettings.featureIsEnabled(it) }
             ?.log { info("executeFeatureOrDefault: the feature {} is enabled", feature) }

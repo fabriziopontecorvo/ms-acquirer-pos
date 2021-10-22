@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.HttpStatusCodeException
+import org.springframework.web.client.ResourceAccessException
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 
@@ -71,7 +72,7 @@ class DecidirClient(
     private fun handleFailure(it: Throwable) =
         when (it) {
             is HttpStatusCodeException -> handleHttpFailure(it)
-            is SocketTimeoutException -> pendingDecidirResponse()
+            is ResourceAccessException -> pendingDecidirResponse()
             else -> ServiceCommunication(APP_NAME, DECIDIR).left()
         }
 

@@ -21,7 +21,7 @@ data class Operation(
     val benefitCardCode: String?,
     val benefitCardDescription: String?,
     val shoppingSessionId: String?,
-    val posType: PosType?,
+    val posType: PosType,
 ) {
     companion object {
         fun from(payment: OperationDomain) =

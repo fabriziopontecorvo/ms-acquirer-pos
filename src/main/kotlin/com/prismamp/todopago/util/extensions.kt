@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.right
 import com.prismamp.todopago.commons.rest.exception.*
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
+import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.adapter.command.model.exception.LockedQrException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -47,40 +48,43 @@ private fun ApplicationError.exceptionManager(): HttpException =
         is LockedQr -> LockedQrException(uniqueLockKey)
         is QrUSed -> UnprocessableEntityException(
             "QR_USED",
-            "Ya se realizó una operación con qrId = $qrId"
+            "An operation with qr_id has already been performed = $qrId"
         )
         is InvalidAccount -> UnprocessableEntityException(
             "INVALID_ACCOUNT",
-            "La cuenta con id: $accountId no es valida para esta operacion"
+            "The account $accountId is not valid for this operation"
         )
         is NotMatchableInstallments -> UnprocessableEntityException(
             "NOT_MATCHABLE_INSTALLMENTS",
-            "La cantidad de cuotas requeridas no coinciden con las habilitadas para el medio de pago"
+            "The amount of fees required do not match those enabled for the payment method"
         )
         is InvalidBenefit -> UnprocessableEntityException(
             "INVALID_BENEFIT",
-            "No se encontraron beneficios para el recomendation_code $benefitId"
+            "No benefits found for the recommendation_code $benefitId"
         )
         is SecurityCodeRequired -> ConflictException(
             "SECURITY_CODE_REQUIRED",
-            "El código CVV es requerido para esta operacion"
+            "CVV code is required for this operation"
         )
         is InvalidPaymentMethod -> UnprocessableEntityException(
             "INVALID_PAYMENT_METHOD",
-            "El medio de pago $paymentMethod es invalido para esta operacion"
+            "The payment method $paymentMethod is invalid for this operation"
         )
         is CheckBenefitError -> UnprocessableEntityException(
             "CHECK_BENEFIT_ERROR",
-            "Ocurrio un error al checkear el beneficio $benefitNumber"
+            "An error occurred when checking the benefit $benefitNumber"
         )
-        IdProviderFailure -> UnprocessableEntityException(
+        is IdProviderFailure -> UnprocessableEntityException(
             "ID_PROVIDER_FAILURE",
-            "No se pudo obtener un id para la persistencia"
+            "Could not get an id for persistence"
         )
         is LimitValidationError -> UnprocessableEntityException(
             "LIMIT_EXCEEDED",
-            "El pago no puede realizarse porque se ha superado el limite de alerta/rechazo: $limitReport"
+            "The payment cannot be made because the alert or rejection limit has been exceeded:: $limitReport"
         )
-
+        is BenefitFieldsBadRequest -> BadRequestException(
+            "BENEFIT_FIELDS_EXCEPTION",
+            "benefit_id and shopping_session_id are complementarity"
+        )
     }
 

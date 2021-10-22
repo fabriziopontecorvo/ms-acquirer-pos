@@ -8,7 +8,7 @@ enum class PosType(val value: String) {
     INVALID("");
 
     companion object {
-        private val map = values().associateBy(PosType::value)
+        val map = values().associateBy(PosType::value)
 
         @JvmStatic
         fun from(value: String?, defaultType: PosType = INVALID) =
@@ -16,13 +16,11 @@ enum class PosType(val value: String) {
 
         @JvmStatic
         fun from(value: String?, traceNumber: String, ticketNumber: String) =
-            when(from(value)){
-                INVALID -> {
-                    if (traceNumber == "9999" && ticketNumber == "9999")
-                         PAYSTORE
-                    else
-                         LAPOS
-                }
+            when (from(value)) {
+                INVALID ->
+                    takeIf { traceNumber == "9999" && ticketNumber == "9999" }
+                        ?.let { PAYSTORE }
+                        ?: LAPOS
                 else -> from(value)
             }
     }

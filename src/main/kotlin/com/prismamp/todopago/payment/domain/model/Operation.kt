@@ -20,7 +20,7 @@ data class Operation(
     val benefitCardCode: String?,
     val benefitCardDescription: String?,
     val shoppingSessionId: String?,
-    val posType: PosType?
+    val posType: PosType
 ){
     data class EstablishmentInformation(
         val establishmentId: String,

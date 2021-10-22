@@ -7,62 +7,64 @@ import javax.validation.constraints.*
 
 data class OperationRequest(
     @field:NotBlank
-    @field:Size(min = 1, max = 10, message = "El campo qr_id tiene que tener entre 1 y 10 digitos")
+    @field:Size(min = 1, max = 10, message = "The qr_id field must have between 1 and 10 digits")
     val qrId: String,
 
     val accountId: Long,
 
-    @field:Min(1, message = "El campo amount tiene que ser mayor o igual a 1")
+    @field:Min(1, message = "The amount field must be greater than or equal to 1")
     val amount: Double,
 
-    @field:Min(1, message = "El campo installments tiene que ser mayor o igual que 1")
-    @field:Max(99, message = "El campo installments tiene que ser menor o igual a 99")
+    @field:Min(1, message = "The installments field must be greater than or equal to 1")
+    @field:Max(99, message = "The installments field must be less than or equal to 99")
     val installments: Int,
 
-    @field:NotBlank(message = "El campo paymentMethodKey no puede estar vacío")
+    @field:NotBlank(message = "The payment_method_id field cannot be empty")
     val paymentMethodId: String,
 
-    @field:Pattern(regexp = "\\d+", message = "El campo security_code debe contener solo decimales")
-    @field:Size(min = 1, max = 4, message = "El campo security_code tiene que tener entre 1 y 4 decimales")
+    @field:Pattern(regexp = "\\d+", message = "The security_code field must contain only decimal numbers")
+    @field:Size(min = 1, max = 4, message = "The security_code field must have between 1 and 4 numbers")
     val securityCode: String?,
 
-    @field:Size(min = 1, max = 67, message = "El campo establishment_id tiene que tener entre 1 y 67 caracteres")
+    @field:Size(min = 1, max = 67, message = "The establishment_id field must be between 1 and 67 characters")
     val establishmentId: String,
 
-    @field:Size(min = 1, max = 8, message = "El campo terminal_number tiene que tener entre 1 y 8 caracteres")
+    @field:Size(min = 1, max = 8, message = "The terminal_number field must be between 1 and 8 characters long")
     val terminalNumber: String,
 
     val sellerName: String,
 
-    @field:Size(min = 1, max = 10, message = "El campo trace_number tiene que tener entre 1 y 10 caracteres")
+    @field:Size(min = 1, max = 10, message = "The trace_number field must be between 1 and 10 characters long")
     val traceNumber: String,
 
-    @field:Size(min = 1, max = 6, message = "El campo ticket_number tiene que tener entre 1 y 6 caracteres")
+    @field:Size(min = 1, max = 6, message = "The ticket_number field must be between 1 and 6 characters long")
     val ticketNumber: String,
 
     val transactionDatetime: Date,
 
     val benefitNumber: String?,
 
-    @field:Positive(message = "El campo original_amount tiene que ser mayor a 0")
+    @field:Positive(message = "The original_amount field must be greater than 0")
     val originalAmount: Double?,
 
-    @field:Positive(message = "El campo discounted_amount tiene que ser mayor a 0")
+    @field:Positive(message = "The discounted_amount field must be greater than 0")
     val discountedAmount: Double?,
 
-    @field:Size(min = 1, max = 10, message = "El campo benefit_card_code tiene que tener entre 1 y 10 caracteres")
+    @field:Size(min = 1, max = 10, message = "The benefit_card_code field must be between 1 and 10 characters")
     val benefitCardCode: String?,
 
     @field:Size(
         min = 1,
         max = 10,
-        message = "El campo benefit_card_description tiene que tener entre 1 y 10 caracteres"
+        message = "The benefit_card_description field must be between 1 and 10 characters"
     )
     val benefitCardDescription: String?,
 
     val shoppingSessionId: String?,
 
-    val posType: String?,
+    @field:Pattern(regexp = "^(com.adq|com.pp)\$", message = "The pos_type field must contain only com.adq or com.pp")
+    //@field:NotBlank(message = "The pos_type field cannot be empty")
+    val posType: String,
 ) {
 
     fun toDomain() = Operation(
