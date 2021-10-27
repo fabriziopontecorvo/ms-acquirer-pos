@@ -46,8 +46,7 @@ class MakePayment(
         operation
             .lock()
             .checkRequest()
-            .checkAvailability()
-            .beforeValidation()
+            .getPaymentResources()
             .validate()
             .execute()
             .persist()
@@ -57,15 +56,15 @@ class MakePayment(
     private suspend fun Either<ApplicationError, Operation>.checkRequest() =
         flatMap {
             either {
-                validatedPaymentService.validateBenefitFields(it.benefitNumber, it.shoppingSessionId).bind()
+                validatedPaymentService
+                    .validateBenefitFields(it.benefitNumber, it.shoppingSessionId)
+                    .bind()
+                it.checkAvailability().bind()
                 it
             }
         }
 
-    private suspend fun Either<ApplicationError, Operation>.checkAvailability() =
-        flatMap { it.checkAvailability() }
-
-    private suspend fun Either<ApplicationError, Operation>.beforeValidation() =
+    private suspend fun Either<ApplicationError, Operation>.getPaymentResources() =
         flatMap {
             zip(
                 c = it.getAccount(),
@@ -105,5 +104,5 @@ class MakePayment(
         paymentMethod: PaymentMethod,
         request: GatewayRequest,
     ) =
-        map { PersistableOperation.from(request, it, operation, account, paymentMethod) }
+        map { PersistableOperation.from(it, request, operation, account, paymentMethod) }
 }

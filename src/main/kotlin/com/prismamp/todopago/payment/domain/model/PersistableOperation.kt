@@ -34,8 +34,8 @@ data class PersistableOperation(
 ) {
     companion object {
         fun from(
-            request: GatewayRequest,
             response: GatewayResponse,
+            request: GatewayRequest,
             operation: Operation,
             account: Account,
             paymentMethod: PaymentMethod,
@@ -56,10 +56,10 @@ data class PersistableOperation(
                 },
                 transactionDatetime = response.transactionDatetime,
                 errorCode = with(response.statusDetails.response.reason) {
-                    this.id.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
+                    id.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
                 },
                 errorMessage = with(response.statusDetails.response.reason) {
-                    this.description.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
+                    description.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
                 },
                 paymentMethod = paymentMethod,
                 posTerminalId = request.terminalData.terminalNumber,
