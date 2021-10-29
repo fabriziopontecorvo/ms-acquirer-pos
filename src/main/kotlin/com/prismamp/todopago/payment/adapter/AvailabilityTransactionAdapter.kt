@@ -22,7 +22,7 @@ class AvailabilityTransactionAdapter(
 
     override suspend fun Operation.checkAvailability(): Either<ApplicationError, Operation> =
         qrCache
-            .fetchPayment(this)
+            .fetchOperation(this)
             .validate(this, QrUSed(qrId))
             .log { info("checkAvailability: resultado {}", it) }
 

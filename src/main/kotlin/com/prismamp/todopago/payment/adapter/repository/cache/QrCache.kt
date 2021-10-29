@@ -10,24 +10,24 @@ import org.springframework.stereotype.Repository
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 
 typealias Parameter = String
 
 @Repository
 class QrCache(
-    //private val redisTemplatePayment: RedisTemplate<String, Payment>,
-    private val redisTemplate: RedisTemplate<String, String>,
+    private val redisTemplate: RedisTemplate<String, String>
 ) {
 
     companion object {
         private const val KEY_PREFIX = "used-qr"
-        private const val KEY_PARAM_SEPARATOR = ":"
+        private const val SEPARATOR = ":"
     }
 
     @Value("\${redis.operation.used-qr.ttl}")
-    private var ttl: Long = 1L
+    private var ttl: Long = 15L
 
-    suspend fun fetchPayment(operation: Operation): Option<String> =
+    suspend fun fetchOperation(operation: Operation): Option<String> =
         option {
             redisTemplate
                 .opsForValue()
@@ -37,7 +37,8 @@ class QrCache(
 
     suspend fun markQrAsUnavailable(operationToValidate: OperationToValidate, value: String) =
         option {
-            redisTemplate.opsForValue()
+            redisTemplate
+                .opsForValue()
                 .set(
                     operationToValidate.buildKey(),
                     value,
@@ -47,22 +48,23 @@ class QrCache(
         }
 
     private fun Operation.buildKey() =
-        KEY_PREFIX
+        buildPrefix()
             .addParam(establishmentInformation.terminalNumber)
             .addParam(transactionDatetime.time())
             .addParam(qrId)
 
     private fun OperationToValidate.buildKey() =
-        KEY_PREFIX
+        buildPrefix()
             .addParam(terminalNumber)
             .addParam(transactionDatetime.time())
             .addParam(qrId)
 
-    private fun Parameter.addParam(param: Parameter) = this.plus(KEY_PARAM_SEPARATOR).plus(param)
+    private fun buildPrefix() =
+        APP_NAME
+            .plus(SEPARATOR)
+            .plus(KEY_PREFIX)
+
+    private fun Parameter.addParam(param: Parameter) = this.plus(SEPARATOR).plus(param)
 
     private fun Date.time() = SimpleDateFormat("yyyyMMdd-hhmmss").format(this)
-
-
-
-
 }
