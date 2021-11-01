@@ -18,7 +18,7 @@ import org.springframework.data.redis.core.ValueOperations
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit.SECONDS
 
-object QrCacheSpek : Spek({
+object QrCacheSpec : Spek({
 
     lateinit var redisTemplate: RedisTemplate<String, String>
     lateinit var opsForValue: ValueOperations<String, String>

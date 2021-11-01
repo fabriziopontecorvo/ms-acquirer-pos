@@ -7,14 +7,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class PersistenceProducer(
-    private val producerOperationToPersist: KafkaProducer<String, OperationToPersist>
+    private val producer: KafkaProducer<String, OperationToPersist>
 ) {
-
     @Value("\${kafka.topic.operation.executed.pos.name}")
-    private lateinit var executedOperationTopic: String
+    var topic: String = ""
 
-    fun operationExecutedEvent(value: OperationToPersist) =
-        producerOperationToPersist
-            .produce(executedOperationTopic, value)
+    fun produce(event: OperationToPersist) =
+        producer.produce(topic, event)
 
 }

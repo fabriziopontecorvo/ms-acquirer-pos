@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class LimitsEventProducer(
     private val producer: KafkaProducer<String, NotSatisfiedLimitEvent>
-
 ) {
-
     @Value("\${kafka.topic.limit.not-satisfied.name}")
     var topic: String = ""
 

@@ -35,7 +35,7 @@ class PersistenceAdapter(
             .flatMap { it.rightIfNotNull { IdProviderFailure } }
             .map { QueuedOperation.from(this, it) }
             .map {
-                persistenceProducer.operationExecutedEvent(OperationToPersist(it, SAVE))
+                persistenceProducer.produce(OperationToPersist(it, SAVE))
                 qrCache.markQrAsUnavailable(operationToValidate(it), UNAVAILABLE)
                 Payment.from(it.id, this)
             }

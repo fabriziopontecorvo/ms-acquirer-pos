@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import com.prismamp.todopago.payment.adapter.repository.model.Operation.Companion as OperationRepository
 import com.prismamp.todopago.payment.domain.model.Operation as OperationDomain
 
-object TransactionLockCacheSpek : Spek({
+object TransactionLockCacheSpec : Spek({
 
     lateinit var redisTemplate: RedisTemplate<String, Operation>
     lateinit var opsForValue: ValueOperations<String, Operation>
