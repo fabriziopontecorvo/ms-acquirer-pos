@@ -30,7 +30,7 @@ class BenefitCheckClient(
 ) {
 
     @Value("\${micro-services.acquirer-benefits.url}")
-    private val url: String? = null
+    val url: String  = ""
 
     suspend fun check(benefitNumber: BenefitNumber?, request: CheckBenefitRequest): Either<ApplicationError, Benefit?> =
         log.benchmark("check: checking benefit status") {

@@ -9,7 +9,7 @@ data class GatewayResponse(
     val transactionDatetime: Date = Date(),
     val id: Long = -1,
     val status: String = "",
-    val statusDetails: DecidirResponseStatusDetails
+    val statusDetails: DecidirResponseStatusDetails = DecidirResponseStatusDetails()
 ) {
     data class DecidirResponseStatusDetails(
         val cardAuthorizationCode: String = "",

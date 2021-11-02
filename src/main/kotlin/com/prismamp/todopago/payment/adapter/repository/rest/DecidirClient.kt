@@ -5,8 +5,10 @@ import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.DECIDIR
 import com.prismamp.todopago.configuration.http.RestClient
@@ -87,8 +89,8 @@ class DecidirClient(
 
     private inline fun <reified T> mapResponse(json: String): T =
         with(ObjectMapper()) {
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            propertyNamingStrategy = PropertyNamingStrategy.SNAKE_CASE
+            configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+            propertyNamingStrategy = SNAKE_CASE
             dateFormat = DECIDIR_DATE_FORMAT
             this
         }.readValue(json, T::class.java)
@@ -101,6 +103,6 @@ class DecidirClient(
             .toDomain(statusRequest = FAILURE).right()
 
     private fun unprocessableDecidirResponse(status: HttpStatusCodeException) =
-        DecidirError(mapResponse<DecidirErrorResponse>(status.responseBodyAsString)).left()
+        DecidirError(mapResponse(status.responseBodyAsString)).left()
 
 }

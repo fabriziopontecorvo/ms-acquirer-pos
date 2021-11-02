@@ -13,6 +13,7 @@ import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpStatusCodeException
@@ -56,7 +57,7 @@ class AccountClient(
 
     private fun handleHttpFailure(status: HttpStatusCodeException, accountId: String) =
         when (status.statusCode) {
-            HttpStatus.NOT_FOUND -> InvalidAccount(accountId)
+            NOT_FOUND -> InvalidAccount(accountId)
             else -> ServiceCommunication(APP_NAME, MS_ACCOUNT)
         }
 
