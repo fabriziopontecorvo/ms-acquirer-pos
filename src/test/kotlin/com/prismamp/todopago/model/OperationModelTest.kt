@@ -1,8 +1,10 @@
 package com.prismamp.todopago.model
 
-import com.prismamp.todopago.enum.*
+import com.prismamp.todopago.enum.Channel
 import com.prismamp.todopago.enum.OperationStatus.APPROVED
 import com.prismamp.todopago.enum.OperationType.LAPOS_PAYMENT
+import com.prismamp.todopago.enum.PersistenceOperationType
+import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.enum.PosType.LAPOS
 import com.prismamp.todopago.payment.adapter.repository.model.Account
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist
@@ -27,12 +29,12 @@ fun anOperation() =
         traceNumber = "123",
         ticketNumber = "123",
         transactionDatetime = Date(1635476812209),
-        benefitNumber = null,
-        originalAmount = null,
-        discountedAmount = null,
-        benefitCardCode = null,
-        benefitCardDescription = null,
-        shoppingSessionId = null,
+        benefitNumber = "12341234",
+        originalAmount = 200.0,
+        discountedAmount = 100.0,
+        benefitCardCode = "DC",
+        benefitCardDescription = "clarin",
+        shoppingSessionId = "shoppingSession",
         posType = PosType.PAYSTORE
     )
 

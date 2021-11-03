@@ -4,7 +4,6 @@ import arrow.core.Either
 import arrow.core.right
 import com.prismamp.todopago.commons.rest.exception.*
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
-import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.adapter.command.model.exception.LockedQrException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

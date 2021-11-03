@@ -3,8 +3,6 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.commons.rest.exception.NotFoundException
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_ACCOUNT
 import com.prismamp.todopago.configuration.http.RestClient
@@ -26,7 +24,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
-import org.springframework.test.web.servlet.ResultActions
 import org.springframework.web.client.HttpClientErrorException
 
 object AccountClientSpec : Spek({

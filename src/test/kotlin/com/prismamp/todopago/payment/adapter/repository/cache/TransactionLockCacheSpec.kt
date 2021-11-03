@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.adapter.repository.cache
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import arrow.core.Either.Right.Companion
 import arrow.core.Option
 import arrow.core.Some
 import com.prismamp.todopago.configuration.Constants

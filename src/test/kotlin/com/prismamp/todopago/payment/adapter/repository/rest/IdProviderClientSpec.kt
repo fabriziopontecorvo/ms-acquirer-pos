@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_ADQUIRENTE_PERSISTENCE
 import com.prismamp.todopago.configuration.http.RestClient
@@ -104,7 +103,7 @@ object IdProviderClientSpec : Spek({
                 }
             }
 
-            And("return a id") {
+            And("return a error") {
                 result.should.be.equal(Left(ServiceCommunication(APP_NAME, MS_ADQUIRENTE_PERSISTENCE)))
             }
 

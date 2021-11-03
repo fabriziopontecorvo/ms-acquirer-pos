@@ -74,22 +74,23 @@ class LimitAdapter(
 
     private fun LimitValidationResult.handleLimitNotSatisfiedEvent(validatableOperation: ValidatableOperation) =
         also {
-            if (shouldNotify()) {
-                limitsEventProducer.produce(
-                    NotSatisfiedLimitEvent(
-                        getLimitNotificationId(limitReport?.limitType, status),
-                        validatableOperation.first.amount,
-                        validatableOperation.second.identification,
-                        validatableOperation.second.id,
-                        validatableOperation.third.bank.id,
-                        validatableOperation.first.establishmentInformation.sellerName,
-                        dailyAmount,
-                        thirtyDaysAmount,
-                        dailyTransactions,
-                        thirtyDaysTransactions
-                    )
-                ).log { info("handleLimitNotSatisfiedEvent: Se ejecuto evento de limito no satistecho") }
-            }
+            it.takeIf { shouldNotify() }
+                ?.let {
+                    limitsEventProducer.produce(
+                        NotSatisfiedLimitEvent(
+                            getLimitNotificationId(limitReport?.limitType, status),
+                            validatableOperation.first.amount,
+                            validatableOperation.second.identification,
+                            validatableOperation.second.id,
+                            validatableOperation.third.bank.id,
+                            validatableOperation.first.establishmentInformation.sellerName,
+                            dailyAmount,
+                            thirtyDaysAmount,
+                            dailyTransactions,
+                            thirtyDaysTransactions
+                        )
+                    ).log { info("handleLimitNotSatisfiedEvent: Se ejecuto evento de limito no satistecho") }
+                }
         }
 
 

@@ -4,16 +4,13 @@ import arrow.core.Either
 import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.DECIDIR
 import com.prismamp.todopago.configuration.http.RestClient
 import com.prismamp.todopago.enum.PaymentStatusRequest.*
-import com.prismamp.todopago.payment.adapter.repository.model.DecidirErrorResponse
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
@@ -28,7 +25,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.ResourceAccessException
-import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 
 @Repository

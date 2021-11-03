@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.adapter.repository.rest
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_PAYMENT_METHODS
 import com.prismamp.todopago.configuration.http.RestClient

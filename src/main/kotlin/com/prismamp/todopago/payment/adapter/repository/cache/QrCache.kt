@@ -2,6 +2,7 @@ package com.prismamp.todopago.payment.adapter.repository.cache
 
 import arrow.core.Option
 import arrow.core.computations.option
+import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidate
 import com.prismamp.todopago.payment.domain.model.Operation
 import org.springframework.beans.factory.annotation.Value
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Repository
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 
 typealias Parameter = String
 

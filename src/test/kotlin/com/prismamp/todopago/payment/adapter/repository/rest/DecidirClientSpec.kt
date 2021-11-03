@@ -6,12 +6,9 @@ import aGatewayResponse
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.commons.rest.exception.HttpException
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.DECIDIR
 import com.prismamp.todopago.configuration.http.RestClient
-import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PaymentStatusRequest.FAILURE
 import com.prismamp.todopago.enum.PaymentStatusRequest.PENDING
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirErrorResponse
@@ -29,12 +26,10 @@ import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.ResourceAccessException
 import java.nio.charset.Charset.defaultCharset
 

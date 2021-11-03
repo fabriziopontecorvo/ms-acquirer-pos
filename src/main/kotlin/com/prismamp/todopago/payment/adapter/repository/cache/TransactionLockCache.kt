@@ -2,7 +2,6 @@ package com.prismamp.todopago.payment.adapter.repository.cache
 
 import arrow.core.Either
 import arrow.core.computations.option
-import com.prismamp.todopago.configuration.Constants
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.payment.adapter.repository.model.Operation
 import com.prismamp.todopago.util.ApplicationError

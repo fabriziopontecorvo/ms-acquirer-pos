@@ -4,7 +4,6 @@ import com.prismamp.todopago.payment.adapter.repository.cache.TransactionLockCac
 import com.prismamp.todopago.payment.application.port.out.ReleaseOutputPort
 import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.util.logs.CompanionLogger
-import com.prismamp.todopago.util.logs.benchmark
 import org.springframework.stereotype.Component
 
 @Component

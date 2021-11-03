@@ -2,6 +2,8 @@ package com.prismamp.todopago.model
 
 import com.prismamp.todopago.enum.Channel.QRADQ
 import com.prismamp.todopago.payment.adapter.repository.model.CheckBenefitRequest
+import com.prismamp.todopago.payment.domain.model.Benefit
+import com.prismamp.todopago.payment.domain.model.BenefitStatus
 
 fun aCheckBenefitRequest() =
     CheckBenefitRequest(
@@ -13,4 +15,10 @@ fun aCheckBenefitRequest() =
         benefitCardDescription = "description",
         benefitCardCode = "code",
         shoppingSessionId = "shoppingSessionId"
+    )
+
+fun aBenefit() =
+    Benefit(
+        status = BenefitStatus.OK,
+        id = "12341234"
     )
