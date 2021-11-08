@@ -1,5 +1,6 @@
 import com.prismamp.todopago.Message
 import com.prismamp.todopago.enum.PaymentStatusRequest
+import com.prismamp.todopago.model.aValidatableOperation
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
@@ -27,7 +28,7 @@ fun aGatewayRequest() =
         transactionDatetime = Date(1635476812209),
         paymentMethodId = 1,
         cardData = GatewayRequest.DecidirRequestCard(
-            cardNumber = "cardnumber",
+            cardNumber = "cardNumber",
             cardExpirationYear = "2021",
             cardExpirationMonth = "12",
             securityCode = "123",
@@ -52,6 +53,9 @@ fun aGatewayRequest() =
             discountedAmount = 100.00
         )
     )
+
+fun aGatewayRequestFromValidatable() =
+    GatewayRequest.from(aValidatableOperation())
 
 fun aDecidirResponse() =
     DecidirResponse(

@@ -96,7 +96,9 @@ class MakePayment(
         }
 
     private suspend fun Either<ApplicationError, PersistableOperation>.persist() =
-        flatMap { it.persist() }
+        flatMap {
+            it.persist()
+        }
 
     private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
         operation: Operation,

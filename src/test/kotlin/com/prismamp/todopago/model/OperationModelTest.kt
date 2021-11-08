@@ -3,17 +3,23 @@ package com.prismamp.todopago.model
 import com.prismamp.todopago.enum.Channel
 import com.prismamp.todopago.enum.OperationStatus.APPROVED
 import com.prismamp.todopago.enum.OperationType.LAPOS_PAYMENT
+import com.prismamp.todopago.enum.PaymentMethodType
 import com.prismamp.todopago.enum.PersistenceOperationType
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.enum.PosType.LAPOS
+import com.prismamp.todopago.enum.PosType.PAYSTORE
 import com.prismamp.todopago.payment.adapter.repository.model.Account
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidate
 import com.prismamp.todopago.payment.adapter.repository.model.QueuedOperation
 import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import com.prismamp.todopago.payment.domain.model.Operation
+import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
+import com.prismamp.todopago.paymentMethod.Bank
+import com.prismamp.todopago.paymentMethod.Brand
 import java.util.*
+import com.prismamp.todopago.payment.domain.model.Account as AccountDomain
 
 fun anOperation() =
     Operation(
@@ -56,7 +62,7 @@ fun aFiltersMap() =
         "transaction_timestamp" to anOperation().transactionDatetime
     )
 
-fun anOperationToPersist()=
+fun anOperationToPersist() =
     OperationToPersist(
         queuedOperation = QueuedOperation(
             id = 1,
@@ -88,7 +94,7 @@ fun anOperationToPersist()=
     )
 
 fun aValidatableOperation() =
-    ValidatableOperation(anOperation(), anAccount(), aPaymentMethod(), aBenefit() )
+    ValidatableOperation(anOperation(), anAccount(), aPaymentMethod(), aBenefit())
 
 fun aPersistableOperation() =
     PersistableOperation(
@@ -115,4 +121,31 @@ fun aPersistableOperation() =
         benefitCardCode = "card",
         benefitCardDescription = "desc",
         posType = LAPOS
+    )
+
+fun aValidPersistableOperation() =
+    PersistableOperation(
+        transactionId = 1L,
+        account = anAccount(),
+        qrId = "1",
+        amount = 100.0,
+        installments = 1,
+        currency = "ARS",
+        operationType = LAPOS_PAYMENT,
+        operationStatus = APPROVED,
+        transactionDatetime = Date(1635476812209),
+        errorCode = 1,
+        errorMessage = "",
+        paymentMethod = aPaymentMethod().maskedPaymentMethod(),
+        posTerminalId = "888",
+        posTraceNumber = "888",
+        posTicketNumber = "123",
+        establishmentId = "777",
+        sellerName = "Fabrizio",
+        recommendationCode = "12341234",
+        originalAmount = 200.0,
+        discountedAmount = 100.0,
+        benefitCardCode = "DC",
+        benefitCardDescription = "clarin",
+        posType = PAYSTORE
     )

@@ -61,7 +61,7 @@ data class PersistableOperation(
                 errorMessage = with(response.statusDetails.response.reason) {
                     description.takeUnless { GatewayResponse.DecidirResponseReason.isInvalid(this) }
                 },
-                paymentMethod = paymentMethod,
+                paymentMethod = paymentMethod.maskedPaymentMethod(),
                 posTerminalId = request.terminalData.terminalNumber,
                 posTraceNumber = request.terminalData.terminalNumber,
                 posTicketNumber = request.terminalData.ticketNumber,

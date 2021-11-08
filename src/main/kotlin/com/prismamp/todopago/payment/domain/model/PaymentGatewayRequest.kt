@@ -22,7 +22,7 @@ data class GatewayRequest(
             with(validatableOperation) {
                 GatewayRequest(
                     qrId = first.qrId,
-                    posType = first.posType?.value,
+                    posType = first.posType.value,
                     establishmentId = first.establishmentInformation.establishmentId,
                     transactionDatetime = first.transactionDatetime,
                     paymentMethodId = third.decidirId,

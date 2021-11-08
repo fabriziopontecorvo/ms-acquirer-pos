@@ -19,7 +19,7 @@ fun aPaymentMethodResponse() =
         validThru = "12/21",
         bank = PaymentMethodResponse.PaymentMethodBankResponse(
             id = 1,
-            code = "code",
+            code = "071",
             name = "name",
             logo = "logo"
         ),
@@ -50,7 +50,7 @@ fun aPaymentMethod() =
         cardExpirationYear = "21",
         bank = Bank(
             id = 1,
-            code = "code",
+            code = "071",
             name = "name",
             logo = "logo"
         ),
