@@ -35,7 +35,7 @@ class QrCache(
                 .bind()
         }
 
-    suspend fun markQrAsUnavailable(operationToValidate: OperationToValidate, value: String) =
+    suspend fun markQrAsUnavailable(operationToValidate: OperationToValidate, value: String): Option<Unit> =
         option {
             redisTemplate
                 .opsForValue()

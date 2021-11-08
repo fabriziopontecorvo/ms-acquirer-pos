@@ -6,23 +6,23 @@ import com.prismamp.todopago.payment.domain.model.Account
 fun anAccountResponse() =
     AccountResponse(
         id = "1",
-        accountStatus = "status",
+        accountStatus = "CTA_HABILITADA",
         denomination1 = "name",
         denomination2 = "surname",
         email = "email@same.com",
         identificationNumber = "123",
-        identificationTypeId = "type",
+        identificationTypeId = "39",
         gender = "male"
     )
 
 fun anAccount() =
     Account(
         id = 1,
-        status = "status",
+        status = "CTA_HABILITADA",
         firstName = "name",
         lastName = "surname",
         email = "email@same.com",
         identification = "123",
-        identificationType = "type",
+        identificationType = "39",
         gender = "male"
     )

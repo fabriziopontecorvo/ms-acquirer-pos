@@ -20,7 +20,7 @@ import org.springframework.web.client.HttpStatusCodeException
 @Component
 class PaymentMethodsClient(
     @Qualifier("defaultRestClient")
-    val restClient: RestClient
+    private val restClient: RestClient
 ) {
 
     companion object : CompanionLogger()
@@ -32,7 +32,7 @@ class PaymentMethodsClient(
         log.benchmark("getPaymentMethod: search wallet") {
             either {
                 doGet(accountId, paymentMethod)
-                    .handleCallback(accountId)
+                    .handleCallback(paymentMethod)
                     .log { info("getPaymentMethod: response", it) }
                     .bind()
             }
@@ -44,11 +44,11 @@ class PaymentMethodsClient(
             clazz = PaymentMethodResponse::class.java
         )
 
-    private fun Either<Throwable, ResponseEntity<PaymentMethodResponse>>.handleCallback(accountId: String) =
+    private fun Either<Throwable, ResponseEntity<PaymentMethodResponse>>.handleCallback(paymentMethod: String) =
         bimap(
             leftOperation = {
                 it.handleFailure(MS_PAYMENT_METHODS) { error ->
-                    handleHttpFailure(error, accountId)
+                    handleHttpFailure(error, paymentMethod)
                 }
             },
             rightOperation = { it.handleSuccess().toDomain() }

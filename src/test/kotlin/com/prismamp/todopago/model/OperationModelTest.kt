@@ -10,7 +10,9 @@ import com.prismamp.todopago.payment.adapter.repository.model.Account
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidate
 import com.prismamp.todopago.payment.adapter.repository.model.QueuedOperation
+import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import com.prismamp.todopago.payment.domain.model.Operation
+import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import java.util.*
 
 fun anOperation() =
@@ -83,4 +85,34 @@ fun anOperationToPersist()=
             posType = LAPOS
         ),
         persistenceOperationType = PersistenceOperationType.SAVE
+    )
+
+fun aValidatableOperation() =
+    ValidatableOperation(anOperation(), anAccount(), aPaymentMethod(), aBenefit() )
+
+fun aPersistableOperation() =
+    PersistableOperation(
+        transactionId = 1,
+        account = anAccount(),
+        qrId = "qrId",
+        amount = 100.00,
+        installments = 1,
+        currency = "ARS",
+        operationType = LAPOS_PAYMENT,
+        operationStatus = APPROVED,
+        transactionDatetime = Date(1635476812209),
+        errorCode = null,
+        errorMessage = null,
+        paymentMethod = aPaymentMethod(),
+        posTerminalId = "terminal",
+        posTraceNumber = "trace",
+        posTicketNumber = "ticket",
+        establishmentId = "establishment",
+        sellerName = "seller",
+        recommendationCode = "code",
+        originalAmount = 110.00,
+        discountedAmount = 10.0,
+        benefitCardCode = "card",
+        benefitCardDescription = "desc",
+        posType = LAPOS
     )

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.SECONDS
 import com.prismamp.todopago.payment.domain.model.Operation as OperationDomain
 
 @Repository
@@ -25,16 +26,16 @@ class TransactionLockCache(
         private const val SEPARATOR = ":"
     }
 
-    suspend fun lock(payment: OperationDomain): Either<ApplicationError, OperationDomain> =
+    suspend fun lock(operation: OperationDomain): Either<ApplicationError, OperationDomain> =
         option {
             redisTemplate
                 .opsForValue()
-                .setIfAbsent(buildKey(payment.qrId), Operation.from(payment), ttl, TimeUnit.SECONDS)
+                .setIfAbsent(buildKey(operation.qrId), Operation.from(operation), ttl, SECONDS)
                 ?.takeIf { it }
                 .bind()
         }
-            .toEither { LockedQr(payment.qrId) }
-            .map { payment }
+            .toEither { LockedQr(operation.qrId) }
+            .map { operation }
 
     suspend fun release(payment: OperationDomain) =
         option {

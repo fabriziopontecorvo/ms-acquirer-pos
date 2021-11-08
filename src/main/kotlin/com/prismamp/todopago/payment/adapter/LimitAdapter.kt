@@ -2,6 +2,7 @@ package com.prismamp.todopago.payment.adapter
 
 import arrow.core.Either
 import arrow.core.Either.Companion.conditionally
+import arrow.core.Either.Right
 import arrow.core.flatMap
 import com.prismamp.todopago.commons.tenant.TenantHolder
 import com.prismamp.todopago.commons.tenant.TenantSettings
@@ -38,17 +39,17 @@ class LimitAdapter(
     }
 
     override suspend fun ValidatableOperation.validateLimit(): Either<ApplicationError, Unit> =
-        let { payment ->
+        let { operation ->
             executeFeatureOrDefault(
                 feature = FEATURE_LIMIT_ACCUMULATION_ENABLED,
-                default = Either.Right(Unit)
+                default = Right(Unit)
             ) {
                 limitsClient.validation(
-                    request = LimitValidationRequest.from(payment),
+                    request = LimitValidationRequest.from(operation),
                     accountId = second.id
                 )
                     .map { it.toLimitResult() }
-                    .map { it.handleLimitNotSatisfiedEvent(payment) }
+                    .map { it.handleLimitNotSatisfiedEvent(operation) }
                     .map { it.handleWarnings() }
                     .flatMap { it.handleRejections() }
             }

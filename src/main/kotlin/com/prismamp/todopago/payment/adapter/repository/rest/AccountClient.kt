@@ -20,7 +20,7 @@ import org.springframework.web.client.HttpStatusCodeException
 @Component
 class AccountClient(
     @Qualifier("defaultRestClient")
-    val restClient: RestClient
+    private val restClient: RestClient
 ) {
 
     companion object : CompanionLogger()

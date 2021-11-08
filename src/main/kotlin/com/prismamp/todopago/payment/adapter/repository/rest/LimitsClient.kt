@@ -19,7 +19,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class LimitsClient(
-    @Qualifier("defaultRestClient") val restClient: RestClient
+    @Qualifier("defaultRestClient")
+    private val restClient: RestClient
 ) {
 
     companion object : CompanionLogger()
