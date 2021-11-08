@@ -63,7 +63,6 @@ data class OperationRequest(
     val shoppingSessionId: String?,
 
     @field:Pattern(regexp = "^(com.adq|com.pp)\$", message = "The pos_type field must contain only com.adq or com.pp")
-    //@field:NotBlank(message = "The pos_type field cannot be empty")
     val posType: String,
 ) {
 

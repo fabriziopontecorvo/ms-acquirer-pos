@@ -21,7 +21,7 @@ import javax.validation.Valid
 @RestController
 @HttpController
 class PaymentController(
-    val makePaymentInputPort: MakePaymentInputPort
+    private val makePaymentInputPort: MakePaymentInputPort
 ) {
 
     companion object : CompanionLogger()

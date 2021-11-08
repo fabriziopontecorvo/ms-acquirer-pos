@@ -8,6 +8,7 @@ import com.prismamp.todopago.enum.PersistenceOperationType
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.enum.PosType.LAPOS
 import com.prismamp.todopago.enum.PosType.PAYSTORE
+import com.prismamp.todopago.payment.adapter.command.model.OperationRequest
 import com.prismamp.todopago.payment.adapter.repository.model.Account
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidate
@@ -149,3 +150,52 @@ fun aValidPersistableOperation() =
         benefitCardDescription = "clarin",
         posType = PAYSTORE
     )
+
+fun aOperationRequest() =
+    OperationRequest(
+        qrId = "2222124",
+        accountId = 1,
+        amount = 100.00,
+        installments = 1,
+        paymentMethodId = "52264ff0-e9d0-4dbe-b856-300d6b647bb9",
+        securityCode = null,
+        establishmentId = "establishment",
+        terminalNumber = "terminal",
+        sellerName = "seller",
+        traceNumber = "trace",
+        ticketNumber = "ticket",
+        transactionDatetime = Date(1635476812209),
+        benefitNumber = "12341234",
+        originalAmount = 150.00,
+        discountedAmount = 50.00,
+        benefitCardCode = "card",
+        benefitCardDescription = "clarin",
+        shoppingSessionId = "shopping",
+        posType = "com.adq"
+    )
+
+val aJsonRequest =
+    """ 
+        
+            {
+              "qr_id":"2222124",
+              "account_id":1,
+              "amount":  100.00,
+              "installments": 1,
+              "payment_method_id":"52264ff0-e9d0-4dbe-b856-300d6b647bb9",
+              "establishment_id": "establishment",
+              "terminal_number":"terminal",
+              "trace_number":"trace",
+              "ticket_number":"ticket",
+              "transaction_datetime": 1635476812209,
+              "seller_name": "seller",
+              "shopping_session_id": "shopping",
+              "benefit_card_description": "clarin",
+              "benefit_card_code": "card",
+              "original_amount": 150.00,
+              "discounted_amount": 50.00,
+              "benefit_number": "12341234",
+              "pos_type": "com.adq"
+            }
+        
+    """.trimIndent()
