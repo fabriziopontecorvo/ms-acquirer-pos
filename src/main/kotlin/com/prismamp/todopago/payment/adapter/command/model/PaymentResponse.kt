@@ -35,7 +35,7 @@ data class PaymentResponse(
                     operationType = operationType.value,
                     operationStatus = operationStatus.translatedValue,
                     transactionDatetime = transactionDatetime,
-                    error = takeIf { errorCode != null && errorMessage != null }
+                    error = takeIf { hasErrors() }
                         ?.let { ErrorStatus(errorCode, errorMessage) },
                     paymentMethod = with(paymentMethod) {
                         PaymentMethodResponse(
@@ -65,6 +65,8 @@ data class PaymentResponse(
                     benefitCardDescription = benefitCardDescription
                 )
             }
+
+        private fun Payment.hasErrors() = errorCode != null && errorCode != 0
 
     }
 
