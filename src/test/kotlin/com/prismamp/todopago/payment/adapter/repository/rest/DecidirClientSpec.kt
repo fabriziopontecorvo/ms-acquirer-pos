@@ -71,7 +71,7 @@ object DecidirClientSpec : Spek({
                         entity = tenantAwareDecidirComponent.buildEntity(request),
                         clazz = DecidirResponse::class.java,
                     )
-                } returns Right(ResponseEntity(aDecidirResponse(), HttpStatus.OK))
+                } returns Right(ResponseEntity(aDecidirResponse(), OK))
             }
 
             When("call execute payment") {

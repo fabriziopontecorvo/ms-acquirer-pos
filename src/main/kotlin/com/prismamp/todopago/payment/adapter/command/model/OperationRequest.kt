@@ -2,6 +2,7 @@ package com.prismamp.todopago.payment.adapter.command.model
 
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.Operation
+import java.time.LocalDateTime
 import java.util.*
 import javax.validation.constraints.*
 
@@ -40,7 +41,7 @@ data class OperationRequest(
     @field:Size(min = 1, max = 6, message = "The ticket_number field must be between 1 and 6 characters long")
     val ticketNumber: String,
 
-    val transactionDatetime: Date,
+    val transactionDatetime: LocalDateTime,
 
     val benefitNumber: String?,
 

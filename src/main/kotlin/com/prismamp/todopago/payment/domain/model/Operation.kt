@@ -1,6 +1,8 @@
 package com.prismamp.todopago.payment.domain.model
 
 import com.prismamp.todopago.enum.PosType
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 data class Operation(
@@ -13,7 +15,7 @@ data class Operation(
     val establishmentInformation: EstablishmentInformation,
     val traceNumber: String,
     val ticketNumber: String,
-    val transactionDatetime: Date,
+    val transactionDatetime: LocalDateTime,
     val benefitNumber: String?,
     val originalAmount: Double?,
     val discountedAmount: Double?,

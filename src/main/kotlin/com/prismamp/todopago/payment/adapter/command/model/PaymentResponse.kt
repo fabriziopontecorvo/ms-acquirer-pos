@@ -1,6 +1,7 @@
 package com.prismamp.todopago.payment.adapter.command.model
 
 import com.prismamp.todopago.payment.domain.model.Payment
+import java.time.LocalDateTime
 import java.util.*
 
 data class PaymentResponse(
@@ -12,7 +13,7 @@ data class PaymentResponse(
     val currency: String,
     val operationType: String,
     val operationStatus: String,
-    val transactionDatetime: Date,
+    val transactionDatetime: LocalDateTime,
     val error: ErrorStatus?,
     val paymentMethod: PaymentMethodResponse?,
     val sellerName: String?,

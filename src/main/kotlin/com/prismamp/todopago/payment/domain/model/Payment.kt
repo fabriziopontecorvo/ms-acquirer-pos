@@ -3,6 +3,7 @@ package com.prismamp.todopago.payment.domain.model
 import com.prismamp.todopago.enum.OperationStatus
 import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.enum.PosType
+import java.time.LocalDateTime
 import java.util.*
 
 data class Payment(
@@ -15,7 +16,7 @@ data class Payment(
     val currency: String,
     val operationType: OperationType,
     val operationStatus: OperationStatus,
-    val transactionDatetime: Date,
+    val transactionDatetime: LocalDateTime,
     val errorCode: Int?,
     val errorMessage: String?,
     val paymentMethod: PaymentMethod,

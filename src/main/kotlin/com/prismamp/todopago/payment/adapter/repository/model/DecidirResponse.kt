@@ -2,10 +2,11 @@ package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
+import java.time.LocalDateTime
 import java.util.*
 
 data class DecidirResponse(
-    val transactionDatetime: Date = Date(),
+    val transactionDatetime: LocalDateTime = LocalDateTime.now(),
     val id: Long = -1,
     val status: String = "",
     val statusDetails: DecidirResponseStatusDetails = DecidirResponseStatusDetails()

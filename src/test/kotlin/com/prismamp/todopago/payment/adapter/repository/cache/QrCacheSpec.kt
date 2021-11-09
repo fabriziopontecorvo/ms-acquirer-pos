@@ -55,7 +55,7 @@ object QrCacheSpec : Spek({
                                 separador +
                                 operation.establishmentInformation.terminalNumber +
                                 separador +
-                                SimpleDateFormat("yyyyMMdd-hhmmss").format(operation.transactionDatetime.time) +
+                                operation.transactionDatetime.toString() +
                                 separador +
                                 operation.qrId
                     )
@@ -77,7 +77,7 @@ object QrCacheSpec : Spek({
                                 separador +
                                 operation.establishmentInformation.terminalNumber +
                                 separador +
-                                SimpleDateFormat("yyyyMMdd-hhmmss").format(operation.transactionDatetime.time) +
+                                operation.transactionDatetime.toString() +
                                 separador +
                                 operation.qrId
                     )
@@ -107,7 +107,7 @@ object QrCacheSpec : Spek({
                                 separador +
                                 operation.establishmentInformation.terminalNumber +
                                 separador +
-                                SimpleDateFormat("yyyyMMdd-hhmmss").format(operation.transactionDatetime.time) +
+                                operation.transactionDatetime.toString() +
                                 separador +
                                 operation.qrId
                     )
@@ -129,7 +129,7 @@ object QrCacheSpec : Spek({
                                 separador +
                                 operation.establishmentInformation.terminalNumber +
                                 separador +
-                                SimpleDateFormat("yyyyMMdd-hhmmss").format(operation.transactionDatetime.time) +
+                                operation.transactionDatetime.toString() +
                                 separador +
                                 operation.qrId
                     )
@@ -159,7 +159,7 @@ object QrCacheSpec : Spek({
                                 separador +
                                 operationToValidate.terminalNumber +
                                 separador +
-                                SimpleDateFormat("yyyyMMdd-hhmmss").format(operationToValidate.transactionDatetime.time) +
+                                operationToValidate.transactionDatetime.toString() +
                                 separador +
                                 operationToValidate.qrId,
                         value,
@@ -184,7 +184,7 @@ object QrCacheSpec : Spek({
                                 separador +
                                 operationToValidate.terminalNumber +
                                 separador +
-                                SimpleDateFormat("yyyyMMdd-hhmmss").format(operationToValidate.transactionDatetime.time) +
+                                operationToValidate.transactionDatetime.toString() +
                                 separador +
                                 operationToValidate.qrId,
                         value,

@@ -50,13 +50,13 @@ class QrCache(
     private fun Operation.buildKey() =
         buildPrefix()
             .addParam(establishmentInformation.terminalNumber)
-            .addParam(transactionDatetime.time())
+            .addParam(transactionDatetime.toString())
             .addParam(qrId)
 
     private fun OperationToValidate.buildKey() =
         buildPrefix()
             .addParam(terminalNumber)
-            .addParam(transactionDatetime.time())
+            .addParam(transactionDatetime.toString())
             .addParam(qrId)
 
     private fun buildPrefix() =
@@ -66,5 +66,4 @@ class QrCache(
 
     private fun Parameter.addParam(param: Parameter) = this.plus(SEPARATOR).plus(param)
 
-    private fun Date.time() = SimpleDateFormat("yyyyMMdd-hhmmss").format(this)
 }

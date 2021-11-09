@@ -4,6 +4,7 @@ import com.prismamp.todopago.model.aValidatableOperation
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
+import java.time.LocalDateTime
 import java.util.*
 
 fun aDecidirResponseReason(id: Int = 1) =
@@ -25,7 +26,7 @@ fun aGatewayRequest() =
         qrId = "qrId",
         posType = "com.adq",
         establishmentId = "establishment",
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
         paymentMethodId = 1,
         cardData = GatewayRequest.DecidirRequestCard(
             cardNumber = "cardNumber",
@@ -59,7 +60,7 @@ fun aGatewayRequestFromValidatable() =
 
 fun aDecidirResponse() =
     DecidirResponse(
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime = LocalDateTime.of(2021,11,8,23,59,59),
         id = 1,
         status = "status",
         statusDetails = DecidirResponse.DecidirResponseStatusDetails(
@@ -79,7 +80,7 @@ fun aDecidirResponse() =
 fun aGatewayResponse() =
     GatewayResponse(
         PaymentStatusRequest.SUCCESS,
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime = LocalDateTime.of(2021,11,8,23,59,59),
         id = 1,
         status = "status",
         statusDetails = GatewayResponse.DecidirResponseStatusDetails(

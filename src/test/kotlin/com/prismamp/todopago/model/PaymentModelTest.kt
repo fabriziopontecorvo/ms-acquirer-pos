@@ -4,6 +4,7 @@ import com.prismamp.todopago.enum.OperationStatus.APPROVED
 import com.prismamp.todopago.enum.OperationType.LAPOS_PAYMENT
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.Payment
+import java.time.LocalDateTime
 import java.util.*
 
 fun aPayment() =
@@ -17,7 +18,7 @@ fun aPayment() =
         currency = "ARS",
         operationType = LAPOS_PAYMENT,
         operationStatus = APPROVED,
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime = LocalDateTime.of(2021,11,8,23,59,59),
         errorCode = null,
         errorMessage = null,
         paymentMethod = aPaymentMethod(),

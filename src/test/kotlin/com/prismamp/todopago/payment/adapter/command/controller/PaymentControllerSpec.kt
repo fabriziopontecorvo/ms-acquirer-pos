@@ -83,7 +83,7 @@ object PaymentControllerSpec : Spek({
                     .andExpect(jsonPath("$.currency").value(paymentResponse.currency))
                     .andExpect(jsonPath("$.operation_type").value(paymentResponse.operationType))
                     .andExpect(jsonPath("$.operation_status").value(paymentResponse.operationStatus))
-                    .andExpect(jsonPath("$.transaction_datetime").value("2021-10-29T00:06:52"))
+                    .andExpect(jsonPath("$.transaction_datetime").value(paymentResponse.transactionDatetime.toString()))
                     .andExpect(jsonPath("$.error.code").doesNotExist())
                     .andExpect(jsonPath("$.error.reason").doesNotExist())
                     .andExpect(jsonPath("$.seller_name").value(paymentResponse.sellerName!!))

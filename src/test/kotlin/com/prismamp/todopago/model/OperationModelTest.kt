@@ -19,6 +19,7 @@ import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import com.prismamp.todopago.paymentMethod.Bank
 import com.prismamp.todopago.paymentMethod.Brand
+import java.time.LocalDateTime
 import java.util.*
 import com.prismamp.todopago.payment.domain.model.Account as AccountDomain
 
@@ -37,14 +38,14 @@ fun anOperation() =
         ),
         traceNumber = "123",
         ticketNumber = "123",
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
         benefitNumber = "12341234",
         originalAmount = 200.0,
         discountedAmount = 100.0,
         benefitCardCode = "DC",
         benefitCardDescription = "clarin",
         shoppingSessionId = "shoppingSession",
-        posType = PosType.PAYSTORE
+        posType = PAYSTORE
     )
 
 fun anOperationToValidate() =
@@ -52,7 +53,7 @@ fun anOperationToValidate() =
         qrId = "1",
         amount = 100.0,
         terminalNumber = "888",
-        transactionDatetime = Date(1635476812209)
+        transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
     )
 
 fun aFiltersMap() =
@@ -77,7 +78,7 @@ fun anOperationToPersist() =
             currency = "ARS",
             operationType = LAPOS_PAYMENT,
             operationStatus = APPROVED,
-            transactionDatetime = Date(1635476812209),
+            transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
             errorCode = null,
             errorReason = null,
             paymentMethod = null,
@@ -107,7 +108,7 @@ fun aPersistableOperation() =
         currency = "ARS",
         operationType = LAPOS_PAYMENT,
         operationStatus = APPROVED,
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
         errorCode = null,
         errorMessage = null,
         paymentMethod = aPaymentMethod(),
@@ -134,7 +135,7 @@ fun aValidPersistableOperation() =
         currency = "ARS",
         operationType = LAPOS_PAYMENT,
         operationStatus = APPROVED,
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
         errorCode = 1,
         errorMessage = "",
         paymentMethod = aPaymentMethod().maskedPaymentMethod(),
@@ -164,7 +165,7 @@ fun aOperationRequest() =
         sellerName = "seller",
         traceNumber = "trace",
         ticketNumber = "ticket",
-        transactionDatetime = Date(1635476812209),
+        transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
         benefitNumber = "12341234",
         originalAmount = 150.00,
         discountedAmount = 50.00,
@@ -187,7 +188,7 @@ val aJsonRequest =
               "terminal_number":"terminal",
               "trace_number":"trace",
               "ticket_number":"ticket",
-              "transaction_datetime": 1635476812209,
+              "transaction_datetime": "2021-11-08T23:59:59",
               "seller_name": "seller",
               "shopping_session_id": "shopping",
               "benefit_card_description": "clarin",

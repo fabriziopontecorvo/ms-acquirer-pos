@@ -2,11 +2,12 @@ package com.prismamp.todopago.payment.domain.model
 
 import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PaymentStatusRequest.INVALID
+import java.time.LocalDateTime
 import java.util.*
 
 data class GatewayResponse(
     val statusRequest: PaymentStatusRequest = INVALID,
-    val transactionDatetime: Date = Date(),
+    val transactionDatetime: LocalDateTime = LocalDateTime.now(),
     val id: Long = -1,
     val status: String = "",
     val statusDetails: DecidirResponseStatusDetails = DecidirResponseStatusDetails()
