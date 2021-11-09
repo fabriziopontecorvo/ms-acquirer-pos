@@ -9,7 +9,6 @@ import com.prismamp.todopago.util.LockedQr
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.SECONDS
 import com.prismamp.todopago.payment.domain.model.Operation as OperationDomain
 

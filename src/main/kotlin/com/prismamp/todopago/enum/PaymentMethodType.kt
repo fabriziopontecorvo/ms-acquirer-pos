@@ -10,8 +10,7 @@ enum class PaymentMethodType(val value: String, val displayValue: String, val tr
 
         @JvmStatic
         fun from(value: String) = map[value] ?: INVALID
-        fun translate(paymentMethodType: String) =
-            from(paymentMethodType).translatedDisplayValue.takeIf { it.isNotEmpty() } ?: paymentMethodType
+
     }
 }
 

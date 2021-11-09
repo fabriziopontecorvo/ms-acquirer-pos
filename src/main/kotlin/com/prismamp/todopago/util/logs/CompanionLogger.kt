@@ -12,9 +12,7 @@ abstract class CompanionLogger {
         also { block(log, this) }
 
     infix fun Logger.trace(message: String) = log.trace(message)
-    infix fun Logger.debug(message: String) = log.debug(message)
     infix fun Logger.info(message: String) = log.info(message)
-    infix fun Logger.warn(message: String) = log.warn(message)
     infix fun Logger.error(message: String) = log.error(message)
 
 }

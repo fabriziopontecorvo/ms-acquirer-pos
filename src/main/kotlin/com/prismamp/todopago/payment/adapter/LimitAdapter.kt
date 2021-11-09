@@ -1,3 +1,5 @@
+@file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
+
 package com.prismamp.todopago.payment.adapter
 
 import arrow.core.Either

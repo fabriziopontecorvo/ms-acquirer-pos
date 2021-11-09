@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.adapter.command.model
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.Operation
 import java.time.LocalDateTime
-import java.util.*
 import javax.validation.constraints.*
 
 data class OperationRequest(

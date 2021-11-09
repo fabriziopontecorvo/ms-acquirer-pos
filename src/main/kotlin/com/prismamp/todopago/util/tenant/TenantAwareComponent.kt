@@ -1,3 +1,5 @@
+@file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
+
 package com.prismamp.todopago.util.tenant
 
 import com.prismamp.todopago.commons.tenant.Tenant

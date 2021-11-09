@@ -2,8 +2,6 @@ package com.prismamp.todopago.payment.domain.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.prismamp.todopago.enum.PaymentMethodType
-import com.prismamp.todopago.paymentMethod.Bank
-import com.prismamp.todopago.paymentMethod.Brand
 
 data class PaymentMethod(
     val id: Long = -1,

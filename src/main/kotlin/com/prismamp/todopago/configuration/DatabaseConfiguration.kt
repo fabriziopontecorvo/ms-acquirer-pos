@@ -12,6 +12,6 @@ class DatabaseConfiguration {
 
     @Bean(name = ["dsMessages"])
     @ConfigurationProperties(prefix = "datasource.sql-server.messages")
-    fun dataSourceMessages() = DataSourceBuilder.create().build()
+    fun dataSourceMessages() = DataSourceBuilder.create().build()!!
 
 }

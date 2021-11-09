@@ -1,9 +1,8 @@
 package com.prismamp.todopago.payment.adapter.repository.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.prismamp.todopago.enum.PaymentMethodType
-import com.prismamp.todopago.paymentMethod.Bank
-import com.prismamp.todopago.paymentMethod.Brand
+import com.prismamp.todopago.payment.domain.model.Bank
+import com.prismamp.todopago.payment.domain.model.Brand
 import com.prismamp.todopago.payment.domain.model.PaymentMethod as DomainPaymentMethod
 
 data class PaymentMethod(
@@ -49,13 +48,6 @@ data class PaymentMethod(
                     )
                 )
             }
-    }
-
-    @JsonIgnore
-    fun isValid() = cardNumber.isNotEmpty() && type != PaymentMethodType.INVALID
-
-    fun maskedPaymentMethod(): PaymentMethod {
-        return copy(cardNumber = maskCardNumber())
     }
 
     private fun maskCardNumber(): String {

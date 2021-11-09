@@ -1,3 +1,5 @@
+@file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
+
 package com.prismamp.todopago.configuration
 
 import com.prismamp.todopago.commons.cache.TenantIdReceiver

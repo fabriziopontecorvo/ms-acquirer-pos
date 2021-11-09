@@ -10,13 +10,10 @@ class Constants {
 
         const val MS_ACCOUNT = "ms-account"
         const val MS_LIMIT = "ms-limit"
-        const val INTENTIONS = "ms-proprietary-intentions"
         const val MS_PAYMENT_METHODS = "ms-payment-methods"
         const val MS_ADQUIRENTE_PERSISTENCE = "ms-adquirente-persistence"
         const val MS_ACQUIRER_BENEFIT = "ms-acquirer-benefit"
-        const val TENANT_HEADER = "X-TenantId"
         const val DECIDIR = "decidir"
-        const val KAFKA_TENANT_HEADER = "TENANT"
         const val TP_TENANT: String = "tp"
         const val BIMO_TENANT: String = "bimo"
     }

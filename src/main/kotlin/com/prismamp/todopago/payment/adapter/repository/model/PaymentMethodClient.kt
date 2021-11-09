@@ -2,8 +2,8 @@ package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.prismamp.todopago.enum.PaymentMethodType
 import com.prismamp.todopago.payment.domain.model.PaymentMethodOperation
-import com.prismamp.todopago.paymentMethod.Bank
-import com.prismamp.todopago.paymentMethod.Brand
+import com.prismamp.todopago.payment.domain.model.Bank
+import com.prismamp.todopago.payment.domain.model.Brand
 import com.prismamp.todopago.payment.domain.model.PaymentMethod as DomainPaymentMethod
 
 

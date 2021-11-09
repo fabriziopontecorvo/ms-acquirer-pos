@@ -2,7 +2,6 @@ package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.prismamp.todopago.enum.PosType
 import java.time.LocalDateTime
-import java.util.*
 import com.prismamp.todopago.payment.domain.model.Operation as OperationDomain
 
 data class Operation(

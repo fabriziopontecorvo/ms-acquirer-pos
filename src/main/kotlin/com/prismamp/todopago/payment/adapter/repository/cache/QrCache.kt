@@ -8,8 +8,6 @@ import com.prismamp.todopago.payment.domain.model.Operation
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 typealias Parameter = String

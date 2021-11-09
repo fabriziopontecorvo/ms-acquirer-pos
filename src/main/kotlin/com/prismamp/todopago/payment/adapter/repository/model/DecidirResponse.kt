@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.adapter.repository.model
 import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
 import java.time.LocalDateTime
-import java.util.*
 
 data class DecidirResponse(
     val transactionDatetime: LocalDateTime = LocalDateTime.now(),

@@ -6,7 +6,6 @@ import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PosType
 import java.time.LocalDateTime
-import java.util.*
 
 data class PersistableOperation(
     val transactionId: Long,

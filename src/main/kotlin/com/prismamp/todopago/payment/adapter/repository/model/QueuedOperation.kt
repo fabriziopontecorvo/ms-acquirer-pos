@@ -6,7 +6,6 @@ import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import java.time.LocalDateTime
-import java.util.*
 
 data class QueuedOperation(
     val id: Long,

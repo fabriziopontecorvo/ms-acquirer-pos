@@ -32,20 +32,3 @@ inline fun <T> Logger.benchmark(actionName: String, block: () -> T): T {
   return result.response
 }
 
-/**
- * Receives a logger and an exception to log a message containing class and error message
- * @param logger
- * @param e - an exception
- */
-fun logWarn(logger: Logger, e: Throwable) {
-  logger.warn("Exception: {}, Message: {}", e.javaClass, e.message)
-}
-
-/**
- * Receives a logger and an exception to log a message containing class and error message
- * @param logger
- * @param e - an exception
- */
-fun logError(logger: Logger, e: Throwable) {
-  logger.error("Exception: {} {} ", e.javaClass, e.stackTrace.joinToString { "-> $it" })
-}

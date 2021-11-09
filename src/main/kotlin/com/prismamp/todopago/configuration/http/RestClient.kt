@@ -31,12 +31,6 @@ class RestClient(
             template.exchange(url, HttpMethod.POST, entity, clazz)
         }
 
-    fun <T> put(url: String, request: Any, clazz: Class<T>) =
-        executeCall {
-            log.info("exchanging PUT {} with body: {} ", url, request.toString())
-            template.exchange(url, HttpMethod.PUT, HttpEntity(request), clazz)
-        }
-
     fun <T> get(url: String, entity: HttpEntity<Any>? = null, clazz: Class<T>) =
         executeCall {
             log.info("exchanging GET {}", url)
@@ -45,7 +39,7 @@ class RestClient(
 
     private fun <T> executeCall(restCall: RestOperations.() -> T): Either<Throwable, T> =
         catch(
-            fe = { t -> t.log { error("Exeption Thrown: {}", it.message) }},
+            fe = { t -> t.log { error("Exception Thrown: {}", it.message) }},
             f = {
                 log.benchmark(REST_CALL_MSG) {
                     retryTemplate.execute<T, Throwable> {

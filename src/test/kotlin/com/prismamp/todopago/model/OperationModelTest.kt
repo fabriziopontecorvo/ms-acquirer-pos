@@ -3,9 +3,7 @@ package com.prismamp.todopago.model
 import com.prismamp.todopago.enum.Channel
 import com.prismamp.todopago.enum.OperationStatus.APPROVED
 import com.prismamp.todopago.enum.OperationType.LAPOS_PAYMENT
-import com.prismamp.todopago.enum.PaymentMethodType
 import com.prismamp.todopago.enum.PersistenceOperationType
-import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.enum.PosType.LAPOS
 import com.prismamp.todopago.enum.PosType.PAYSTORE
 import com.prismamp.todopago.payment.adapter.command.model.OperationRequest
@@ -15,13 +13,8 @@ import com.prismamp.todopago.payment.adapter.repository.model.OperationToValidat
 import com.prismamp.todopago.payment.adapter.repository.model.QueuedOperation
 import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import com.prismamp.todopago.payment.domain.model.Operation
-import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
-import com.prismamp.todopago.paymentMethod.Bank
-import com.prismamp.todopago.paymentMethod.Brand
 import java.time.LocalDateTime
-import java.util.*
-import com.prismamp.todopago.payment.domain.model.Account as AccountDomain
 
 fun anOperation() =
     Operation(

@@ -28,7 +28,7 @@ class IdleConnectionMonitorThread(
         }
     }
 
-    fun shutdown() {
+    private fun shutdown() {
         shutdown = true
         lock.withLock {
             condition.signalAll()

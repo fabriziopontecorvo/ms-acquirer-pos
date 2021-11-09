@@ -1,4 +1,4 @@
-package com.prismamp.todopago.paymentMethod
+package com.prismamp.todopago.payment.domain.model
 
 data class Brand(
         val id: Long = -1,

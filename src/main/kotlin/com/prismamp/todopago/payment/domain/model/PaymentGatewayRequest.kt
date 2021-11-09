@@ -1,9 +1,7 @@
 package com.prismamp.todopago.payment.domain.model
 
 import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
 
 data class GatewayRequest(
     val qrId: String,

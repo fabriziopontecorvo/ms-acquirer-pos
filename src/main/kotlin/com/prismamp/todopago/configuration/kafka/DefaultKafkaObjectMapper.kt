@@ -21,7 +21,6 @@ class DefaultKafkaObjectMapper : KafkaObjectMapper {
             .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
     }
 
-
     inline fun <reified V> deserialize(value: String): V =
         objectMapper().readValue(value, jacksonTypeRef<V>())
 

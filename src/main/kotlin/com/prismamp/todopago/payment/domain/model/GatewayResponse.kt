@@ -3,7 +3,6 @@ package com.prismamp.todopago.payment.domain.model
 import com.prismamp.todopago.enum.PaymentStatusRequest
 import com.prismamp.todopago.enum.PaymentStatusRequest.INVALID
 import java.time.LocalDateTime
-import java.util.*
 
 data class GatewayResponse(
     val statusRequest: PaymentStatusRequest = INVALID,
@@ -17,10 +16,7 @@ data class GatewayResponse(
         val cardReferenceNumber: String = "",
         val response: DecidirResponseStatusResponse = DecidirResponseStatusResponse()
     ){
-        companion object{
-            fun isInvalid(statusDetails: DecidirResponseStatusDetails) =
-                statusDetails == DecidirResponseStatusDetails()
-        }
+        companion object
     }
 
     data class DecidirResponseStatusResponse(
