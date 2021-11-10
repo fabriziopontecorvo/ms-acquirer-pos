@@ -16,6 +16,7 @@ import com.prismamp.todopago.payment.domain.model.Payment
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.IdProviderFailure
+import com.prismamp.todopago.util.toLocalDate
 import com.winterbe.expekt.should
 import io.mockk.every
 import io.mockk.mockk
@@ -58,7 +59,7 @@ object PersistenceAdapterSpec : Spek({
                     qrId = queueOperation.qrId,
                     amount = queueOperation.amount,
                     terminalNumber = queueOperation.posTerminalId,
-                    transactionDatetime = queueOperation.transactionDatetime
+                    transactionDatetime = queueOperation.transactionDatetime.toLocalDate()
                 )
                 expectedResult = Right( Payment.from(queueOperation.id, operation))
             }

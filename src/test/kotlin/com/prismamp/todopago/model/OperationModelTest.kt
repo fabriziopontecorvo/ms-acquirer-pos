@@ -14,6 +14,7 @@ import com.prismamp.todopago.payment.adapter.repository.model.QueuedOperation
 import com.prismamp.todopago.payment.application.usecase.ValidatableOperation
 import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
+import com.prismamp.todopago.util.toDate
 import java.time.LocalDateTime
 
 fun anOperation() =
@@ -71,7 +72,7 @@ fun anOperationToPersist() =
             currency = "ARS",
             operationType = LAPOS_PAYMENT,
             operationStatus = APPROVED,
-            transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59),
+            transactionDatetime =  LocalDateTime.of(2021,11,8,23,59,59).toDate(),
             errorCode = null,
             errorReason = null,
             paymentMethod = null,
