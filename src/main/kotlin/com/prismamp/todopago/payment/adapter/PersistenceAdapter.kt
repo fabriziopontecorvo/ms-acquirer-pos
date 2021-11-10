@@ -16,6 +16,7 @@ import com.prismamp.todopago.payment.domain.model.PersistableOperation
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.IdProviderFailure
 import com.prismamp.todopago.util.logs.CompanionLogger
+import com.prismamp.todopago.util.toLocalDate
 import org.springframework.stereotype.Component
 
 @Component
@@ -36,15 +37,15 @@ class PersistenceAdapter(
             .map { QueuedOperation.from(this, it) }
             .map {
                 persistenceProducer.produce(OperationToPersist(it, SAVE))
-                qrCache.markQrAsUnavailable(operationToValidate(it), UNAVAILABLE)
+                qrCache.markQrAsUnavailable(it.operationToValidate(), UNAVAILABLE)
                 Payment.from(it.id, this)
             }
 
-    private fun operationToValidate(queuedOperation: QueuedOperation) =
+    private fun QueuedOperation.operationToValidate() =
         OperationToValidate(
-            qrId = queuedOperation.qrId,
-            amount = queuedOperation.amount,
-            terminalNumber = queuedOperation.posTerminalId,
-            transactionDatetime = queuedOperation.transactionDatetime
+            qrId = qrId,
+            amount = amount,
+            terminalNumber = posTerminalId,
+            transactionDatetime = transactionDatetime.toLocalDate()
         )
 }

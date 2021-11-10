@@ -8,7 +8,17 @@ import com.prismamp.todopago.payment.adapter.command.model.exception.LockedQrExc
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.client.HttpStatusCodeException
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
+fun LocalDateTime.toDate(): Date =
+    Date.from(atZone(ZoneId.systemDefault()).toInstant())
+
+fun Date.toLocalDate(): LocalDateTime =
+    toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime()
 
 fun <T> Either<Either<ApplicationError, T>, T>.leftFlatten(): Either<ApplicationError, T> =
     when (this) {

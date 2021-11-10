@@ -5,7 +5,9 @@ import com.prismamp.todopago.enum.OperationStatus
 import com.prismamp.todopago.enum.OperationType
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.PersistableOperation
-import java.time.LocalDateTime
+import com.prismamp.todopago.util.toDate
+import java.time.ZoneId
+import java.util.*
 
 data class QueuedOperation(
     val id: Long,
@@ -19,7 +21,7 @@ data class QueuedOperation(
     val currency: String,
     val operationType: OperationType,
     val operationStatus: OperationStatus,
-    val transactionDatetime: LocalDateTime,
+    val transactionDatetime: Date,
     val errorCode: Int?,
     val errorReason: String?,
     var paymentMethod: PaymentMethod?,
@@ -47,7 +49,7 @@ data class QueuedOperation(
                     currency = currency,
                     operationType =  operationType,
                     operationStatus = operationStatus,
-                    transactionDatetime = transactionDatetime,
+                    transactionDatetime = transactionDatetime.toDate(),
                     errorCode = errorCode,
                     errorReason = errorMessage,
                     posTerminalId = posTerminalId,
