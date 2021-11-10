@@ -14,10 +14,10 @@
  - java 11
  - kotlin 1.5
  - spring-boot 2
+ - arrow-kt
  - redis
  - spek
  - kafka
- - arrow
 
 ## Build 🔧
 
