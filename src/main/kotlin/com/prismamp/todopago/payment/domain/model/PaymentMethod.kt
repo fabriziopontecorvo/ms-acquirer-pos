@@ -25,17 +25,29 @@ data class PaymentMethod(
     @JsonIgnore
     fun isValid() = cardNumber.isNotEmpty() && type != PaymentMethodType.INVALID
 
-    fun maskedPaymentMethod(): PaymentMethod {
-        return copy(cardNumber = maskCardNumber())
-    }
+    fun maskedPaymentMethod() =
+         copy(cardNumber = maskCardNumber())
 
-    private fun maskCardNumber(): String {
-        return cardNumber.replaceRange(4, 12, "X".repeat(8))
-    }
 
-    override fun toString(): String {
-        return "PaymentMethod(id=$id, key='$key', alias='$alias', paymentMethodId=$paymentMethodId, type=$type, cardNumber='${maskCardNumber()}', cardExpirationMonth='$cardExpirationMonth', cardExpirationYear='$cardExpirationYear', bank=$bank, brand=$brand, decidirId=$decidirId, requiresCvv=$requiresCvv, description='$description')"
-    }
+    private fun maskCardNumber() =
+         cardNumber.replaceRange(4, 12, "X".repeat(8))
+
+
+    override fun toString() =
+         "PaymentMethod(id=$id," +
+                 " key='$key'," +
+                 " alias='$alias'," +
+                 " paymentMethodId=$paymentMethodId," +
+                 " type=$type," +
+                 "cardNumber='${maskCardNumber()}'," +
+                 " cardExpirationMonth='$cardExpirationMonth'," +
+                 " cardExpirationYear='$cardExpirationYear'," +
+                 " bank=$bank," +
+                 " brand=$brand," +
+                 " decidirId=$decidirId," +
+                 " requiresCvv=$requiresCvv" +
+                 "$description')"
+
 
 
 }

@@ -8,9 +8,12 @@ import com.prismamp.todopago.payment.domain.model.Benefit
 import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.util.*
+import com.prismamp.todopago.util.logs.CompanionLogger
 
 @DomainService
 class ValidatePaymentService {
+
+    companion object: CompanionLogger()
 
     fun validateBenefitFields(benefitNumber: String?, shoppingSessionId: String?) =
         conditionally(
@@ -18,7 +21,7 @@ class ValidatePaymentService {
                     || benefitNumber == null && shoppingSessionId == null,
             ifFalse = { BenefitFieldsBadRequest },
             ifTrue = { }
-        )
+        ).log { info("validateBenefitFields: {}", it) }
 
     fun validateAccount(account: Account) =
         account.let {
@@ -27,7 +30,8 @@ class ValidatePaymentService {
                 ifFalse = { InvalidAccount(it.id.toString()) },
                 ifTrue = { it }
             )
-        }
+        }.log { info("validateAccount: {}", it) }
+
 
     fun validatePaymentMethodInstallments(operation: Operation, paymentMethod: PaymentMethod) =
         paymentMethod.let {
@@ -36,7 +40,7 @@ class ValidatePaymentService {
                 ifFalse = { NotMatchableInstallments },
                 ifTrue = { it }
             )
-        }
+        }.log { info("validatePaymentMethodInstallments: {}", it) }
 
     fun validatePaymentMethodCvv(operation: Operation, paymentMethod: PaymentMethod) =
         paymentMethod.let {
@@ -45,7 +49,7 @@ class ValidatePaymentService {
                 ifFalse = { SecurityCodeRequired },
                 ifTrue = { it }
             )
-        }
+        }.log { info("validatePaymentMethodCvv: {}", it) }
 
     fun validateBenefit(benefit: Benefit?): Either<ApplicationError, Benefit>? =
         benefit?.let {
@@ -54,5 +58,6 @@ class ValidatePaymentService {
                 ifFalse = { InvalidBenefit(it.id ?: "'no id present'") },
                 ifTrue = { it }
             )
-        }
+        }.log { info("validateBenefit: {}", it) }
+
 }

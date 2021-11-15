@@ -1,9 +1,9 @@
 package com.prismamp.todopago.payment.adapter.repository.model
 
 import com.prismamp.todopago.enum.PaymentMethodType
-import com.prismamp.todopago.payment.domain.model.PaymentMethodOperation
 import com.prismamp.todopago.payment.domain.model.Bank
 import com.prismamp.todopago.payment.domain.model.Brand
+import com.prismamp.todopago.payment.domain.model.PaymentMethodOperation
 import com.prismamp.todopago.payment.domain.model.PaymentMethod as DomainPaymentMethod
 
 
@@ -22,7 +22,7 @@ data class PaymentMethodResponse(
     val paymentMethodDescription: String,
     val enabled: Boolean,
     val operation: PaymentMethodOperationResponse
-){
+) {
     data class PaymentMethodBankResponse(
         val id: Long,
         val code: String,
@@ -70,6 +70,27 @@ data class PaymentMethodResponse(
             name = operation.operationName
         )
     )
+
+    override fun toString() =
+         "PaymentMethodResponse(id=$id," +
+                 " key='$key'," +
+                 " alias='$alias'," +
+                 " paymentMethodId=$paymentMethodId," +
+                 " type='$type'," +
+                 " decidirId=$decidirId," +
+                 " cardNumber='${maskCardNumber()}'," +
+                 " validThru='$validThru'," +
+                 " bank=$bank," +
+                 " brand=$brand," +
+                 " requiresCvv=$requiresCvv," +
+                 " paymentMethodDescription='$paymentMethodDescription'," +
+                 " enabled=$enabled," +
+                 " operation=$operation)"
+
+
+    private fun maskCardNumber() =
+         cardNumber.replaceRange(4, 12, "X".repeat(8))
+
 }
 
 

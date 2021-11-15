@@ -92,13 +92,14 @@ class MakePayment(
         flatMap {
             it.fourth
                 .executePayment()
+                .log { response -> info("execute payment: {}", response) }
                 .toPersistablePayment(it.first, it.second, it.third, it.fourth)
         }
 
     private suspend fun Either<ApplicationError, PersistableOperation>.persist() =
         flatMap {
             it.persist()
-        }
+        }.log { info("persist: {}", it) }
 
     private fun Either<ApplicationError, GatewayResponse>.toPersistablePayment(
         operation: Operation,

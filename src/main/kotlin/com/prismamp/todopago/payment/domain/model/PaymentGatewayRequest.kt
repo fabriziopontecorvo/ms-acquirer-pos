@@ -66,7 +66,17 @@ data class GatewayRequest(
         val cardExpirationMonth: String,
         val securityCode: String?,
         val bankData: DecidirRequestBank
-    )
+    ){
+        override fun toString() =
+             "DecidirRequestCard(cardNumber='${maskCardNumber()}'," +
+                    " cardExpirationYear='$cardExpirationYear'," +
+                    " cardExpirationMonth='$cardExpirationMonth'," +
+                    " securityCode=$securityCode," +
+                    " bankData=$bankData)"
+
+        private fun maskCardNumber() =
+            cardNumber.replaceRange(4, 12, "X".repeat(8))
+    }
 
     data class DecidirRequestBank(
         val id: Long,
