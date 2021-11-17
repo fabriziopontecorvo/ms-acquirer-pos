@@ -59,7 +59,7 @@ private fun ApplicationError.exceptionManager(): HttpException =
         is LockedQr -> LockedQrException(uniqueLockKey)
         is QrUSed -> UnprocessableEntityException(
             "QR_USED",
-            "An operation with qr_id has already been performed = $qrId"
+            "An operation with qr_id: $qrId has already been performed"
         )
         is InvalidAccount -> UnprocessableEntityException(
             "INVALID_ACCOUNT",

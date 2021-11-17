@@ -95,7 +95,7 @@ val commonsRestVersion = "1.10.0-RELEASE"
 val commonsTenantVersion = "1.4.0-RELEASE"
 val commonsQueuesVersion = "0.1.4-RELEASE"
 val commonsStorageVersion= "1.3.1-RELEASE"
-val arrowVersion = "0.13.2"
+val arrowVersion = "1.0.1"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")

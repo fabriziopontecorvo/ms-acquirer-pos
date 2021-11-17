@@ -31,7 +31,6 @@ class TransactionLockCache(
                 .opsForValue()
                 .setIfAbsent(buildKey(operation.qrId), Operation.from(operation), ttl, SECONDS)
                 ?.takeIf { it }
-                .bind()
         }
             .toEither { LockedQr(operation.qrId) }
             .map { operation }
@@ -42,7 +41,6 @@ class TransactionLockCache(
                 .opsForValue()
                 .operations
                 .delete(buildKey(payment.qrId))
-                .bind()
         }
 
     private fun buildKey(qrId: String) =
