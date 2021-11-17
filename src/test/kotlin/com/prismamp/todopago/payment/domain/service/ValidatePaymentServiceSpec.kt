@@ -26,7 +26,7 @@ object ValidatePaymentServiceSpec: Spek({
         Scenario("successfully validation"){
             lateinit var benefitNumber: String
             lateinit var shoppingSessionId: String
-            lateinit var result: Either<ApplicationError, Unit>
+            lateinit var result: Either<ApplicationError, Pair<String?, String?>>
 
             Given(" a benefit number and shopping session id"){
                 benefitNumber = "1"
@@ -38,14 +38,14 @@ object ValidatePaymentServiceSpec: Spek({
             }
 
             Then("success"){
-                result.should.be.equal(Right(Unit))
+                result.should.be.equal(Right(Pair(benefitNumber, shoppingSessionId)))
             }
 
         }
 
         Scenario("fail validation"){
             lateinit var benefitNumber: String
-            lateinit var result: Either<ApplicationError, Unit>
+            lateinit var result: Either<ApplicationError, Pair<String?, String?>>
 
             Given(" a benefit number"){
                 benefitNumber = "1"

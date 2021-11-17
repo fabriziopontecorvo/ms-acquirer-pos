@@ -85,13 +85,13 @@ object MakePaymentSpec : Spek({
             }
 
             And("mock check availability") {
-               with(checkAvailabilityOutputPort) {
-                   every {
-                       runBlocking {
-                           operation.checkAvailability()
-                       }
-                   } returns Right(operation)
-               }
+                with(checkAvailabilityOutputPort) {
+                    every {
+                        runBlocking {
+                            operation.checkAvailability()
+                        }
+                    } returns Right(operation)
+                }
             }
 
             And("mock check request") {
@@ -102,7 +102,12 @@ object MakePaymentSpec : Spek({
                             operation.shoppingSessionId
                         )
                     }
-                } returns Right(Unit)
+                } returns Right(
+                    Pair(
+                        operation.benefitNumber,
+                        operation.shoppingSessionId
+                    )
+                )
             }
 
             And("mock account") {

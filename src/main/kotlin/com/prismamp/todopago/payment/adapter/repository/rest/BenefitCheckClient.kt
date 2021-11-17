@@ -35,8 +35,7 @@ class BenefitCheckClient(
     suspend fun check(benefitNumber: BenefitNumber?, request: CheckBenefitRequest): Either<ApplicationError, Benefit?> =
         log.benchmark("check: checking benefit status") {
             either {
-                benefitNumber
-                    ?.run {
+                benefitNumber?.run {
                         doGet(benefitNumber, request)
                             .handleCallback(benefitNumber)
                             .log { info("check: response {}", it) }

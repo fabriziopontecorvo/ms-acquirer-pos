@@ -20,7 +20,7 @@ class ValidatePaymentService {
             test = benefitNumber != null && shoppingSessionId != null
                     || benefitNumber == null && shoppingSessionId == null,
             ifFalse = { BenefitFieldsBadRequest },
-            ifTrue = { benefitNumber }
+            ifTrue = { Pair(benefitNumber, shoppingSessionId) }
         ).log { info("validateBenefitFields: {}", it) }
 
     fun validateAccount(account: Account) =
