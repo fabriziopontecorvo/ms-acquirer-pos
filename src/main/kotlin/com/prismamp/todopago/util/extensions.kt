@@ -26,11 +26,7 @@ fun <T> Either<Either<ApplicationError, T>, T>.leftFlatten(): Either<Application
         is Either.Left -> value
     }
 
-fun <T> Either<ApplicationError, T>.evaluate() =
-    fold(
-        ifLeft = { applicationError -> throw applicationError.exceptionManager() },
-        ifRight = { value -> value }
-    )
+
 
 fun <T> ResponseEntity<T>.handleSuccess() = body!!
 
@@ -39,6 +35,12 @@ fun Throwable.handleFailure(receiver: String, customHandler: ((HttpStatusCodeExc
         is HttpStatusCodeException -> customHandler?.let { it(this) } ?: handleHttpFailure(this, receiver)
         else -> ServiceCommunication(APP_NAME, receiver)
     }
+
+fun <T> Either<ApplicationError, T>.evaluate() =
+    fold(
+        ifLeft = { applicationError -> throw applicationError.exceptionManager() },
+        ifRight = { value -> value }
+    )
 
 private fun handleHttpFailure(exception: HttpStatusCodeException, receiver: String): ApplicationError =
     when (exception.statusCode) {
