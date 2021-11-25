@@ -16,6 +16,8 @@ class Constants {
         const val DECIDIR = "decidir"
         const val TP_TENANT: String = "tp"
         const val BIMO_TENANT: String = "bimo"
+        const val MS_COELSA: String = "coelsa"
+
     }
 
 }

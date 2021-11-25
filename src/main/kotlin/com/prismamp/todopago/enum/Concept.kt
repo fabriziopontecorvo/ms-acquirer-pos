@@ -1,5 +1,5 @@
 package com.prismamp.todopago.enum
 
-enum class Concept {
-    VAR
+enum class Concept(val value:String) {
+    VAR("VAR")
 }

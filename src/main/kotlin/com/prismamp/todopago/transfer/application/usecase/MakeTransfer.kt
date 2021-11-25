@@ -3,12 +3,14 @@ package com.prismamp.todopago.transfer.application.usecase
 import arrow.core.Either
 import arrow.core.computations.either
 import arrow.core.flatMap
+import com.prismamp.todopago.configuration.annotation.UseCase
 import com.prismamp.todopago.transfer.application.port.`in`.MakeTransferInputPort
 import com.prismamp.todopago.transfer.application.port.out.*
 import com.prismamp.todopago.transfer.domain.model.Operation
 import com.prismamp.todopago.transfer.domain.model.Transfer
 import com.prismamp.todopago.util.ApplicationError
 
+@UseCase
 class MakeTransfer(
     transferLockOutputPort: TransferLockOutputPort,
     virtualAccountOutputPort: VirtualAccountOutputPort,
