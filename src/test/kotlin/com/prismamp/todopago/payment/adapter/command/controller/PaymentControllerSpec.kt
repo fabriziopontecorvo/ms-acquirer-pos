@@ -1,12 +1,11 @@
 package com.prismamp.todopago.payment.adapter.command.controller
 
-import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.prismamp.todopago.commons.rest.handler.HttpErrorsControllerAdvice
-import com.prismamp.todopago.model.aJsonRequest
-import com.prismamp.todopago.model.aOperationRequest
-import com.prismamp.todopago.model.aPayment
+import com.prismamp.todopago.payment.model.aJsonRequest
+import com.prismamp.todopago.payment.model.aOperationRequest
+import com.prismamp.todopago.payment.model.aPayment
 import com.prismamp.todopago.payment.adapter.command.model.OperationRequest
 import com.prismamp.todopago.payment.adapter.command.model.PaymentResponse
 import com.prismamp.todopago.payment.application.port.`in`.MakePaymentInputPort

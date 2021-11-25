@@ -4,8 +4,8 @@ import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.prismamp.todopago.enum.Channel
-import com.prismamp.todopago.model.aBenefit
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.aBenefit
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.adapter.repository.model.CheckBenefitRequest
 import com.prismamp.todopago.payment.adapter.repository.rest.BenefitCheckClient
 import com.prismamp.todopago.payment.domain.model.Benefit

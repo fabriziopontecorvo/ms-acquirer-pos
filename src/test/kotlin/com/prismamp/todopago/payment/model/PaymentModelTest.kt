@@ -1,11 +1,10 @@
-package com.prismamp.todopago.model
+package com.prismamp.todopago.payment.model
 
 import com.prismamp.todopago.enum.OperationStatus.APPROVED
 import com.prismamp.todopago.enum.OperationType.LAPOS_PAYMENT
 import com.prismamp.todopago.enum.PosType
 import com.prismamp.todopago.payment.domain.model.Payment
 import java.time.LocalDateTime
-import java.util.*
 
 fun aPayment() =
     Payment(

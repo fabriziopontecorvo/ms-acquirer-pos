@@ -3,10 +3,10 @@ package com.prismamp.todopago.payment.domain.service
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.model.aBenefit
-import com.prismamp.todopago.model.aPaymentMethod
-import com.prismamp.todopago.model.anAccount
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.aBenefit
+import com.prismamp.todopago.payment.model.aPaymentMethod
+import com.prismamp.todopago.payment.model.anAccount
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.domain.model.*
 import com.prismamp.todopago.util.*
 import com.winterbe.expekt.should

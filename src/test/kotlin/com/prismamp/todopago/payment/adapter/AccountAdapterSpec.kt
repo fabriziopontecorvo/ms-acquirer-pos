@@ -3,8 +3,8 @@ package com.prismamp.todopago.payment.adapter
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.model.anAccount
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.anAccount
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.adapter.repository.rest.AccountClient
 import com.prismamp.todopago.payment.domain.model.Account
 import com.prismamp.todopago.payment.domain.model.Operation

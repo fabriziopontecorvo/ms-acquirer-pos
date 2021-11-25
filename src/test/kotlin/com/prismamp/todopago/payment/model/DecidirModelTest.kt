@@ -1,11 +1,10 @@
 import com.prismamp.todopago.Message
 import com.prismamp.todopago.enum.PaymentStatusRequest
-import com.prismamp.todopago.model.aValidatableOperation
+import com.prismamp.todopago.payment.model.aValidatableOperation
 import com.prismamp.todopago.payment.adapter.repository.model.DecidirResponse
 import com.prismamp.todopago.payment.domain.model.GatewayRequest
 import com.prismamp.todopago.payment.domain.model.GatewayResponse
 import java.time.LocalDateTime
-import java.util.*
 
 fun aDecidirResponseReason(id: Int = 1) =
     GatewayResponse.DecidirResponseReason(

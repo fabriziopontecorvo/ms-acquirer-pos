@@ -6,8 +6,8 @@ import arrow.core.Either.Right
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_PAYMENT_METHODS
 import com.prismamp.todopago.configuration.http.RestClient
-import com.prismamp.todopago.model.aPaymentMethod
-import com.prismamp.todopago.model.aPaymentMethodResponse
+import com.prismamp.todopago.payment.model.aPaymentMethod
+import com.prismamp.todopago.payment.model.aPaymentMethodResponse
 import com.prismamp.todopago.payment.adapter.repository.model.PaymentMethodResponse
 import com.prismamp.todopago.payment.domain.model.PaymentMethod
 import com.prismamp.todopago.util.ApplicationError

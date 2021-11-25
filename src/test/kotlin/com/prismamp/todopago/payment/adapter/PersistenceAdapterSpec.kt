@@ -5,7 +5,7 @@ import arrow.core.Either.Left
 import arrow.core.Either.Right
 import arrow.core.Some
 import com.prismamp.todopago.enum.PersistenceOperationType.SAVE
-import com.prismamp.todopago.model.aPersistableOperation
+import com.prismamp.todopago.payment.model.aPersistableOperation
 import com.prismamp.todopago.payment.adapter.repository.cache.QrCache
 import com.prismamp.todopago.payment.adapter.repository.kafka.PersistenceProducer
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist

@@ -1,4 +1,4 @@
-package com.prismamp.todopago.model
+package com.prismamp.todopago.payment.model
 
 import com.prismamp.todopago.enum.Channel
 import com.prismamp.todopago.enum.OperationStatus.APPROVED

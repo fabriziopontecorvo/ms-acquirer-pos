@@ -1,6 +1,8 @@
 package com.prismamp.todopago.transfer.domain.model
 
 import com.prismamp.todopago.enum.Concept
+import com.prismamp.todopago.enum.Currency
+import com.prismamp.todopago.enum.Currency.ARS
 
 data class Operation(
     val seller: Seller,
@@ -22,13 +24,11 @@ data class Operation(
 
     data class QrDetail(
         val concept: Concept,
-        val userId: String,
-        val ticketId: String,
-        val currency: String,
+        val currency: Currency = ARS,
+        val amount: String,
         val expirationTime: String,
         val description: String,
         val qr: String,
-        val qrHash: String,
         val qrTransactionId: String,
         val walletId: String
     )

@@ -4,10 +4,10 @@ import aGatewayRequestFromValidatable
 import aGatewayResponse
 import arrow.core.Either
 import arrow.core.Either.Right
-import com.prismamp.todopago.model.*
 import com.prismamp.todopago.payment.application.port.out.*
 import com.prismamp.todopago.payment.domain.model.*
 import com.prismamp.todopago.payment.domain.service.ValidatePaymentService
+import com.prismamp.todopago.payment.model.*
 import com.prismamp.todopago.util.ApplicationError
 import com.winterbe.expekt.should
 import io.mockk.every

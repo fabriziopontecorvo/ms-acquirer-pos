@@ -1,4 +1,4 @@
-package com.prismamp.todopago.model
+package com.prismamp.todopago.payment.model
 
 import com.prismamp.todopago.enum.PaymentMethodType.DEBIT
 import com.prismamp.todopago.payment.adapter.repository.model.PaymentMethodResponse

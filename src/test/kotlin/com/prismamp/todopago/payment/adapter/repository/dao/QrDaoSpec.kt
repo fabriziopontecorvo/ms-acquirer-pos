@@ -3,7 +3,7 @@ package com.prismamp.todopago.payment.adapter.repository.dao
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.model.aFiltersMap
+import com.prismamp.todopago.payment.model.aFiltersMap
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.NotFound
 import com.winterbe.expekt.should

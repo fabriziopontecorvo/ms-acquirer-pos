@@ -6,7 +6,7 @@ import arrow.core.Either.Right
 import arrow.core.Option
 import arrow.core.Some
 import com.prismamp.todopago.configuration.Constants
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.adapter.repository.model.Operation
 import com.prismamp.todopago.util.ApplicationError
 import com.prismamp.todopago.util.LockedQr

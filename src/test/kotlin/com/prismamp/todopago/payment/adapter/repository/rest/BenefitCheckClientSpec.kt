@@ -4,7 +4,7 @@ import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.prismamp.todopago.configuration.http.RestClient
-import com.prismamp.todopago.model.aCheckBenefitRequest
+import com.prismamp.todopago.payment.model.aCheckBenefitRequest
 import com.prismamp.todopago.payment.adapter.repository.model.CheckBenefitRequest
 import com.prismamp.todopago.payment.domain.model.Benefit
 import com.prismamp.todopago.payment.domain.model.BenefitStatus

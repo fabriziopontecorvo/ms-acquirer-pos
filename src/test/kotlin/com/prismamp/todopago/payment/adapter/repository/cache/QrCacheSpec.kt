@@ -4,8 +4,8 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
-import com.prismamp.todopago.model.anOperation
-import com.prismamp.todopago.model.anOperationToValidate
+import com.prismamp.todopago.payment.model.anOperation
+import com.prismamp.todopago.payment.model.anOperationToValidate
 import com.winterbe.expekt.should
 import io.mockk.every
 import io.mockk.mockk
@@ -15,7 +15,6 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.ValueOperations
-import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit.SECONDS
 
 object QrCacheSpec : Spek({

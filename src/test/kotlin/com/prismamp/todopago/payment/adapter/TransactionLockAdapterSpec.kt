@@ -3,7 +3,7 @@ package com.prismamp.todopago.payment.adapter
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.adapter.repository.cache.TransactionLockCache
 import com.prismamp.todopago.payment.domain.model.Operation
 import com.prismamp.todopago.util.ApplicationError

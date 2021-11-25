@@ -1,7 +1,7 @@
 package com.prismamp.todopago.payment.adapter
 
 import arrow.core.Some
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.adapter.repository.cache.TransactionLockCache
 import com.prismamp.todopago.payment.domain.model.Operation
 import com.winterbe.expekt.should

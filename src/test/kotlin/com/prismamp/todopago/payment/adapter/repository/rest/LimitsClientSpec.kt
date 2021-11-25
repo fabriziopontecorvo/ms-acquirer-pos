@@ -6,8 +6,8 @@ import arrow.core.Either.Right
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_LIMIT
 import com.prismamp.todopago.configuration.http.RestClient
-import com.prismamp.todopago.model.aLimitValidationRequest
-import com.prismamp.todopago.model.aLimitValidationResponse
+import com.prismamp.todopago.payment.model.aLimitValidationRequest
+import com.prismamp.todopago.payment.model.aLimitValidationResponse
 import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationRequest
 import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationResponse
 import com.prismamp.todopago.util.ApplicationError

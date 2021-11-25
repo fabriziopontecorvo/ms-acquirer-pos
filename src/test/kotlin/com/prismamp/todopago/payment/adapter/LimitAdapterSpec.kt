@@ -6,8 +6,8 @@ import arrow.core.Either.Right
 import com.prismamp.todopago.commons.tenant.Tenant
 import com.prismamp.todopago.commons.tenant.TenantHolder
 import com.prismamp.todopago.commons.tenant.TenantSettings
-import com.prismamp.todopago.model.aLimitValidationResponse
-import com.prismamp.todopago.model.aValidatableOperation
+import com.prismamp.todopago.payment.model.aLimitValidationResponse
+import com.prismamp.todopago.payment.model.aValidatableOperation
 import com.prismamp.todopago.payment.adapter.repository.kafka.LimitsEventProducer
 import com.prismamp.todopago.payment.adapter.repository.model.LimitReport
 import com.prismamp.todopago.payment.adapter.repository.model.LimitValidationRequest

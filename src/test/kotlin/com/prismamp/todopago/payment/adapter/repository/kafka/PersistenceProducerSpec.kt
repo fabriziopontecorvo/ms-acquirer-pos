@@ -1,7 +1,7 @@
 package com.prismamp.todopago.payment.adapter.repository.kafka
 
 import com.prismamp.todopago.commons.queues.producer.KafkaProducer
-import com.prismamp.todopago.model.anOperationToPersist
+import com.prismamp.todopago.payment.model.anOperationToPersist
 import com.prismamp.todopago.payment.adapter.repository.model.OperationToPersist
 import io.mockk.every
 import io.mockk.mockk

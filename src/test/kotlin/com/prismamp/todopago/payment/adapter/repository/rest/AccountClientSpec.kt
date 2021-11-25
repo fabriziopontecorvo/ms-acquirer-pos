@@ -6,8 +6,8 @@ import arrow.core.Either.Right
 import com.prismamp.todopago.configuration.Constants.Companion.APP_NAME
 import com.prismamp.todopago.configuration.Constants.Companion.MS_ACCOUNT
 import com.prismamp.todopago.configuration.http.RestClient
-import com.prismamp.todopago.model.anAccount
-import com.prismamp.todopago.model.anAccountResponse
+import com.prismamp.todopago.payment.model.anAccount
+import com.prismamp.todopago.payment.model.anAccountResponse
 import com.prismamp.todopago.payment.adapter.repository.model.AccountResponse
 import com.prismamp.todopago.payment.domain.model.Account
 import com.prismamp.todopago.util.ApplicationError

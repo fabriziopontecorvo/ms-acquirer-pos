@@ -5,7 +5,7 @@ import arrow.core.Either.Left
 import arrow.core.Either.Right
 import arrow.core.None
 import arrow.core.Some
-import com.prismamp.todopago.model.anOperation
+import com.prismamp.todopago.payment.model.anOperation
 import com.prismamp.todopago.payment.adapter.repository.cache.QrCache
 import com.prismamp.todopago.payment.adapter.repository.dao.QrDao
 import com.prismamp.todopago.payment.domain.model.Operation
